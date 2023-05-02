@@ -1,0 +1,28 @@
+{
+	"info": {
+		"_postman_id": "46e92b8b-8e44-4a77-a516-bebf46239ceb",
+		"name": "Graphql server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "10804095-46e92b8b-8e44-4a77-a516-bebf46239ceb"
+	},
+	"item": [
+		{
+			"name": "New Folder",
+			"item": [
+				{
+					"name": "New Request",
+					"id": "be019222-a842-4ff5-8018-893f8587c485",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "365df3e2-1d57-4cf0-ae72-cd93c95a648e"
+		}
+	]
+}

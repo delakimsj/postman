@@ -1,0 +1,327 @@
+{
+	"info": {
+		"_postman_id": "e4d23df6-7d72-4fa7-8db8-f59ac9428b3e",
+		"name": "Temp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "10804095-e4d23df6-7d72-4fa7-8db8-f59ac9428b3e"
+	},
+	"item": [
+		{
+			"name": "user-blacklists - admin에서 블랙리스트 처리하니 필요 없어 보임",
+			"item": [
+				{
+					"name": "블랙리스트 고객 리스트 조회",
+					"id": "a9b37dd2-c602-404d-a0a9-805d23bf365b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/user-blacklists?sort=id:DESC&locale=ko&pagination[page]=1&pagination[pageSize]=2&pagination[withCount]=true",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"user-blacklists"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "filters[board][id][$eq]",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1"
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2"
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "블랙리스트 등록",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"userBlacklistId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "73fc12f7-73bc-4a14-baf1-474a871609dd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"acon_member_no\": \"59616\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/user-blacklists",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"user-blacklists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "블랙리스트 삭제",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"userBlacklistId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "4e5c6f49-8159-47a2-ac68-fb3758ec9487",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"acon_member_no\": \"59616\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/user-blacklists/{{userBlacklistId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"user-blacklists",
+								"{{userBlacklistId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "5ea40b39-7f15-4291-b7bf-778f6c9fd937"
+		},
+		{
+			"name": "<not using> 대댓글 테스트",
+			"item": [
+				{
+					"name": "대댓글 가능여부 체크",
+					"id": "42778097-c465-4398-b3bb-dd9f4a3efec1",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/replies?populate=[replies, replies.replies, replies.replies.replies, replies.replies.replies.replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"replies"
+							],
+							"query": [
+								{
+									"key": "populate",
+									"value": "[replies, replies.replies, replies.replies.replies, replies.replies.replies.replies"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "대댓글 가능여부 체크2",
+					"id": "d684144d-a11b-41e3-a4f4-36ea92eac202",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/replies?populate=[replies, replies.replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"replies"
+							],
+							"query": [
+								{
+									"key": "populate",
+									"value": "[replies, replies.replies"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "b49a2fd0-3584-43ad-a48a-d66908e90f27"
+		}
+	]
+}

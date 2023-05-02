@@ -1,0 +1,299 @@
+{
+	"info": {
+		"_postman_id": "88e65de8-548e-4046-a93f-e98e12303f2e",
+		"name": "인증서비스",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "10804095-88e65de8-548e-4046-a93f-e98e12303f2e"
+	},
+	"item": [
+		{
+			"name": "acon login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+						"exec": [
+							"pm.test(\"login\", function(){",
+							"    pm.environment.set(\"acon_access_token\", pm.response.json().access_token);",
+							"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "c6b39906-899b-4c97-bdfb-73e91256207f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"delakimsj@gmail.com\",\n    \"password\": \"!asd930923\",\n    \"language\" : \"ko\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{auth_server}}/acon/login",
+					"host": [
+						"{{auth_server}}"
+					],
+					"path": [
+						"acon",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acon refresh (작업중)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+						"exec": [
+							"pm.test(\"login\", function(){",
+							"    pm.collectionVariables.set(\"aconAccessToken\", pm.response.json().access_token);",
+							"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "ba4880d7-ede9-471c-9d03-272624879971",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"access_token\": \"{{aconAccessToken}}\",\n    \"refresh_token\": \"{{aconRefreshToken}}\",\n    \"language\": \"ko\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{auth_local}}/acon/refresh",
+					"host": [
+						"{{auth_local}}"
+					],
+					"path": [
+						"acon",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "partner login (작업중)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c4b48c0-367d-4ad1-8017-1bb7717ad9ed",
+						"exec": [
+							"pm.test(\"hub login\", function(){",
+							"    pm.collectionVariables.set(\"hubAuthorization\", pm.cookies.get(\"Authorization\"));",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "49875631-c59a-430b-a17a-d63390a50f43",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "cookie",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"account\": \"official@acon3d.com\",\n    \"password\": \"acon2402!\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://api-v2.acon3d.com/auth/signin",
+					"protocol": "https",
+					"host": [
+						"api-v2",
+						"acon3d",
+						"com"
+					],
+					"path": [
+						"auth",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin login  (작업중)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+						"exec": [
+							"pm.test(\"login\", function(){",
+							"    pm.collectionVariables.set(\"aconAccessToken\", pm.response.json().access_token);",
+							"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "abc91f58-75ab-4129-98c0-e0a99a2ec5fc",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"delakimsj@gmail.com\",\n    \"password\": \"!asd930923\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{auth_local}}/acon/login",
+					"host": [
+						"{{auth_local}}"
+					],
+					"path": [
+						"acon",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acon social login  (작업중)",
+			"id": "92e9d717-8acc-41e8-b836-a9d83b032782",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accessToken\":\"ya29.a0Ael9sCO9FJ_dGBl_I9zJ2aADMBueNQpA9g2v4IfVfrAKPzrFsPKT0FXpE9md4TPQHaYdlvTF878J4-tAzTm3IHyxErQ7UWoRuRDcCY4uk5jLdm9WmDjSgOetigZq5dFcplVHQzK6NKnprOgNpGSvhPgOHhwlLgaCgYKAZQSARASFQF4udJhLWDr5KsQY0NLhSDYggt-Dg0165\"\n    ,\"snsType\":\"google\"\n    ,\"language\":\"zh\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{auth_local}}/acon/social-login",
+					"host": [
+						"{{auth_local}}"
+					],
+					"path": [
+						"acon",
+						"social-login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "acon login for specific user  (작업중)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+						"exec": [
+							"pm.test(\"login\", function(){",
+							"    pm.collectionVariables.set(\"aconAccessToken\", pm.response.json().access_token);",
+							"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+							"})",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "8ba5196c-f777-4245-8e9d-3010167d5d54",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"houtjunk@gmail.com\",\n    \"acon_member_no\": \"8792\",\n    \"language\" : \"ko\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{auth_local}}/acon/login-user",
+					"host": [
+						"{{auth_local}}"
+					],
+					"path": [
+						"acon",
+						"login-user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"id": "f19bd1ef-f9ed-465a-904e-c2a9b9fb346b",
+			"key": "aconAccessToken",
+			"value": ""
+		},
+		{
+			"id": "14252eca-506a-401e-b13d-60850d1da622",
+			"key": "GD5SESSID",
+			"value": ""
+		}
+	]
+}

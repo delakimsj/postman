@@ -1,0 +1,2092 @@
+{
+	"info": {
+		"_postman_id": "ddec9d17-d9d8-4f70-8ea2-34cee2394677",
+		"name": "carpenstreet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "10804095-ddec9d17-d9d8-4f70-8ea2-34cee2394677"
+	},
+	"item": [
+		{
+			"name": "auth-v2 server",
+			"item": [
+				{
+					"name": "acon login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"aconAccessToken\", pm.response.json().access_token);",
+									"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "3368102c-bab0-4950-ae0a-9cdfc37836a4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"delakimsj@gmail.com\",\n    \"password\": \"!asd930923\",\n    \"language\" : \"ko\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_prod}}/acon/login",
+							"host": [
+								"{{auth_prod}}"
+							],
+							"path": [
+								"acon",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "acon refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"aconAccessToken\", pm.response.json().access_token);",
+									"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "cea0904a-8f69-4349-b5ff-d6be7702d964",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"access_token\": \"{{aconAccessToken}}\",\n    \"refresh_token\": \"{{aconRefreshToken}}\",\n    \"language\": \"ko\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_local}}/acon/refresh",
+							"host": [
+								"{{auth_local}}"
+							],
+							"path": [
+								"acon",
+								"refresh"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "partner login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c4b48c0-367d-4ad1-8017-1bb7717ad9ed",
+								"exec": [
+									"pm.test(\"hub login\", function(){",
+									"    pm.collectionVariables.set(\"hubAuthorization\", pm.cookies.get(\"Authorization\"));",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "d55e3e69-f6e1-47c5-a52d-76e4e7f3dd10",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"account\": \"official@acon3d.com\",\n    \"password\": \"acon2402!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-v2.acon3d.com/auth/signin",
+							"protocol": "https",
+							"host": [
+								"api-v2",
+								"acon3d",
+								"com"
+							],
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"aconAccessToken\", pm.response.json().access_token);",
+									"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "365e60ab-ac7f-4e14-ada3-283fff0d2aab",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"delakimsj@gmail.com\",\n    \"password\": \"!asd930923\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_local}}/acon/login",
+							"host": [
+								"{{auth_local}}"
+							],
+							"path": [
+								"acon",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "acon social login",
+					"id": "b6bb7a77-fba4-4a2d-8aec-e4717bb08f9b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accessToken\":\"ya29.a0Ael9sCO9FJ_dGBl_I9zJ2aADMBueNQpA9g2v4IfVfrAKPzrFsPKT0FXpE9md4TPQHaYdlvTF878J4-tAzTm3IHyxErQ7UWoRuRDcCY4uk5jLdm9WmDjSgOetigZq5dFcplVHQzK6NKnprOgNpGSvhPgOHhwlLgaCgYKAZQSARASFQF4udJhLWDr5KsQY0NLhSDYggt-Dg0165\"\n    ,\"snsType\":\"google\"\n    ,\"language\":\"zh\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_local}}/acon/social-login",
+							"host": [
+								"{{auth_local}}"
+							],
+							"path": [
+								"acon",
+								"social-login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "acon login for specific user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"aconAccessToken\", pm.response.json().access_token);",
+									"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "21796d8b-4c7e-40e4-9bf1-c70a08143a96",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"houtjunk@gmail.com\",\n    \"acon_member_no\": \"8792\",\n    \"language\" : \"ko\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_local}}/acon/login-user",
+							"host": [
+								"{{auth_local}}"
+							],
+							"path": [
+								"acon",
+								"login-user"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "9b5de000-8472-46cd-b961-ffc5b8d3a1fc"
+		},
+		{
+			"name": "graphql server",
+			"item": [
+				{
+					"name": "get a list of acon adult member -release-admin... 에서 값 가져오면 됨",
+					"id": "59bfb9f5-4d93-4bbe-a389-1e15fb356078",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "authorization",
+								"value": "{{authorization}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql"
+						},
+						"url": {
+							"raw": "{{graphql_prod}}",
+							"host": [
+								"{{graphql_prod}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAdminOrders",
+					"id": "6ec92914-ff54-4586-bbcc-f4933ad82c5a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql"
+						},
+						"url": {
+							"raw": "{{graphql_prod}}",
+							"host": [
+								"{{graphql_prod}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check if the acon member is an adult",
+					"id": "415d33fb-b5f4-4dba-bdad-e70c0e1e56f0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "graphql"
+						},
+						"url": {
+							"raw": "{{graphql_local}}",
+							"host": [
+								"{{graphql_local}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "에셋다운로드",
+					"id": "5070da57-fa2e-4771-9cdb-f41b847c73b8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "AdminInquiries",
+					"id": "7bcd2926-73a0-4d37-9101-79f083240339",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql"
+						},
+						"url": {
+							"raw": "{{graphql_local}}",
+							"host": [
+								"{{graphql_local}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "c5fb9f07-86a9-47a1-a3e3-c4de9096a973"
+		},
+		{
+			"name": "danal api",
+			"item": [
+				{
+					"name": "ready",
+					"id": "f8eacc2f-6778-4da0-9a1c-d86ad0d7e0d5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3003/ready",
+							"host": [
+								"localhost"
+							],
+							"port": "3003",
+							"path": [
+								"ready"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "c755fcfd-3a37-4ef2-8fbc-97d66a0dfdb8"
+		},
+		{
+			"name": "payment server for adult",
+			"item": [
+				{
+					"name": "adult-verification-verifying",
+					"id": "b98112ac-969b-462d-a9a5-f797dbeab239",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{payment_local}}/acon-adult-member/verify?backURL=asdf&confirmURL={{payment_local}}/acon-adult-member/confirm",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"acon-adult-member",
+								"verify"
+							],
+							"query": [
+								{
+									"key": "backURL",
+									"value": "asdf"
+								},
+								{
+									"key": "confirmURL",
+									"value": "{{payment_local}}/acon-adult-member/confirm"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "check if logined member is adult",
+					"id": "fe4f9274-d7df-47f4-a3aa-69f664e4fb00",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{payment_local}}/acon-adult-member/check?language=zh",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"acon-adult-member",
+								"check"
+							],
+							"query": [
+								{
+									"key": "language",
+									"value": "zh"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add new acon adult member if it's valid",
+					"id": "27b9c404-110b-43d5-8eb4-6ffb657ecc4e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"language\" : \"ja\",\n    \"dob\" : \"20001212\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_local}}/acon-adult-member",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"acon-adult-member"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "b4f89d20-4bee-4b94-84b2-e789cc04cded"
+		},
+		{
+			"name": "legacy operation",
+			"item": [
+				{
+					"name": "graphql server",
+					"item": [
+						{
+							"name": "GetOrderViewV2",
+							"id": "fb23bbbb-edb6-4db1-af26-acb49d9a11f8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_prod}}",
+									"host": [
+										"{{graphql_prod}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GODO_EVENT_ORDER_SETTLE",
+							"id": "70fab94d-ad75-46de-aa5d-dd97a879b54f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "쿠폰 발급",
+							"id": "339a6c45-59d2-46d5-92e6-704b7620efe5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "1737d765-2644-4ad5-b19d-33355f62b944"
+				},
+				{
+					"name": "payment server",
+					"item": [
+						{
+							"name": "create-order",
+							"id": "08a10ac5-df84-4d55-bc50-0ad051594a44",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"payMethod\": \"wechat\",\n    \"overseaAmount\": 0,\n    \"amount\": 0,\n    \"fee\": 0,\n    \"email\": \"red_king_11@163.com\",\n    \"name\": \"Lin\",\n    \"cellPhone\": \"139-8407-4517\",\n    \"penName\": \"개인 사용권\\n待定\",\n    \"usePoint\": 0,\n    \"useAconCash\": 0,\n    \"langCode\": \"zh\",\n    \"mallCode\": \"toon\",\n    \"billingKey\": null,\n    \"redirectLink\": \"order/checkout\",\n    \"products\": [\n        {\n            \"price\": 0,\n            \"godoGoodsNo\": \"1000000048\"\n        }\n    ],\n    \"orderLicense\": {\n        \"type\": \"personal\",\n        \"names\": [\n            \"待定\"\n        ],\n        \"projects\": []\n    },\n    \"godoOrderData\": {\n        \"cartGoodsCnt\": 1,\n        \"cartSnos\": [\n            \"1175222\"\n        ],\n        \"payMethod\": \"gr\",\n        \"totalCouponGoodsDcPrice\": 0,\n        \"totalCouponOrderDcPrice\": 0,\n        \"totalCouponOrderPrice\": 0,\n        \"couponApplyOrderNo\": \"\",\n        \"overseasSettleCurrency\": \"USD\",\n        \"overseasSettlePrice\": 0,\n        \"priceInfo\": [\n            {\n                \"goodsNo\": \"1000000048\",\n                \"infoText\": \"{\\\"fixedPrice\\\":\\\"0.00\\\",\\\"costPrice\\\":\\\"0.00\\\",\\\"baseGoodsPrice\\\":\\\"0.00\\\",\\\"baseOptionPrice\\\":null,\\\"baseOptionTextPrice\\\":0,\\\"goodsPrice\\\":\\\"0.00\\\",\\\"optionPrice\\\":null,\\\"optionCostPrice\\\":null,\\\"optionTextPrice\\\":0,\\\"goodsPriceSum\\\":0,\\\"optionPriceSum\\\":0,\\\"optionTextPriceSum\\\":0,\\\"addGoodsPriceSum\\\":0,\\\"addGoodsVat\\\":{\\\"supply\\\":0,\\\"tax\\\":0},\\\"goodsDcPrice\\\":0,\\\"couponGoodsDcPrice\\\":0,\\\"goodsDeliveryPrice\\\":0,\\\"timeSalePrice\\\":null,\\\"goodsCnt\\\":\\\"1\\\",\\\"goodsMemberDcPrice\\\":0,\\\"goodsMemberOverlapDcPrice\\\":null,\\\"goodsCouponGoodsDcPrice\\\":0,\\\"addGoodsMemberDcPrice\\\":0,\\\"addGoodsMemberOverlapDcPrice\\\":0,\\\"addGoodsCouponGoodsDcPrice\\\":0,\\\"memberDcPrice\\\":0,\\\"memberOverlapDcPrice\\\":null,\\\"goodsPriceSubtotal\\\":0,\\\"goodsVat\\\":{\\\"supply\\\":0,\\\"tax\\\":0}}\"\n            }\n        ],\n        \"mileageInfo\": [\n            {\n                \"goodsNo\": \"1000000048\",\n                \"infoText\": \"{\\\"goodsMileage\\\":0,\\\"memberMileage\\\":0,\\\"couponGoodsMileage\\\":0,\\\"goodsGoodsMileage\\\":0,\\\"goodsMemberMileage\\\":0,\\\"goodsCouponGoodsMileage\\\":0,\\\"addGoodsGoodsMileage\\\":0,\\\"addGoodsMemberMileage\\\":0,\\\"addGoodsCouponGoodsMileage\\\":0,\\\"goodsCnt\\\":\\\"1\\\"}\"\n            }\n        ],\n        \"memberDcInfo\": [\n            {\n                \"goodsNo\": \"1000000048\",\n                \"infoText\": \"\"\n            }\n        ],\n        \"addFieldConf\": \"n\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{payment_local}}/product/order/create",
+									"host": [
+										"{{payment_local}}"
+									],
+									"path": [
+										"product",
+										"order",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "47594144-dbbb-4720-9236-9ea95ab9ff49"
+				}
+			],
+			"id": "c8ad33e3-f105-4695-8c3a-74cd3be66391"
+		},
+		{
+			"name": "debugging creating friend",
+			"item": [
+				{
+					"name": "mutation - create friend",
+					"id": "d8b7e291-0904-4e5e-b626-05fb6508d282",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql"
+						},
+						"url": {
+							"raw": "{{graphql_local}}",
+							"host": [
+								"{{graphql_local}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "16099752-2584-4512-925a-5c2a11f90e60"
+		},
+		{
+			"name": "searcher",
+			"item": [
+				{
+					"name": "\bsearch api",
+					"id": "800c934d-a12a-4605-8c4a-d99011600364",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3010/search/이거",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3010",
+							"path": [
+								"search",
+								"이거"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "81ae71d4-9531-40cf-b350-780c3e4c50ec"
+		},
+		{
+			"name": "event - 출첵",
+			"item": [
+				{
+					"name": "admin",
+					"item": [
+						{
+							"name": "create new event",
+							"id": "cdaa9114-0c50-43e5-bd64-743259be71f4",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "{{authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update event",
+							"id": "715134d5-029a-40de-a358-29c073eb3d49",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "{{authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete event",
+							"id": "cc0a2f62-bf19-426e-a340-440396ae5c21",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "{{authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get list of events",
+							"id": "ccd00882-2778-4a69-86b1-0d6d1f4e68ee",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "{{authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get event detail",
+							"id": "badf24e8-26cd-4e4a-9b51-2eae0b01f04c",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "{{authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get event participation by event id",
+							"id": "866bd5b7-f325-4e78-8ef4-facc324216d3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "{{authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get event participation by member id",
+							"id": "2e96646a-b46c-468d-8e09-eac5e0263536",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2Nzk0NDE0NDgsImV4cCI6MTY3OTUyNzg0OH0.jtS-aUdOeR56bqzKOFrovOkwWJ-0veLGjAbK52oBmJc",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "authorization",
+										"value": "{{authorization}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "104eb7f0-af61-49ac-a4f7-be7a48dcd5ce"
+				},
+				{
+					"name": "acon",
+					"item": [
+						{
+							"name": "participate in event",
+							"id": "ac654c1b-9c49-4203-953d-bd114b406058",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "get event participation by event id",
+							"id": "d1f5ead3-a0c7-456e-8088-fd71bb3d699e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "caecba47-822b-43c6-a1a7-e61551c39da1"
+				}
+			],
+			"id": "c8fe7c5e-3c0a-4c77-92c1-6fe6172b71b6"
+		},
+		{
+			"name": "\b선물하기",
+			"item": [
+				{
+					"name": "선물상품 리스트 조회",
+					"id": "341f09b2-8971-4537-8d2c-1a2fccce656e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{payment_local}}/gifts",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gifts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "선물상품 상세 조회",
+					"id": "1ee75a3e-4d88-4362-a5ae-6d94309a7316",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{payment_local}}/gifts/{{giftId}}",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gifts",
+								"{{giftId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "선물하기 주문 - 주문자가 gift의 코드를 획득",
+					"id": "3e4524d9-8a59-4554-9207-827dcef73347",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gift_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_local}}/gift_orders",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gift_orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "선물 전달 - 전화번호를 입력하면 수신자에게 코드를 알림톡으로 발생",
+					"id": "57eadd1e-2600-44c2-926f-af57ca8918d2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_local}}/gift_orders/{{giftOrderId}}/send",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gift_orders",
+								"{{giftOrderId}}",
+								"send"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "선물받은 코드를 입력받아 마일리지를 생성한다",
+					"id": "9f4b27f8-d4f3-4fdd-8b9a-26a49cc79878",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{payment_local}}/gift_orders/{{giftOrderId}}/redeem",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gift_orders",
+								"{{giftOrderId}}",
+								"redeem"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "선물하기의 현재 상태 조회",
+					"id": "9e2c03fc-80bc-4497-babe-4d18a8275035",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{payment_local}}/gift_orders/{{giftOrderId}}",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gift_orders",
+								"{{giftOrderId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "마이페이지용 - 선물 보낸 리스트 확인",
+					"id": "9a87bd7c-ee24-4541-8cde-1658e9ccf56d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{payment_local}}/gift_orders?sender=me",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gift_orders"
+							],
+							"query": [
+								{
+									"key": "sender",
+									"value": "me"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "마이페이지용 - 선물 \b받은받은 리스트",
+					"id": "c9cd91cc-03ab-4b35-95c9-ec39211e7f4f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "cookie",
+								"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{payment_local}}/gift_orders?recipient=me",
+							"host": [
+								"{{payment_local}}"
+							],
+							"path": [
+								"gift_orders"
+							],
+							"query": [
+								{
+									"key": "recipient",
+									"value": "me"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "ed6f05b5-0a4b-424a-bfae-21e4d04baa40"
+		},
+		{
+			"name": "레퍼럴 서비스",
+			"item": [
+				{
+					"name": "payment server",
+					"item": [
+						{
+							"name": "레퍼럴 코드와 함게 주문 생성",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d95b812f-69a6-4a38-86b3-d6f319c402f9",
+										"exec": [
+											"pm.test(\"get cart\", function(){",
+											"    pm.collectionVariables.set(\"godoOrderId\", pm.response.json().godoOrderId);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "093e4935-1cc8-4991-a4c6-05aded6ecb66",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"payMethod\": \"fullDiscount\",\n  \"overseaAmount\": 0,\n  \"amount\": 0,\n  \"fee\": 0,\n  \"email\": \"delakimsj@gmail.com\",\n  \"name\": \"김성진\",\n  \"cellPhone\": \"105-409-5969\",\n  \"penName\": \"개인 사용권\\n성진님\",\n  \"usePoint\": 2700,\n  \"useAconCash\": 0,\n  \"langCode\": \"ko\",\n  \"mallCode\": \"toon\",\n  \"billingKey\": null,\n  \"redirectLink\": \"order/checkout\",\n  \"products\": [\n    {\n      \"price\": 2700,\n      \"godoGoodsNo\": \"1000006788\"\n    }\n  ],\n  \"orderLicense\": {\n    \"type\": \"personal\",\n    \"names\": [\n      \"성진님\"\n    ],\n    \"projects\": []\n  },\n  \"godoOrderData\": {\n    \"cartGoodsCnt\": 1,\n    \"cartSnos\": [\n      \"{{cartSno}}\"\n    ],\n    \"payMethod\": \"gz\",\n    \"totalCouponGoodsDcPrice\": 0,\n    \"totalCouponOrderDcPrice\": 0,\n    \"totalCouponOrderPrice\": 0,\n    \"couponApplyOrderNo\": \"\",\n    \"overseasSettleCurrency\": \"KRW\",\n    \"overseasSettlePrice\": 0,\n    \"priceInfo\": [\n      {\n        \"goodsNo\": \"1000006788\",\n        \"infoText\": \"{\\\"productReferralCode\\\":\\\"BBB\\\",\\\"fixedPrice\\\":\\\"10000.00\\\",\\\"costPrice\\\":\\\"0.00\\\",\\\"baseGoodsPrice\\\":\\\"2700.00\\\",\\\"baseOptionPrice\\\":null,\\\"baseOptionTextPrice\\\":0,\\\"goodsPrice\\\":\\\"2700.00\\\",\\\"optionPrice\\\":null,\\\"optionCostPrice\\\":null,\\\"optionTextPrice\\\":0,\\\"goodsPriceSum\\\":2700,\\\"optionPriceSum\\\":0,\\\"optionTextPriceSum\\\":0,\\\"addGoodsPriceSum\\\":0,\\\"addGoodsVat\\\":{\\\"supply\\\":0,\\\"tax\\\":0},\\\"goodsDcPrice\\\":0,\\\"memberDcPrice\\\":0,\\\"memberOverlapDcPrice\\\":null,\\\"couponGoodsDcPrice\\\":0,\\\"goodsDeliveryPrice\\\":0,\\\"timeSalePrice\\\":null,\\\"goodsCnt\\\":\\\"1\\\",\\\"goodsMemberDcPrice\\\":0,\\\"goodsMemberOverlapDcPrice\\\":null,\\\"goodsCouponGoodsDcPrice\\\":0,\\\"addGoodsMemberDcPrice\\\":0,\\\"addGoodsMemberOverlapDcPrice\\\":0,\\\"addGoodsCouponGoodsDcPrice\\\":0,\\\"goodsPriceSubtotal\\\":2700,\\\"goodsVat\\\":{\\\"supply\\\":2455,\\\"tax\\\":\\\"245\\\"}}\"\n      }\n    ],\n    \"mileageInfo\": [\n      {\n        \"goodsNo\": \"1000006788\",\n        \"infoText\": \"{\\\"goodsMileage\\\":0,\\\"memberMileage\\\":0,\\\"couponGoodsMileage\\\":0,\\\"goodsGoodsMileage\\\":0,\\\"goodsMemberMileage\\\":0,\\\"goodsCouponGoodsMileage\\\":0,\\\"addGoodsGoodsMileage\\\":0,\\\"addGoodsMemberMileage\\\":0,\\\"addGoodsCouponGoodsMileage\\\":0,\\\"goodsCnt\\\":\\\"1\\\"}\"\n      }\n    ],\n    \"memberDcInfo\": [\n      {\n        \"goodsNo\": \"1000006788\",\n        \"infoText\": \"\"\n      }\n    ],\n    \"addFieldConf\": \"n\"\n  }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{payment_local}}/product/order/create",
+									"host": [
+										"{{payment_local}}"
+									],
+									"path": [
+										"product",
+										"order",
+										"create"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "d09ea93c-4285-459a-b305-f1bf765b342e"
+				},
+				{
+					"name": "graphql server",
+					"item": [
+						{
+							"name": "장바구니 조회(주문전에 호출)",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "fab7e1ac-28c0-4dfc-b922-99bae9a3cbcf",
+										"exec": [
+											"pm.test(\"get cart\", function(){",
+											"    pm.collectionVariables.set(\"cartSno\", pm.response.json().data.carts[0].sno);",
+											"})",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"id": "1edc3f07-c11f-40fc-ad98-cf2633595f63",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "구매확정시 포인트 생성",
+							"id": "235a295e-3514-45cc-8424-c92ac3b3da24",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 레퍼럴 생성",
+							"id": "368ae5e8-e8a7-4fd0-b9e8-a0786e2f7661",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 레퍼럴 리스트 조회",
+							"id": "1827c9e1-43cd-473d-bd42-9a7d784617d5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 레퍼럴로 발생한 포인트 내역 조회",
+							"id": "cf0cb81c-a15d-4001-8048-d5448e4941cc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "cookie",
+										"value": "acon_access_token={{aconAccessToken}}; GD5SESSID={{GD5SESSID}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "graphql"
+								},
+								"url": {
+									"raw": "{{graphql_local}}",
+									"host": [
+										"{{graphql_local}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "8ba50bd7-282d-4b3e-a49e-e44482bdc85c"
+				},
+				{
+					"name": "ok senario",
+					"item": [],
+					"id": "a33a5191-19e1-41e4-b679-32e2100e07cf"
+				}
+			],
+			"id": "15d71e9e-cc22-4f56-ae51-e4defc582d2a"
+		},
+		{
+			"name": "단축url 서비스",
+			"item": [
+				{
+					"name": "shorten",
+					"id": "d7a7b753-876f-4ebe-b661-051919d82611",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v2/action/shorten?key=06fb22465a7f6942002f0408542323&url=https://google.com&is_secret=false",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v2",
+								"action",
+								"shorten"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "06fb22465a7f6942002f0408542323"
+								},
+								{
+									"key": "url",
+									"value": "https://google.com"
+								},
+								{
+									"key": "is_secret",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "lookup",
+					"id": "8d964470-2a61-48af-8085-ad3c130bb816",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v2/action/lookup?key=06fb22465a7f6942002f0408542323&url_ending=2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v2",
+								"action",
+								"lookup"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "06fb22465a7f6942002f0408542323"
+								},
+								{
+									"key": "url_ending",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bitly api test",
+					"id": "67bf151d-a31a-4067-9e35-ad33a195f2ac",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "d0c100507ebabdaf6d7214bf8b5abd6feebb0d19",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"domain\": \"bit.ly\",\n    \"long_url\": \"https://www.acon3d.com/ko/toon/product/1000011396?mtn=16%5E%7C%5E%E2%8F%B0%EC%A7%80%EA%B8%88%EC%9D%B4%20%EC%A0%88%ED%98%B8%EC%9D%98%20%EC%B0%AC%EC%8A%A4!!%5E%7C%5En\"\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-ssl.bitly.com/v4/shorten",
+							"protocol": "https",
+							"host": [
+								"api-ssl",
+								"bitly",
+								"com"
+							],
+							"path": [
+								"v4",
+								"shorten"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "bitly api test Copy",
+					"id": "47118d1c-5309-4d85-806e-570741890cb7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"group_guid\": \"o_684olb7hdt\",\n    \"domain\": \"bit.ly\",\n    \"long_url\": \"https://www.acon3d.com/ko/toon/product/1000011396?mtn=16%5E%7C%5E%E2%8F%B0%EC%A7%80%EA%B8%88%EC%9D%B4%20%EC%A0%88%ED%98%B8%EC%9D%98%20%EC%B0%AC%EC%8A%A4!!%5E%7C%5En\"\n}  ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://api-ssl.bitly.com/v4/shorten",
+							"protocol": "https",
+							"host": [
+								"api-ssl",
+								"bitly",
+								"com"
+							],
+							"path": [
+								"v4",
+								"shorten"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "29b73551-29f0-4926-99e5-d2a912aebf9a"
+		},
+		{
+			"name": "Bakend UAT",
+			"item": [
+				{
+					"name": "에셋 다운로드",
+					"id": "898e2491-7b5e-4b33-9d56-8c42783d1108",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authority",
+								"value": "api-v2.acon3d.com"
+							},
+							{
+								"key": "accept",
+								"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "cookie",
+								"value": "_gid=GA1.2.544432780.1682310390; _hjSessionUser_3325227=eyJpZCI6IjAwMmUxOTY5LTExMTMtNTRkNC05MjM5LWE5NTJjYzBmZDEzNyIsImNyZWF0ZWQiOjE2ODIzMTAzOTA1NjUsImV4aXN0aW5nIjp0cnVlfQ==; _gcl_au=1.1.2022828339.1682311913; _fbp=fb.1.1682311912929.2106131608; _rdt_uuid=1682311913254.67680598-2e70-40a6-a20e-d7b27993bc5a; _hjSessionUser_3272252=eyJpZCI6ImQ0MTZlNDlhLWUwNzYtNWUwYS04NTdhLWM2ODQxODZiMTMzZCIsImNyZWF0ZWQiOjE2ODIzMTE5MTM2OTksImV4aXN0aW5nIjp0cnVlfQ==; lang=ko; _ga=GA1.2.247008905.1682310389; _hjAbsoluteSessionInProgress=0; _gat_gtag_UA_134098133_1=1; GD5SESSID=6b6bk93cue8evsblp9t31mfn0bpdd386i81v6tcbh77f8t8qvg2uq6ershmi8kcdojunu52ro9gg629s5i9k5j4fsmnaq8tk0aoqe23; acon_access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbGFraW1zakBnbWFpbC5jb20iLCJzdWIiOiI1OTYxNiIsImlhdCI6MTY4MjM4NjQ4MywiZXhwIjoxNjgyNDAwODgzfQ.1fEpJM42IvcR_bHd_nAdYX4_3swSl_LClQc28I7aUBY; _dc_gtm_UA-134098133-1=1; _ga_MWSP7Z7H93=GS1.1.1682386480.7.1.1682386491.49.0.0"
+							},
+							{
+								"key": "referer",
+								"value": "https://www.acon3d.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"112\", \"Google Chrome\";v=\"112\", \"Not:A-Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "document"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "navigate"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "sec-fetch-user",
+								"value": "?1"
+							},
+							{
+								"key": "upgrade-insecure-requests",
+								"value": "1"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+							}
+						],
+						"url": {
+							"raw": "{{graphql_local}}/download/model/2304111327366759/1000006819",
+							"host": [
+								"{{graphql_local}}"
+							],
+							"path": [
+								"download",
+								"model",
+								"2304111327366759",
+								"1000006819"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://api-v2.acon3d.com/download/model/2304111327366759/1000006819",
+					"id": "d1145826-34bb-448d-89ce-5af258df516e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "authority",
+								"value": "api-v2.acon3d.com"
+							},
+							{
+								"key": "accept",
+								"value": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+							},
+							{
+								"key": "accept-language",
+								"value": "en-US,en;q=0.9"
+							},
+							{
+								"key": "cookie",
+								"value": "_gid=GA1.2.544432780.1682310390; _hjSessionUser_3325227=eyJpZCI6IjAwMmUxOTY5LTExMTMtNTRkNC05MjM5LWE5NTJjYzBmZDEzNyIsImNyZWF0ZWQiOjE2ODIzMTAzOTA1NjUsImV4aXN0aW5nIjp0cnVlfQ==; _gcl_au=1.1.2022828339.1682311913; _fbp=fb.1.1682311912929.2106131608; _rdt_uuid=1682311913254.67680598-2e70-40a6-a20e-d7b27993bc5a; _hjSessionUser_3272252=eyJpZCI6ImQ0MTZlNDlhLWUwNzYtNWUwYS04NTdhLWM2ODQxODZiMTMzZCIsImNyZWF0ZWQiOjE2ODIzMTE5MTM2OTksImV4aXN0aW5nIjp0cnVlfQ==; lang=ko; _ga=GA1.2.247008905.1682310389; _hjAbsoluteSessionInProgress=0; _gat_gtag_UA_134098133_1=1; GD5SESSID=6b6bk93cue8evsblp9t31mfn0bpdd386i81v6tcbh77f8t8qvg2uq6ershmi8kcdojunu52ro9gg629s5i9k5j4fsmnaq8tk0aoqe23; acon_access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbGFraW1zakBnbWFpbC5jb20iLCJzdWIiOiI1OTYxNiIsImlhdCI6MTY4MjM4NjQ4MywiZXhwIjoxNjgyNDAwODgzfQ.1fEpJM42IvcR_bHd_nAdYX4_3swSl_LClQc28I7aUBY; _dc_gtm_UA-134098133-1=1; _ga_MWSP7Z7H93=GS1.1.1682386480.7.1.1682386491.49.0.0"
+							},
+							{
+								"key": "referer",
+								"value": "https://www.acon3d.com/"
+							},
+							{
+								"key": "sec-ch-ua",
+								"value": "\"Chromium\";v=\"112\", \"Google Chrome\";v=\"112\", \"Not:A-Brand\";v=\"99\""
+							},
+							{
+								"key": "sec-ch-ua-mobile",
+								"value": "?0"
+							},
+							{
+								"key": "sec-ch-ua-platform",
+								"value": "\"macOS\""
+							},
+							{
+								"key": "sec-fetch-dest",
+								"value": "document"
+							},
+							{
+								"key": "sec-fetch-mode",
+								"value": "navigate"
+							},
+							{
+								"key": "sec-fetch-site",
+								"value": "same-site"
+							},
+							{
+								"key": "sec-fetch-user",
+								"value": "?1"
+							},
+							{
+								"key": "upgrade-insecure-requests",
+								"value": "1"
+							},
+							{
+								"key": "user-agent",
+								"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
+							}
+						],
+						"url": {
+							"raw": "https://api-v2.acon3d.com/download/model/2304111327366759/1000006819",
+							"protocol": "https",
+							"host": [
+								"api-v2",
+								"acon3d",
+								"com"
+							],
+							"path": [
+								"download",
+								"model",
+								"2304111327366759",
+								"1000006819"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "4142c530-b566-4f34-be0c-190364d7169f"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "0589aa4f-99d2-4dda-b598-c31b857b2059",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "36ef4332-068a-47a7-8f65-090b29c8a41a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "142be41b-930f-4d6f-bbb6-c074ea460264",
+			"key": "endpoint",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "8903baea-4954-4ceb-8cb9-e51c5f0e7a94",
+			"key": "auth_local",
+			"value": "https://local-api.acon3d.com/auth-v2",
+			"type": "string"
+		},
+		{
+			"id": "ff3e562f-4e74-471b-bfff-6b1b5a5c7639",
+			"key": "auth_staging",
+			"value": "https://staging-api.acon3d.com/auth-v2",
+			"type": "string"
+		},
+		{
+			"id": "df89fcbc-5f33-4de8-b2cc-f7223b37316a",
+			"key": "auth_prod",
+			"value": "https://api-v2.acon3d.com/auth-v2",
+			"type": "string"
+		},
+		{
+			"id": "8dc73a74-b6f5-4acc-bc90-3328d9b566dd",
+			"key": "graphql_local",
+			"value": "https://local-api.acon3d.com/graphql",
+			"type": "string"
+		},
+		{
+			"id": "c5a15b29-13ed-4a7f-8cc0-5bec8ab4fea1",
+			"key": "graphql_prod",
+			"value": "https://api-v2.acon3d.com/graphql",
+			"type": "string"
+		},
+		{
+			"id": "32e2beda-0060-46f6-b234-91f14f5f8c35",
+			"key": "payment_local",
+			"value": "https://local-api.acon3d.com/payment",
+			"type": "string"
+		},
+		{
+			"id": "1a24bcd5-7281-4921-99b6-6f7990566453",
+			"key": "aconAccessToken",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRlbGFraW1zakBnbWFpbC5jb20iLCJzdWIiOiI1OTYxNiIsImlzX2FkdWx0Ijp0cnVlLCJpYXQiOjE2ODExNzcyODAsImV4cCI6MTY4MTE5MTY4MH0.cA9u7B5Ma29G0d7ZPWgagqylglR2VEd5WQuLXv4uGsA",
+			"type": "string"
+		},
+		{
+			"id": "99daebf5-93d2-4172-8170-518bcd6a03db",
+			"key": "aconRefreshToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "55206197-9770-4b0a-bc4a-c05e738c336a",
+			"key": "GD5SESSID",
+			"value": "0rd8bbf53uqeqsc53736ovcgpbvsauj08ligsftrqralfc0n6f0k2jm046v64i9cqmt00ebbirb71u72i0d6tsv3co2soshh6h9lq63",
+			"type": "string"
+		},
+		{
+			"id": "fabc0ce0-c2d5-4241-84cb-461ce788d0be",
+			"key": "authorization",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MjFkNjhlNi02MzMwLTQ3OTEtOTFjMS01NTU5ZGZjNzM2NjIiLCJuYW1lIjoi7ISx7KeEKOq5gOyEseynhCkiLCJlbWFpbCI6InN1bmdqaW5AYWNvbjNkLmNvbSIsImlhdCI6MTY4MDIyODIzMSwiZXhwIjoxNjgwMjcxNDMxfQ.SuBDZU4yOwY4vFWBj4ZHURu3iHWprglGdlHZ9UEZyBU"
+		},
+		{
+			"id": "80f9ef2e-5584-4e40-94af-878e935e6790",
+			"key": "hubAuthorization",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NTUxLCJhY2NvdW50Ijoib2ZmaWNpYWxAYWNvbjNkLmNvbSIsImdyb3VwTmFtZSI6ImFkbWluIiwiYWNjZXB0U3RhdHVzIjoxLCJpc0ZpcnN0IjpmYWxzZSwiaXNDb21wYW55IjpmYWxzZSwiaXNBZG1pbiI6dHJ1ZSwiaXNBY2NlcHQiOnRydWUsImlzVXBkYXRlVGVybSI6dHJ1ZSwiYnJhbmRJZCI6MSwibmFtZSI6Im9mZmljaWFsQGFjb24zZC5jb20iLCJpYXQiOjE2NzkwNDA1MjMsImV4cCI6MTY3OTEyNjkyM30.W79gRdxhIjIDUydLFTpQgvzeJO0VKcBoQKkKYUHo7mM"
+		},
+		{
+			"id": "775c2236-f7e1-441c-b7d1-0cc21bcd03e4",
+			"key": "paymentLocalTunnel",
+			"value": "https://sungjin.loca.lt",
+			"type": "string"
+		},
+		{
+			"id": "7d1457fa-715d-48c2-9dd6-a7d509874e16",
+			"key": "community_test",
+			"value": "https://community.dev.acon3d.com",
+			"type": "string"
+		},
+		{
+			"id": "5b34167f-da00-4c0b-aea5-7921ef0f5d86",
+			"key": "community_local",
+			"value": "http://localhost:1337",
+			"type": "string"
+		},
+		{
+			"id": "0d3f0eff-4eaa-44ed-9991-2631a2bbed76",
+			"key": "articleId",
+			"value": 34,
+			"type": "string"
+		},
+		{
+			"id": "edacf330-0993-47ee-955e-4f8ec9320536",
+			"key": "articleReplyId",
+			"value": 14,
+			"type": "string"
+		},
+		{
+			"id": "f99bab45-126b-4067-a53f-d911d9a8555d",
+			"key": "userBlacklistId",
+			"value": 2,
+			"type": "string"
+		},
+		{
+			"id": "931b0510-a3e1-4cc8-bc23-3ccd1d41df08",
+			"key": "testBoardId",
+			"value": "7",
+			"type": "string"
+		},
+		{
+			"id": "2ec59ec7-420f-481b-809c-d89865b69553",
+			"key": "giftId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "5f7766e3-ed5c-4cf5-bfcc-2b9bfa04b95c",
+			"key": "giftOrderId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "627df86b-5223-4b1b-b819-0321781bdd6b",
+			"key": "customerAccessToken",
+			"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIiLCJpYXQiOjE2ODEyNzQ3NDYsImV4cCI6MTcxMjgxMDc0NiwiYXVkIjoiIiwic3ViIjoiODc5MiIsInVzZXJuYW1lIjoiaG91dGp1bmtAZ21haWwuY29tIiwiaXNfYWR1bHQiOiJ0cnVlIn0.YO3qtDwCYRnmSADTiMXiKyAuKHX-a1H6A2u9kl0DZjI",
+			"type": "string"
+		},
+		{
+			"id": "06be7e1b-9597-45fe-bf66-2aa65a24faef",
+			"key": "productReferralId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "65eae805-525f-48ad-91e6-23f28c3915d0",
+			"key": "cartSno",
+			"value": ""
+		},
+		{
+			"id": "a62a8553-235e-4146-9f61-5d8b4060720d",
+			"key": "godoOrderId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "ff6acb5f-a841-4139-bf3b-5cf1676a06cf",
+			"key": "temp",
+			"value": "https://local-api.acon3d.com"
+		},
+		{
+			"id": "d21a4cfb-f0c6-430e-8708-2dadb7f31a37",
+			"key": "noticeReplyId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "98098f55-497e-49f1-807c-81226999cd9c",
+			"key": "noticeId",
+			"value": "2",
+			"type": "string"
+		}
+	]
+}

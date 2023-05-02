@@ -1,0 +1,9093 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Language {
+  """언어 id"""
+  id: Float!
+
+  """언어 코드(ko, en, cn, jp)"""
+  code: String!
+
+  """언어 이름(한국어, 영어, ...)"""
+  name: String!
+}
+
+type BrandI18n {
+  """고유 ID"""
+  id: Float!
+
+  """부모 브랜드 ID """
+  brandId: Float!
+  language: Language
+  name: String!
+}
+
+type Brand {
+  """고유 ID"""
+  id: Float!
+  name: String!
+
+  """고도몰 브랜드코드"""
+  godoBrandCd: String
+  item(langCode: String, languageCode: LanguageCodeEnum): [BrandI18n!]
+}
+
+enum LanguageCodeEnum {
+  ko
+  en
+  zh
+  ja
+}
+
+type AuthType {
+  type: String!
+}
+
+type Menu {
+  name: String!
+}
+
+type GroupAuth {
+  id: Float!
+  menu: Menu!
+  authType: AuthType!
+}
+
+type Group {
+  id: Float!
+  name: String!
+  auth: [GroupAuth!]!
+}
+
+type UserAccept {
+  id: Float!
+  statusString: String!
+  modifyStatusString: String!
+  statusStringList: [String!]!
+  status: Float!
+  comment: String
+  modifyStatus: Float!
+
+  """수정 - 반려 사유"""
+  modifyRejectComment: String
+
+  """수정 - 승인 사유"""
+  modifyApproveComment: String
+
+  """정산 정보 수정 여부"""
+  isModifyPayment: Boolean
+}
+
+type UploadFile {
+  id: Float
+  azureStoragePath: String!
+  fileName: String!
+  fullName: String
+  path: String
+  size: Float
+  creator: Float
+}
+
+type UserTermAgree {
+  id: Float!
+  agreeAt: DateTime!
+  uploadFileId: Float
+  file: UploadFile
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Bank {
+  id: Float!
+  name: String!
+}
+
+type UserSettle {
+  id: Float!
+  bankId: Float!
+  bankName: String
+  bankAccountNumber: String
+
+  """상태"""
+  status: UserSettleStatusEnum!
+
+  """요청일자"""
+  requestDate: DateTime
+
+  """승인일자"""
+  approveDate: DateTime
+
+  """반려일자"""
+  rejectDate: DateTime
+  bankAccountOwner: String
+  nationalIdNumber: String
+  country: String
+  signLang: String
+  imageSign: Float!
+  bankBook: UploadFile
+  idCard: UploadFile
+  sign: UploadFile
+  limitedTaxApl: UploadFile
+  bank: Bank
+}
+
+enum UserSettleStatusEnum {
+  none
+  reject
+  request
+  rerequest
+  approve
+}
+
+type UserAcceptReference {
+  id: Float!
+  url: String!
+}
+
+type UserPlan {
+  userId: Float!
+  type: Float!
+  isExclusive: Boolean!
+  commissionRate: Float
+}
+
+type Get {
+  id: Float!
+  userId: Float!
+  type: String!
+  message: String
+}
+
+type AdminUserModel {
+  """고유 ID"""
+  id: String!
+
+  """관리자 명"""
+  name: String!
+
+  """관리자 이메일"""
+  email: String!
+
+  """생성 일자"""
+  created: DateTime!
+
+  """수정 일자"""
+  updated: DateTime!
+}
+
+type UserSettleStatusHistoryModel {
+  """고유 ID"""
+  id: Float!
+
+  """사용자 ID"""
+  userId: Float!
+
+  """상태"""
+  status: UserSettleStatusEnum!
+
+  """어드민 고유 ID"""
+  adminId: String
+  adminUser: AdminUserModel
+
+  """메모"""
+  memo: String
+
+  """생성 일자"""
+  created: DateTime!
+
+  """업데이트 일자"""
+  updated: DateTime!
+}
+
+type UserMemoModel {
+  """고유 ID"""
+  id: Float!
+
+  """주문 사용권 ID"""
+  userId: Float!
+
+  """메모"""
+  memo: String!
+
+  """어드민 고유 ID"""
+  adminId: String
+  adminUser: AdminUserModel
+
+  """생성 일자"""
+  created: DateTime!
+
+  """수정 일자"""
+  updated: DateTime!
+}
+
+type User {
+  id: Float!
+  brandId: Float
+
+  """일반/사업자"""
+  type: String
+
+  """사업자 구분"""
+  subType: String
+
+  """상호"""
+  companyName: String
+
+  """아이디"""
+  account: String!
+
+  """이름"""
+  name: String!
+
+  """연락처"""
+  contact: String!
+
+  """추가 연락처"""
+  contactAdditional: String
+  brand: Brand
+  group: Group!
+  accept: UserAccept!
+  termAgree: [UserTermAgree!]
+  settle: UserSettle!
+  plan: UserPlan
+  notifications: [Get!]
+  reference: [UserAcceptReference!]!
+  histories: [UserSettleStatusHistoryModel!]!
+  memos: [UserMemoModel!]!
+  firstLoginDate: DateTime
+  created: DateTime
+  updated: DateTime
+  lastLoginDate: DateTime
+  snsUrl: String
+
+  """회원가입 언어, 현재는 무조건 ko 또는 en"""
+  joinLanguage: String!
+  typeString: String
+  subTypeString: String
+  typeStringList: [String!]!
+  subTypeStringList: [String!]!
+}
+
+type Banner {
+  """고유 ID"""
+  id: Float!
+
+  """배너타입(표시위치)"""
+  type: BannerType
+
+  """배너를 표시할 다국어몰"""
+  language: Language
+
+  """배너 바디 텍스트"""
+  text: String
+
+  """배너 바디 이미지"""
+  image: UploadFile
+
+  """배너 노출 시작일"""
+  startDate: DateTime
+
+  """배너 노출 종료일"""
+  endDate: DateTime
+
+  """배너 클릭시 이동 링크"""
+  href: String
+
+  """배너를 표시 또는 숨길 상품들"""
+  selectedProducts: [Product!]
+
+  """선택된 상품만 표시 또는 선택된 상품만 숨기기"""
+  showOnlyForSelectedProducts: Boolean
+
+  """수정일"""
+  updated: DateTime!
+}
+
+type BannerType {
+  """배너 타입 id"""
+  id: Float!
+
+  """배너 타입 코드(b1, b2, ...)"""
+  code: String!
+
+  """배너 타입에 따른 표시 위치"""
+  name: String!
+
+  """배너 안에 표시되는 내용의 타입(text, image, ...)"""
+  displayType: String!
+}
+
+type Faq {
+  """고유 ID"""
+  id: Float!
+
+  """FAQ 제목"""
+  title: String
+
+  """FAQ 내용(바디)"""
+  body: String
+
+  """FAQ 타입(노하우, 가이드, ...)"""
+  type: FaqType
+
+  """FAQ를 표시할 다국어허브"""
+  language: Language
+
+  """고정글인 경우 고정 순서(번호)"""
+  fixed: Float
+
+  """생성일"""
+  created: DateTime!
+
+  """수정일"""
+  updated: DateTime!
+}
+
+type FaqType {
+  """FAQ 타입 id"""
+  id: Float!
+
+  """FAQ 타입 이름(노하우, 가이드, ...)"""
+  name: String!
+
+  """FAQ 타입 코드(knowhow, guide, ...)"""
+  code: String!
+}
+
+type Notice {
+  """고유 ID"""
+  id: Float!
+
+  """공지사항 제목"""
+  title: String
+
+  """공지사항 내용(바디)"""
+  body: String
+
+  """공지사항 타입(공지, 이벤트, 일반, ...)"""
+  type: NoticeType
+
+  """공지사항을 표시할 다국어허브"""
+  language: Language
+
+  """고정글인 경우 고정 순서(번호)"""
+  fixed: Float
+
+  """생성일"""
+  created: DateTime!
+
+  """수정일"""
+  updated: DateTime!
+}
+
+type NoticeType {
+  """공지사항 타입 id"""
+  id: Float!
+
+  """공지사항 타입 이름(공지, 이벤트, 일반, ...)"""
+  name: String!
+
+  """공지사항 타입 코드(notice, event, normal, ...)"""
+  code: String!
+}
+
+type Popup {
+  """고유 ID"""
+  id: Float!
+
+  """팝업 제목"""
+  title: String
+
+  """팝업 내용(바디)"""
+  body: String
+
+  """팝업를 표시할 다국어허브"""
+  language: Language
+
+  """팝업 표시 시작일"""
+  startDate: DateTime!
+
+  """팝업 표시 종료일"""
+  endDate: DateTime!
+
+  """팝업 표시 url"""
+  location: [PopupLocation!]
+
+  """팝업 오늘하루 숨기기 버튼 표시 여부"""
+  allowHide: Boolean!
+
+  """생성일"""
+  created: DateTime!
+
+  """수정일"""
+  updated: DateTime!
+}
+
+type PopupLocation {
+  """고유 id"""
+  id: Float!
+
+  """팝업 id"""
+  popupId: Float!
+
+  """팝업을 표시할 url"""
+  url: String!
+}
+
+type MainGroupI18n {
+  """고유 ID"""
+  id: Float!
+
+  """부모 메인그룹 ID """
+  mainGroupId: Float!
+  language: Language
+  name: String!
+}
+
+type MainGroup {
+  """고유 ID"""
+  id: Float!
+  name: String!
+
+  """고도몰 sno"""
+  godoSno: Float!
+  item: [MainGroupI18n!]
+}
+
+type CategoryI18nFile {
+  """고유 ID"""
+  id: Float!
+  categoryI18nId: Float!
+  uploadFileId: Float!
+  uploadFile: UploadFile
+}
+
+type CategoryI18n {
+  """고유 ID"""
+  id: Float!
+  categoryId: Float
+  languageCode: String!
+  language: Language
+  name: String
+  file: CategoryI18nFile
+  isShowResultCount: Float!
+  anchor: String
+  map: String
+  color: String
+  isBlankAnchor: Float
+  creator: Float
+  updater: Float
+}
+
+type Category {
+  """카테고리 고유 ID"""
+  id: Float!
+  i18n: [CategoryI18n!]!
+
+  """대분류"""
+  type: CategoryTypeEnum!
+  sortNo: Float
+  godoSno: Float
+  godoCateCd: String
+  parent: Float
+  memo: String
+  state: String!
+  creator: Float
+  updater: Float
+}
+
+enum CategoryTypeEnum {
+  toonstyle
+  realistic
+}
+
+type ModelConfigI18n {
+  """고유 ID"""
+  id: Float!
+
+  """모델구성 id"""
+  modelConfigId: Float!
+  language: Language
+  name: String!
+}
+
+type ModelConfig {
+  """고유 ID"""
+  id: Float!
+
+  """이름"""
+  name: String!
+  i18n: [ModelConfigI18n!]!
+}
+
+type ProductFileConfig {
+  """고유 ID"""
+  id: Float!
+  productId: Float!
+  name: String!
+  size: Float!
+}
+
+type ExtensionConfig {
+  id: Int!
+  name: String!
+}
+
+type ProductFileExtension {
+  id: Int!
+  productId: Int!
+  name: String
+  extensionConfigId: Int!
+  extensionConfig: ExtensionConfig!
+}
+
+type ProductFileUpdate {
+  """고유 ID"""
+  id: Float!
+  productId: Float!
+  name: String!
+
+  """업데이트 일자"""
+  date: DateTime
+  created: DateTime!
+}
+
+type ProductImage {
+  """고유 ID"""
+  id: Float!
+  productId: Float!
+  uploadFileId: Float
+  item: UploadFile
+
+  """크롭 x 위치"""
+  cropX: Float
+
+  """크롭 y 위치"""
+  cropY: Float
+
+  """크롭 너비"""
+  cropWidth: Float
+
+  """크롭 높이"""
+  cropHeight: Float
+
+  """이미지 유형"""
+  type: String!
+  created: DateTime!
+}
+
+type ProductComment {
+  """고유 ID"""
+  id: Float!
+  productId: Float!
+
+  """메세지"""
+  message: String
+
+  """메세지 유형"""
+  type: String
+  created: DateTime!
+}
+
+type ProductVersion {
+  """고유 ID"""
+  id: Float!
+
+  """상품 ID"""
+  productId: Float
+
+  """오픈된 상품정보"""
+  openProductInfo: Product
+
+  """선택된 상품정보"""
+  productInfo: Product
+
+  """버전 Major"""
+  major: Float
+
+  """버전 Minor"""
+  minor: Float
+
+  """데이터 전체"""
+  contents: String
+
+  """버전 생성일자"""
+  created: DateTime!
+}
+
+type ProductRelated {
+  from: Float!
+  to: Float!
+}
+
+type GodoProductCategoryModel {
+  """고유 ID"""
+  id: Float!
+
+  """고도 상품 ID """
+  godoProductId: Float!
+  cateCd: String!
+  goodsSort: Float!
+  fixSort: Float!
+  categoryDetail: Category
+}
+
+type GodoProductBrandModel {
+  """고유 ID"""
+  id: Float!
+
+  """고도 상품 ID """
+  godoProductId: Float!
+  brandCd: String!
+  goodsSort: Float!
+  fixSort: Float!
+}
+
+type BrandClone {
+  id: Int!
+  name: String!
+  godoBrandCd: String
+}
+
+type InquiryChangePenName {
+  """변경할 사용권 유형: null(ChangeMyself) | personToTeam | teamToPerson"""
+  changeType: ChangeTypeEnum
+
+  """기존 필명으로 작품을 사용함 여부"""
+  isOldPenNameRetained: Boolean!
+
+  """필명/작품명"""
+  penName: String!
+
+  """팀/회사명"""
+  teamName: String
+}
+
+enum ChangeTypeEnum {
+  personToTeam
+  teamToPerson
+}
+
+type InquiryRefundAccount {
+  bankName: String!
+  accountNumber: String!
+  accountHolder: String!
+}
+
+type InquiryOrderGoodsDetail {
+  id: Int!
+  godoGoodsNo: String!
+  orderStatus: Float!
+}
+
+type InquiryOrder {
+  id: Int!
+  godoOrderNo: String!
+  godoGoodsDetails: [InquiryOrderGoodsDetail!]!
+}
+
+type AdminUser {
+  id: String!
+  name: String!
+  email: String!
+  created: DateTime
+  updated: DateTime
+}
+
+type InquiryAnswer {
+  id: Int!
+  answer: String!
+  adminUser: AdminUser!
+  created: DateTime
+  updated: DateTime
+}
+
+type InquiryMemo {
+  id: Int!
+  memo: String!
+  adminUser: AdminUser!
+  created: DateTime!
+  updated: DateTime
+}
+
+type TempAconProduct {
+  id: Int!
+  goodsNo: Int!
+  title: String!
+}
+
+type Acon3dFunding {
+  """펀딩 목표 금액"""
+  goalAmount: Int!
+
+  """펀딩 누적판매 금액"""
+  soldAmount: Int
+
+  """펀딩 판매량(참여자 수)"""
+  soldVolume: Int
+
+  """펀딩 시작일자"""
+  startDate: DateTime!
+
+  """펀딩 종료일자"""
+  endDate: DateTime!
+
+  """펀딩 상품 전달일자"""
+  deliveryDate: DateTime!
+  status: FundingStatus!
+}
+
+enum FundingStatus {
+  UNREADY
+  PENDING
+  SUCCEEDED
+  FAILED
+  DELIVERED
+}
+
+type Acon3dPackage {
+  type: String!
+  parent: Acon3dProduct
+  children: [Acon3dProduct!]!
+}
+
+type Acon3dBrand {
+  """브랜드 ID"""
+  id: Int
+
+  """브랜드 이름(번역)"""
+  name: String
+
+  """브랜드 코드"""
+  code: String
+}
+
+type Acon3dBanner {
+  """배너 ID"""
+  id: Int
+
+  """텍스트"""
+  text: String
+
+  """상품 링크"""
+  href: String
+
+  """배너 이미지 주소"""
+  imageUrl: String
+
+  """표시 타입"""
+  type: String
+
+  """배너 등록일자 (복수 배너시 정렬용)"""
+  created: DateTime
+}
+
+type Acon3dCategory {
+  """카테고리 ID"""
+  id: Int
+
+  """고도 카테고리 코드"""
+  code: String
+
+  """카테고리 이름(번역)"""
+  name: String
+}
+
+type Acon3dModelConfig {
+  """모델컨피그 ID"""
+  id: Int
+
+  """이름(번역)"""
+  name: String
+}
+
+type Acon3dPromotionBadge {
+  """프로모션 뱃지 ID"""
+  id: Int
+
+  """프로모션 뱃지 타입: point | coupon | null"""
+  type: String
+
+  """프로모션 뱃지 언어"""
+  languageCode: LanguageCodeEnum
+
+  """프로모션 뱃지 내용"""
+  content: String
+}
+
+type Acon3dPromotionRound {
+  roundNo: Int
+
+  """할인가"""
+  salePrice: Int
+
+  """시작일"""
+  startDate: DateTime
+
+  """종료일"""
+  endDate: DateTime
+}
+
+type Acon3dPromotion {
+  """프로모션 아이디(acon.promotion)"""
+  id: Int!
+
+  """시작일자(예정 포함), acon.promotion.reserve_date"""
+  startDate: DateTime
+
+  """현재 차수"""
+  currentRound: Int
+
+  """남은 일수"""
+  remainingDays: Int
+
+  """혜택 라운드별 상세 정보"""
+  rounds: [Acon3dPromotionRound!]
+
+  """프로모션 뱃지(번역본)"""
+  badges: [Acon3dPromotionBadge!]
+}
+
+type Acon3dLinkedProduct {
+  """상품 번호"""
+  id: Int!
+
+  """확장자"""
+  extensions: [String!]!
+}
+
+type Acon3dProduct {
+  id: Int!
+
+  """언어"""
+  languageCode: LanguageCodeEnum!
+
+  """번역된 상품명"""
+  title: String!
+
+  """상품 정가 (개정)"""
+  regularPrice: Int
+
+  """상품 정가"""
+  price: Int!
+
+  """상품 할인가"""
+  salePrice: Int!
+  brand: Acon3dBrand!
+
+  """세일 여부"""
+  isOnSale: Boolean!
+
+  """판매 여부"""
+  onSale: Boolean!
+
+  """리스트 노출 여부"""
+  onDisplay: Boolean!
+
+  """진행 중인 프로모션 정보"""
+  promotionEndDate: DateTime
+
+  """대표 이미지 URL"""
+  mainImageUrl: String!
+
+  """서브 이미지 URL"""
+  subImageUrl: String!
+
+  """상품상세 이미지 URL"""
+  detailImageUrl: String!
+
+  """ACON ONLY 여부"""
+  isAconOnly: Boolean!
+
+  """주문 수(인기순 정렬)"""
+  orderCount: Int!
+
+  """조회 수"""
+  viewCount: Int!
+
+  """리뷰 수"""
+  reviewCount: Int!
+
+  """생성 일자"""
+  created: DateTime!
+
+  """갱신 일자"""
+  updated: DateTime
+
+  """상품카드 뱃지 이름들(번역)"""
+  badgeNames: [String]!
+
+  """확장자"""
+  extensions: [String!]!
+
+  """검색 일치 점수"""
+  score: Float
+  content: String
+  categories: [Acon3dCategory!]
+  banners: [Acon3dBanner!]
+  modelConfigs: [Acon3dModelConfig!]
+
+  """우주최저가/혜성특가 등의 특수 프로모션에 해당될 경우 요청하는 필드"""
+  promotions: [Acon3dPromotion!]
+
+  """상품의 응용프로그램들"""
+  applications: [Application!]
+
+  """유저가 상품을 주문한 적이 있는지 여부"""
+  hasOrdered: Boolean
+
+  """연관 상품, product_related 테이블"""
+  linkedProducts: [Acon3dLinkedProduct!]
+
+  """세트 상품 정보. null이면 세트 상품에 해당되지 않음"""
+  packages: [Acon3dPackage]
+
+  """펀딩 정보. null이면 펀딩 대상이 아님"""
+  funding: Acon3dFunding
+
+  """세트 상품을 허브에 정보 전달해주기 위한 docId"""
+  docId: String
+  otherProducts: [Acon3dProduct!]
+  similarProducts: [Acon3dProduct!]
+}
+
+type Inquiry {
+  id: Int!
+
+  """회원 여부"""
+  isMember: Boolean!
+  godoMemNo: String
+  godoUserId: String
+  email: String
+  languageCode: LanguageCodeEnum!
+
+  """문의유형 대분류"""
+  type: InquiryTypeEnum!
+
+  """문의유형 소분류"""
+  subType: InquirySubTypeEnum
+  content: String!
+
+  """상태: unread | read | answered"""
+  status: InquiryStatusEnum!
+
+  """문의 답변"""
+  answer: InquiryAnswer
+
+  """관리자 메모"""
+  memos: [InquiryMemo!]!
+
+  """이용-필명/작품명 변경(D1), 이용-사용권 변경(E1)"""
+  changePenName: InquiryChangePenName
+
+  """상품상세문의(F1)"""
+  inquiryProduct: TempAconProduct
+  inquiryAcon3dProduct(languageCode: LanguageCodeEnum = null): Acon3dProduct
+
+  """결제-주문/결제(G1)"""
+  inquiryOrders: [InquiryOrder]
+  refundAccount: InquiryRefundAccount
+  uploadFiles: [UploadFile!]!
+
+  """스크랩 여부"""
+  isClipped: Boolean
+  created: DateTime
+  updated: DateTime
+}
+
+enum InquiryTypeEnum {
+  utilization
+  product
+  payment
+  service
+  collaborationProposal
+  taxes
+}
+
+enum InquirySubTypeEnum {
+  changePenName
+  changeOrderLicense
+  copyrightAndOrderLicense
+  productInfo
+  productError
+  orderAndPayment
+  cancelAndRefund
+  abler
+  siteError
+  improvement
+  other
+}
+
+enum InquiryStatusEnum {
+  unread
+  read
+  answered
+  cancelled
+}
+
+type UploadFileClone {
+  id: Int
+  azureStoragePath: String!
+  fileName: String!
+  size: Int
+  creator: Int
+  updater: Int
+}
+
+type BannerTypeClone {
+  """배너 타입 id"""
+  id: Int!
+
+  """배너 타입 코드(b1, b2, ...)"""
+  code: String!
+
+  """배너 타입에 따른 표시 위치"""
+  name: String!
+
+  """배너 안에 표시되는 내용의 타입(text, image, ...)"""
+  displayType: String!
+}
+
+type CategoryI18nClone {
+  id: Int!
+  categoryId: Int!
+  languageCode: LanguageCodeEnum!
+
+  """카테고리 이름(번역)"""
+  name: String!
+
+  """상품 목록 결과 표시 여부"""
+  isShowResultCount: Boolean!
+
+  """허브 카테고리 배너 경로: 링크"""
+  anchor: String
+
+  """허브 카테고리 배너 경로: 이미지맵"""
+  map: String
+
+  """허브 카테고리 배너 색상"""
+  color: String
+
+  """링크 새 창으로 열기 여부"""
+  isBlankAnchor: Boolean
+
+  """등록 관리자 ID"""
+  creator: Int
+
+  """갱신 관리자 ID"""
+  updater: Int
+}
+
+type CategoryClone {
+  id: Int!
+
+  """카테고리 번역 상세"""
+  i18ns: [CategoryI18nClone!]
+
+  """고도몰 카테고리 sno(시리얼 넘버)"""
+  godoSno: Int
+
+  """고도몰 카테고리 코드"""
+  godoCateCd: String
+
+  """대분류: toonstyle/realistic"""
+  type: CategoryTypeEnum!
+
+  """정렬용 번호"""
+  sortNo: Int
+
+  """부모 카테고리 ID"""
+  parent: Int
+
+  """메모"""
+  memo: String
+
+  """상태: liveon/standby"""
+  state: String!
+
+  """등록 관리자 ID"""
+  creator: Int
+
+  """갱신 관리자 ID"""
+  updater: Int
+  i18n: CategoryI18nClone!
+}
+
+type ModelConfigI18nClone {
+  id: Int!
+  name: String!
+}
+
+type GodoProductCategory {
+  id: Int!
+  godoProductId: Int!
+  cateCd: String!
+  goodsSort: Int!
+  fixSort: Int!
+  categoryDetail: CategoryClone
+}
+
+type GodoProductBrand {
+  id: Int!
+  godoProductId: Int!
+  brandCd: String!
+
+  """상품 정렬 순서"""
+  goodsSort: Int!
+
+  """정렬 순서 (거의 쓰지 않음)"""
+  fixSort: Int!
+}
+
+type LicenseClone {
+  id: Int!
+  orderId: String!
+  order: OrderProductClone!
+  memNo: Int!
+  status: LicenseStatus!
+  type: LicenseType!
+  name: String!
+  companyName: String
+  linkedOrderProductItems: [OrderProductItemClone!]
+}
+
+enum LicenseStatus {
+  ready
+  confirm
+  cancel
+}
+
+enum LicenseType {
+  personal
+  company
+}
+
+type OrderAdminMemo {
+  id: Int!
+  memo: String!
+  adminUser: AdminUser!
+  created: DateTime!
+  updated: DateTime!
+}
+
+type OrderProductClone {
+  id: String!
+  memNo: Int!
+  memId: String!
+  langCode: LanguageCodeEnum!
+  status: OrderStatus!
+  email: String!
+  name: String!
+  cellPhone: String!
+  amount: Float!
+  usePoint: Int!
+  useAconCash: Int!
+  godoOrderId: String!
+  orderProductItems: [OrderProductItemClone!]!
+  licenses: [LicenseClone!]
+  memos: [OrderAdminMemo!]
+  createdAt: DateTime!
+  licenseUpdateHistories: [LicenseUpdateHistory!]!
+}
+
+enum OrderStatus {
+  ready
+  waiting
+  confirm
+  cancel
+  fail
+  partialCancel
+  settled
+}
+
+type OrderProductItemClone {
+  id: Int!
+  godoGoodsNo: Int!
+  isRefunded: Boolean!
+  price: Int!
+  fixedPrice: Int!
+  salePrice: Int!
+  goodsDcPrice: Int!
+  isDownloaded: Boolean!
+  isCanceled: Boolean!
+  acon3dProduct: Acon3dProduct!
+}
+
+type Application {
+  """응용프로그램 ID"""
+  id: Int!
+
+  """응용프로그램 이름"""
+  name: String!
+}
+
+type Product {
+  """고유 ID"""
+  id: Float!
+
+  """문서 ID"""
+  docId: String!
+  languageCode: String!
+
+  """상품 상태"""
+  status: String!
+
+  """삭제여부"""
+  isDelete: Boolean!
+  language: Language!
+  brand: Brand!
+
+  """브랜드 ID"""
+  brandId: Float
+
+  """모델 파일 ID"""
+  modelFileId: Float
+
+  """모델 파일 명"""
+  modelFileName: String
+
+  """수정요청 여부"""
+  isEdit: Boolean!
+  originLanguage: Language!
+
+  """고도몰 상품번호"""
+  godoGoodsNo: Int
+
+  """상품 제목"""
+  title: String!
+
+  """상품 본문"""
+  contents: String
+
+  """상품 설명"""
+  description: String
+
+  """상품 금액"""
+  price: Float
+
+  """상품 할인가"""
+  salePrice: Float
+
+  """수수료"""
+  commission: Float
+
+  """저작권"""
+  copyright: String
+
+  """검토 요청일"""
+  requestDate: DateTime
+
+  """상품 오픈일"""
+  openDate: DateTime
+
+  """검색 키워드"""
+  keywords: String
+
+  """동적 요소"""
+  dynamicItem: String
+
+  """파일 버전"""
+  versions: [ProductVersion!]
+
+  """해당 상품에 표시(또는 숨기기)할 배너들"""
+  banners: [Banner!]
+
+  """상품 카테고리"""
+  categories: [Category!]
+
+  """상품 파일 업데이트 내역"""
+  fileUpdateList: [ProductFileUpdate!]
+
+  """상품 파일 확장자"""
+  fileExtensionList: [ProductFileExtension!]
+
+  """상품 파일 구성"""
+  fileConfigList: [ProductFileConfig!]
+
+  """모델구성"""
+  modelConfigList: [ModelConfig!]
+
+  """상품 이미지 리스트"""
+  imageList: [ProductImage]
+
+  """상품 의견 리스트"""
+  comments: [ProductComment!]
+
+  """업로드 한 파일"""
+  model: UploadFile
+
+  """연관상품"""
+  related: [ProductRelated!]
+
+  """상품 응용프로그램 필드"""
+  applications: [Application!]
+  package: Acon3dPackage!
+}
+
+type Term {
+  type: String!
+  contents: String!
+  created: DateTime!
+}
+
+type SearchKeyword {
+  id: Float!
+  language: Language
+  type: String!
+  keyword: String!
+  creator: Float
+  updater: Float
+}
+
+type BandBanner {
+  """고유 ID"""
+  id: Float!
+
+  """띠 배너 타입"""
+  type: BandBannerType
+
+  """배너를 표시할 다국어몰"""
+  language: Language
+
+  """띠 배너 바디 텍스트"""
+  text: String
+
+  """배경 색"""
+  backgroundColor: String!
+
+  """닫기 색"""
+  closeColor: String!
+
+  """띠 배너 클릭시 이동 링크"""
+  href: String
+
+  """띠 배너 클릭시 새창 여부"""
+  isBlankHref: Boolean!
+
+  """배너 노출 시작일"""
+  startDate: DateTime
+
+  """배너 노출 종료일"""
+  endDate: DateTime
+
+  """띠 배너 종료 노출 타입"""
+  isClosedShow: BandBannerClosed!
+
+  """생성일"""
+  created: DateTime!
+
+  """수정일"""
+  updated: DateTime!
+}
+
+type BandBannerType {
+  """띠 배너 타입 ID"""
+  id: Float!
+
+  """띠 배너 타입 코드"""
+  code: Float!
+
+  """띠 배너 타입 명"""
+  name: String!
+}
+
+type BandBannerClosed {
+  """띠 배너 종료 노출 타입 ID"""
+  id: Float!
+
+  """띠 배너 종료 노출 타입 코드"""
+  code: String!
+
+  """띠 배너 종료 노출 타입 명"""
+  name: String!
+}
+
+type BenefitLimit {
+  """고유 ID"""
+  id: Float!
+
+  """구분 (brand, category, goods)"""
+  type: String!
+
+  """브랜드 id"""
+  brandId: Float
+
+  """브랜드"""
+  brand: Brand
+
+  """카테고리"""
+  categoryId: Float
+
+  """카테고리"""
+  category: Category
+
+  """상품 번호들"""
+  goodsNo: String
+
+  """제한 시작일"""
+  startDate: DateTime
+
+  """제한 종료일"""
+  endDate: DateTime
+}
+
+type PointBenefit {
+  """고유 ID"""
+  id: Float!
+
+  """포인트 혜택을 적용할 다국어몰"""
+  language: Language
+  typeId: Float!
+
+  """포인트 헤택 타입"""
+  type: BenefitType
+
+  """포인트 지급 설정"""
+  pointUnit: String!
+
+  """포인트 지급"""
+  payPoint: String!
+
+  """포인트 혜택 적용 설정"""
+  applyType: BenefitApply
+
+  """포인트 혜택 설정 값 리스트"""
+  applyList: [PointBenefitApply!]
+
+  """포인트 혜택 적용 시작일"""
+  startDate: DateTime
+
+  """포인트 혜택 적용 종료일"""
+  endDate: DateTime
+
+  """포인트 혜택 수량"""
+  quantity: String
+
+  """포인트 혜택 사용 개수"""
+  useCount: Float
+
+  """지급 내용"""
+  description: String
+
+  """기본 설정 여부"""
+  defaultApply: Boolean
+
+  """포인트 혜택 설정 값 리스트"""
+  orderInfo: [PointBenefitOrderInfo!]
+
+  """포인트 혜택 설정 값 리스트"""
+  boardInfo: [PointBenefitBoardInfo!]
+
+  """프로모션에서 자동 생성한 혜택 여부"""
+  isAutoCreatedByPromotion: Boolean
+
+  """생성일"""
+  created: DateTime!
+
+  """수정일"""
+  updated: DateTime!
+}
+
+type PointBenefitApply {
+  """고유 ID"""
+  id: Float!
+  pointBenefitId: Float!
+
+  """적용 설정 값"""
+  value: String!
+}
+
+type PointBenefitBoardInfo {
+  """고유 ID"""
+  id: Float!
+  pointBenefitId: Float!
+
+  """회원 ID"""
+  userId: String!
+
+  """고도몰 회원 고유 번호"""
+  godoMemNo: Int
+
+  """고도몰 게시판 고유 타입"""
+  godoBdId: String!
+
+  """고도몰 게시판의 게시글 ID"""
+  godoSno: String!
+
+  """고도몰 댓글 고유 ID"""
+  godoCommentSno: String!
+
+  """지급 포인트"""
+  payPoint: Float!
+
+  """포인트 회수 여부"""
+  isRecover: Boolean!
+}
+
+type PointBenefitOrderInfo {
+  """고유 ID"""
+  id: Float!
+  pointBenefitId: Float!
+
+  """회원 ID"""
+  userId: String!
+
+  """고도몰 회원 고유 번호"""
+  godoMemNo: Int
+
+  """고도몰 주문 ID"""
+  godoOrderId: String!
+
+  """고도몰 상품 번호"""
+  godoGoodsNo: String!
+
+  """지급 포인트"""
+  payPoint: Float!
+
+  """포인트 회수 여부"""
+  isRecover: Boolean!
+
+  """구매 완료 여부"""
+  isComplete: Boolean!
+}
+
+type CouponBenefit {
+  """고유 ID"""
+  id: Float!
+
+  """쿠폰 혜택을 적용할 다국어몰"""
+  language: Language
+
+  """쿠폰 헤택 유형"""
+  type: BenefitType
+
+  """고도몰 쿠폰 고유 ID"""
+  godoCouponNo: String
+
+  """쿠폰 혜택 적용 설정"""
+  applyType: BenefitApply
+
+  """쿠폰 혜택 설정 값 리스트"""
+  applyList: [CouponBenefitApply!]
+
+  """포인트 혜택 설정 값 리스트"""
+  orderInfo: [CouponBenefitOrderInfo!]
+
+  """포인트 혜택 설정 값 리스트"""
+  boardInfo: [CouponBenefitBoardInfo!]
+
+  """쿠폰 혜택 생성일"""
+  created: DateTime!
+
+  """쿠폰 혜택 수정일"""
+  updated: DateTime!
+}
+
+type CouponBenefitApply {
+  """고유 ID"""
+  id: Float!
+  couponBenefitId: Float!
+
+  """적용 설정 값"""
+  value: String!
+}
+
+type CouponBenefitBoardInfo {
+  """고유 ID"""
+  id: Float!
+  couponBenefitId: Float!
+
+  """회원 ID"""
+  userId: String!
+
+  """고도몰 회원 고유 번호"""
+  godoMemNo: Int
+
+  """고도몰 게시판 고유 타입"""
+  godoBdId: String!
+
+  """고도몰 게시판의 게시글 ID"""
+  godoSno: String!
+
+  """고도몰 댓글 고유 ID"""
+  godoCommentSno: String!
+}
+
+type CouponBenefitOrderInfo {
+  """고유 ID"""
+  id: Float!
+  couponBenefitId: Float!
+
+  """회원 ID"""
+  userId: String!
+
+  """고도몰 회원 고유 번호"""
+  godoMemNo: Int
+
+  """고도몰 주문 ID"""
+  godoOrderId: String!
+
+  """고도몰 상품 번호"""
+  godoGoodsNo: String!
+
+  """구매 완료 여부"""
+  isComplete: Boolean!
+}
+
+type BenefitType {
+  """고유 ID"""
+  id: Float!
+
+  """포인트 혜택 타입 코드"""
+  code: String!
+
+  """포인트 혜택 타입 명"""
+  name: String!
+}
+
+type BenefitApply {
+  """고유 ID"""
+  id: Float!
+
+  """포인트 혜택 적용 타입 코드"""
+  code: String!
+
+  """포인트 혜택 적용 타입 명"""
+  name: String!
+}
+
+type CouponBanner {
+  """고유 ID"""
+  id: Float!
+
+  """언어 정보"""
+  language: Language!
+
+  """제목"""
+  title: String!
+
+  """조건1"""
+  conditionFirst: String!
+
+  """조건2"""
+  conditionSecond: String!
+
+  """쿠폰 번호"""
+  couponNo: Int!
+
+  """배너 바디 이미지"""
+  image: UploadFile
+
+  """노출 시작 시간"""
+  startDate: DateTime!
+
+  """노출 종료 시간"""
+  endDate: DateTime!
+}
+
+type CouponApplyGoods {
+  """상품명"""
+  goodsNm: String!
+
+  """상품 번호"""
+  goodsNo: String!
+}
+
+type CouponApplyCategory {
+  """카테고리 번호"""
+  no: String!
+
+  """카테고리 명"""
+  name: String!
+}
+
+type CouponItem {
+  """유저 쿠폰 ID"""
+  memberCouponNo: Int!
+
+  """쿠폰 ID"""
+  couponNo: Int!
+
+  """쿠폰명"""
+  name: String!
+
+  """쿠폰 종류(sale, add, deposit)"""
+  couponKindType: String!
+
+  """쿠폰 혜택"""
+  couponBenefit: Int!
+
+  """쿠폰 혜택 타입 (percent, fix)"""
+  couponBenefitType: String!
+
+  """쿠폰 최대 혜택"""
+  couponMaxBenefit: Int!
+
+  """쿠폰 최대 혜택 제한 존재 여부"""
+  isCouponMaxBenefit: Boolean!
+
+  """쿠폰 사용 가능 타입 (category, brand, goods)"""
+  couponApplyProductType: String!
+
+  """쿠폰 사용 가능 상품 목록"""
+  couponApplyGoods: [CouponApplyGoods!]
+
+  """쿠폰 사용 가능 카테고리 목록"""
+  couponApplyCategory: [CouponApplyCategory!]
+
+  """최소 주문 금액"""
+  couponMinOrderPrice: Int!
+
+  """최소 주문 금액 기준 (product, order), default: product"""
+  couponMinOrderType: String
+
+  """쿠폰 중복 사용 가능 여부"""
+  isCouponApplyDuplicate: Boolean!
+
+  """
+  쿠폰 사용가능 상태 (YES, USE_CART, USE_ORDER, EXPIRATION_START_PERIOD, EXPIRATION_END_PERIOD)
+  """
+  memberCouponUsable: String
+
+  """쿠폰 사용 가능 시작 시간"""
+  startDate: DateTime!
+
+  """쿠폰 사용 가능 종료 시간"""
+  endDate: DateTime!
+
+  """쿠폰 발급된 시간"""
+  regDt: DateTime!
+}
+
+type CouponList {
+  """쿠폰 내역 전체 갯수"""
+  totalCount: Int!
+
+  """쿠폰 내역 목록"""
+  items: [CouponItem!]!
+}
+
+type DownloadCountInfo {
+  """maximum download count"""
+  limit: Int!
+
+  """currently remained download count"""
+  remained: Int!
+
+  """user ID"""
+  userId: String!
+
+  """order number"""
+  orderNo: Float!
+
+  """goods number"""
+  goodsNo: Int!
+}
+
+type OrderPrice {
+  """상품 합계 금액"""
+  goodsPriceSum: Float!
+
+  """상품 할인 금액"""
+  goodsDcPrice: Float!
+
+  """회원 할인 금액"""
+  memberDcPrice: Float!
+
+  """회원 중복 할인 금액"""
+  memberOverlapDcPrice: Float!
+
+  """쿠폰 할인 금액"""
+  couponGoodsDcPrice: Float!
+
+  """상품별 가격 (상품 가격 + 옵션 가격 + 텍스트 옵션 가격 + 추가 상품 가격)"""
+  goodsPriceSubtotal: Float!
+
+  """정가"""
+  fixedPrice: Float!
+}
+
+type UserInfo {
+  """핸드폰 번호"""
+  cellPhone: String!
+
+  """주문자 명"""
+  orderName: String!
+
+  """주문자 명"""
+  name: String!
+
+  """필명"""
+  penName: String!
+
+  """주문자 이메일"""
+  email: String!
+
+  """주문자 포인트 액수"""
+  point: Float!
+
+  """주문자 예치금 액수"""
+  deposit: Float!
+
+  """우편 코드"""
+  zipCode: String!
+
+  """지역 코드"""
+  zoneCode: String!
+
+  """주소"""
+  address: String!
+
+  """상세 주소"""
+  addressSub: String!
+
+  """사업자 - 휴대폰 번호"""
+  cashCellPhone: String!
+
+  """사업자 - 번호"""
+  cashBusiNo: String!
+
+  """세금 계산서 - 사업자 번호"""
+  taxBusiNo: String!
+
+  """세금 계산서 - 회사 명"""
+  taxCompany: String!
+
+  """세금 계산서 - 대표자 명"""
+  taxCeoNm: String!
+
+  """세금 계산서 - 업태"""
+  taxService: String!
+
+  """세금 계산서 - 종목"""
+  taxItem: String!
+
+  """세금 계산서 - 사업장 지역 코드"""
+  taxZonecode: String!
+
+  """세금 계산서 - 사업장 우편 코드"""
+  taxZipcode: String!
+
+  """세금 계산서 - 사업장 주소"""
+  taxAddress: String!
+
+  """세금 계산서 - 사업장 상세 주소"""
+  taxAddressSub: String!
+
+  """세금 계산서 - 이메일"""
+  taxEmail: String!
+}
+
+type CartInfo {
+  """장바구니 일련번호"""
+  sno: String!
+
+  """상품 번호"""
+  goodsNo: String!
+
+  """상품 명"""
+  goodsNm: String!
+
+  """옵션 번호"""
+  optionSno: String!
+
+  """회원 할인 정보"""
+  memberDcInfo: String!
+
+  """금액 정보"""
+  priceInfo: String!
+
+  """포인트 정보"""
+  mileageInfo: String!
+
+  """상품 이미지"""
+  goodsImage: String!
+
+  """구매 불가 여부"""
+  orderPossible: Boolean!
+
+  """중복 상품 여부"""
+  duplicationGoods: Boolean!
+
+  """상품 금액 정보"""
+  price: OrderPrice!
+
+  """결제 수단 설정 여부"""
+  payLimitFl: Boolean!
+
+  """중복 구매 상품 여부"""
+  isOverlap: Boolean!
+  product: Product
+}
+
+type OrderData {
+  """token"""
+  token: String!
+
+  """마일리지 / 쿠폰 선택 (y, n)"""
+  chooseMileageCoupon: String!
+
+  """쿠폰 적용 타입 (all, member, coupon ...)"""
+  chooseCouponMemberUseType: String!
+
+  """상품 쿠폰 총 할인 금액"""
+  totalCouponGoodsDcPrice: Int!
+
+  """상품 쿠폰 총 적립 마일리지"""
+  totalCouponGoodsMileage: Int!
+
+  """회원 총 할인 금액"""
+  totalMemberDcPrice: Int!
+
+  """그룹별 회원 중복 총 할인 금액"""
+  totalMemberOverlapDcPrice: Int!
+
+  """장바구니 상품 개수"""
+  cartGoodsCnt: Int!
+
+  """장바구니 추가 상품 개수"""
+  cartAddGoodsCnt: Int!
+
+  """상품쿠폰 주문서 제한여부"""
+  productCouponChangeLimitType: String!
+
+  """"""
+  isGlobal: Boolean!
+
+  """추가 필드 사용 여부 (y, n)"""
+  addFieldConf: String!
+
+  """총 결제 금액 (예정)"""
+  totalSettlePrice: Int!
+
+  """이메일 타입"""
+  emailDomain: [String!]!
+
+  """주문 상품 정보"""
+  cartInfo: [CartInfo!]!
+
+  """회원 정보"""
+  userInfo: UserInfo!
+}
+
+type OrderInfo {
+  """성공 여부"""
+  isSuccess: Boolean
+
+  """에러 메세지"""
+  errorMessage: String
+
+  """주문 데이터"""
+  orderData: OrderData
+}
+
+type OrderCouponProducts {
+  """상품 고유 번호"""
+  godoGoodsNo: String!
+
+  """상품 할인 가격"""
+  discountPrice: String!
+}
+
+type OrderCouponItems {
+  """유저 쿠폰 ID"""
+  memberCouponNo: Int!
+
+  """쿠폰 ID"""
+  couponNo: Int!
+
+  """쿠폰명"""
+  name: String!
+
+  """쿠폰 종류(sale, add, deposit)"""
+  couponKindType: String!
+
+  """쿠폰 혜택"""
+  couponBenefit: Int!
+
+  """쿠폰 혜택 타입 (percent, fix)"""
+  couponBenefitType: String!
+
+  """쿠폰 최대 혜택"""
+  couponMaxBenefit: Int!
+
+  """쿠폰 최대 혜택 제한 존재 여부"""
+  isCouponMaxBenefit: Boolean!
+
+  """쿠폰 사용 가능 타입 (category, brand, goods)"""
+  couponApplyProductType: String!
+
+  """쿠폰 사용 가능 상품 목록"""
+  couponApplyGoods: [CouponApplyGoods!]
+
+  """쿠폰 사용 가능 카테고리 목록"""
+  couponApplyCategory: [CouponApplyCategory!]
+
+  """최소 주문 금액"""
+  couponMinOrderPrice: Int!
+
+  """최소 주문 금액 기준 (product, order), default: product"""
+  couponMinOrderType: String
+
+  """쿠폰 중복 사용 가능 여부"""
+  isCouponApplyDuplicate: Boolean!
+
+  """쿠폰 사용 가능 시작 시간"""
+  startDate: DateTime!
+
+  """쿠폰 사용 가능 종료 시간"""
+  endDate: DateTime!
+
+  """쿠폰 발급된 시간"""
+  regDt: DateTime!
+
+  """상품 적용 쿠폰 여부"""
+  isProductCoupon: Boolean!
+
+  """쿠폰 할인 가격 (주문 쿠폰)"""
+  discountPrice: Int
+
+  """적용 가능한 상품 목록"""
+  products: [OrderCouponProducts!]
+
+  """사용 가능 여부"""
+  isAvailable: Boolean!
+}
+
+type godoOrderGoodsNo {
+  """고도몰 주문번호"""
+  orderNo: String!
+
+  """고도몰 상품번호"""
+  goodsNo: String!
+
+  """가상계좌 여부"""
+  isVirtualAccount: Boolean!
+
+  """주문 상태"""
+  orderStatus: OrderStatusEnum!
+
+  """주문 생성날짜"""
+  regDt: String!
+}
+
+enum OrderStatusEnum {
+  COMPLETED
+  PAYMENT_TRIED
+  PAYMENT_FAILED
+  DEPOSIT_STANDBY
+  REFUND_COMPLETED
+  PAYMENT_COMPLETED
+  PAYMENT_ABORTED
+  CANCELED_BY_CUSTOMER
+  REFUND_ASKED
+  ON_DELIVERY
+  CANCELED_BY_ADMIN
+  RETURN_ASKED
+  IN_PREPARATION
+}
+
+type OrderReturn {
+  """주문번호"""
+  orderNo: Float!
+
+  """주문 시 입력한 이메일"""
+  orderEmail: String!
+
+  """회원번호"""
+  memNo: String!
+
+  """회원 ID"""
+  memId: String!
+
+  """주문 상품 정보들"""
+  products: String!
+}
+
+type OrderProductReturn {
+  """고도몰 상품 번호"""
+  godoGoodsNo: Int!
+
+  """상품 명"""
+  title: String!
+}
+
+type MyOrderReturn {
+  """고도몰 주문번호"""
+  godoOrderNo: Float!
+
+  """고도몰 상품번호"""
+  godoGoodsNo: Int!
+
+  """회원 번호"""
+  memNo: Int!
+
+  """회원 아이디"""
+  userId: String!
+
+  """결제 가격"""
+  price: Int!
+
+  """상품 주문 상태"""
+  orderGoodsStatus: OrderDisplayStatusEnum!
+
+  """주문 체결 날짜"""
+  regDt: String!
+
+  """몰 언어 정보"""
+  languageCode: LanguageCodeEnum!
+
+  """상품 카드 정보"""
+  product: Acon3dProduct
+
+  """최대/잔여 다운로드 횟수 정보"""
+  downloadCountInfo: DownloadCountInfo
+
+  """리뷰 작성 여부"""
+  reviewId: Int
+}
+
+enum OrderDisplayStatusEnum {
+  COMPLETED
+  PAYMENT_TRIED
+  PAYMENT_FAILED
+  DEPOSIT_STANDBY
+  REFUND_COMPLETED
+  PAYMENT_COMPLETED
+  PAYMENT_ABORTED
+  CANCELED_BY_CUSTOMER
+  REFUND_ASKED
+  ON_DELIVERY
+  CANCELED_BY_ADMIN
+  RETURN_ASKED
+  IN_PREPARATION
+}
+
+type OrderPaymentReturn {
+  """상품금액"""
+  totalPrice: Int!
+
+  """총 할인금액"""
+  totalDiscountPrice: Int!
+
+  """에이콘 자체 할인 금액"""
+  aconDiscountPrice: Int!
+  usePoint: Int!
+  useCash: Int!
+  couponDiscountPrice: Int!
+
+  """결제 금액"""
+  payPrice: Int!
+}
+
+type OrderCouponReturn {
+  couponType: String!
+  couponName: String!
+  couponBenefit: String!
+  appliedProductName: String
+}
+
+type OrderAdminRefundModalReturn {
+  orderNo: String!
+  settleKind: String!
+  refundPrice: Int!
+  refundPoint: Int!
+  refundCash: Int!
+}
+
+type BadgeI18nModel {
+  """뱃지 고유 ID"""
+  id: Float!
+
+  """badge table 고유번호"""
+  badgeId: Float!
+
+  """language table 고유번호"""
+  langId: Float!
+  language: Language
+
+  """뱃지 내용"""
+  text: String!
+}
+
+type BadgeProductModel {
+  """뱃지 고유 ID"""
+  id: Float!
+
+  """badge table 고유번호"""
+  badgeId: Float!
+
+  """고도몰 상품번호"""
+  godoGoodsNo: String!
+}
+
+type BadgeModel {
+  """뱃지 고유 ID"""
+  id: Float!
+
+  """시작날짜"""
+  startDate: DateTime!
+
+  """끝날짜"""
+  endDate: DateTime!
+
+  """노출여부"""
+  isDisplay: Boolean!
+
+  """badge i18n"""
+  badgeI18ns: [BadgeI18nModel!]!
+
+  """badge 상품번호"""
+  godoGoodsNos: [BadgeProductModel!]!
+
+  """자동 생성 여부"""
+  isAutoCreate: Boolean!
+  creator: Float
+  updater: Float
+}
+
+type GodoUserFriend {
+  """UUID"""
+  id: String!
+
+  """추천 코드"""
+  code: String!
+
+  """코드"""
+  godoUserInvitationCode: GodoUserInvitationCode!
+
+  """고도몰 사용자 ID"""
+  godoMemNo: Int!
+
+  """구매여부"""
+  isOrder: Boolean!
+
+  """사용자 언어"""
+  langCode: String!
+}
+
+type GodoUserInvitationCode {
+  """추천 코드"""
+  code: String!
+
+  """고도몰 사용자 ID"""
+  godoMemNo: Int!
+
+  """언어코드"""
+  langCode: String!
+
+  """친구들"""
+  friends: [GodoUserFriend!]
+}
+
+type ProductLang {
+  """제목"""
+  title: String!
+
+  """브랜드 명"""
+  creator: String!
+
+  """브랜드 명"""
+  itemNum: Int!
+}
+
+type GoodsBuyers {
+  """상품 id"""
+  goodsNo: Float!
+
+  """주문 id"""
+  orderNo: String!
+
+  """주문 정보 메일"""
+  orderEmail: String!
+
+  """주문자 그룹 이름"""
+  groupNm: String!
+
+  """주문 정보 이름"""
+  orderName: String!
+}
+
+type DisplayProducts {
+  """항목 ID"""
+  id: String
+
+  """고도몰 상품번호"""
+  godoGoodsNo: Float
+
+  """메인 이미지"""
+  mainImage: String
+
+  """제목 배열"""
+  titles: [DisplayProductTitle!]
+
+  """오픈완료된 제목 배열"""
+  openTitles: [DisplayProductTitle!]
+
+  """요청일"""
+  requestDates: [DisplayProductRequestDate!]
+
+  """작성일"""
+  created: DateTime
+
+  """브랜드명"""
+  brand: String
+
+  """상품 상태"""
+  status: String!
+  newStatus: String!
+
+  """편집 여부"""
+  isEdit: Boolean!
+
+  """오픈 여부"""
+  isOpen: Boolean!
+
+  """원본 언어"""
+  originLanguage: String!
+}
+
+type DisplayProductTitle {
+  """제목"""
+  title: String!
+
+  """언어"""
+  lang: String!
+}
+
+type DisplayProductRequestDate {
+  """제목"""
+  requestDate: DateTime!
+
+  """언어"""
+  lang: String!
+}
+
+type GodoCosmicDeal {
+  """sno"""
+  sno: Int!
+
+  """혜택명"""
+  benefitNm: String!
+
+  """혜택할인 시작기간"""
+  periodDiscountStart: DateTime!
+
+  """혜택할인 종료기간"""
+  periodDiscountEnd: DateTime!
+
+  """할인금액"""
+  goodsPrice: Int!
+}
+
+type CartItem {
+  """sno"""
+  sno: Int!
+
+  """브랜드 명"""
+  brandName: String!
+
+  """브랜드 코드"""
+  brandCd: String!
+
+  """상품 제목"""
+  title: String!
+
+  """상품번호"""
+  goodsNo: Int!
+
+  """확장자들"""
+  extensions: [String!]!
+
+  """판매가"""
+  price: Int!
+
+  """정가"""
+  realPrice: Int!
+
+  """주문 여부"""
+  isOrder: Boolean!
+
+  """판매 여부"""
+  isSale: Boolean!
+
+  """지급되어야 할 최대 포인트"""
+  point: Int!
+
+  """이미지 URL"""
+  imageUrl: String!
+
+  """리스트 표시 여부 * 신규추가"""
+  isEndSales: Boolean!
+}
+
+type GoodsList {
+  """상품번호"""
+  goodsNo: String!
+
+  """브랜드 코드"""
+  brandCd: String!
+
+  """상품여부(isNotLargeDetail)"""
+  isGoods: String!
+
+  """이미지 URL"""
+  imageUrl: String!
+
+  """서브 이미지 URL(hover 시 표시되는 이미지)"""
+  subImageUrl: String!
+
+  """브랜드명"""
+  brandName: String!
+
+  """스크랩 여부"""
+  isScrap: Boolean!
+
+  """제목"""
+  title: String!
+
+  """가격"""
+  realPrice: String!
+
+  """가격"""
+  price: String!
+
+  """리뷰 개수"""
+  reviewCount: String!
+
+  """조회수"""
+  viewCount: String!
+
+  """확장자들"""
+  extensions: [String!]!
+
+  """뱃지명"""
+  badgeName: String
+
+  """스크랩 sno"""
+  wishSno: String
+
+  """장바구니 담김 여부"""
+  isCart: Boolean
+
+  """판매 종료 여부"""
+  isEndSales: Boolean
+
+  """promotion 여부"""
+  isPromotion: Boolean
+
+  """acon 독점상품 여부"""
+  isAconOnly: Boolean
+
+  """혜택 종료일"""
+  promotionEndDate: String
+}
+
+type ReviewComment {
+  """리뷰 id"""
+  reviewId: Int!
+
+  """내용"""
+  contents: String!
+
+  """원문 내용"""
+  originalContents: String!
+
+  """원문 언어"""
+  originalLanguage: String
+
+  """비밀글 여부"""
+  isSecret: Boolean!
+}
+
+type ReviewV2 {
+  """id"""
+  id: Int!
+
+  """별점"""
+  rating: Int!
+
+  """제목"""
+  title: String
+
+  """원문 제목"""
+  originalTitle: String!
+
+  """작성자"""
+  author: String!
+
+  """이미지 포함 여부"""
+  isImage: Boolean!
+
+  """새 리뷰 여부"""
+  isNew: Boolean!
+
+  """비밀글 여부"""
+  isSecret: Boolean!
+
+  """후기 발굴단 베스트 리뷰 여부"""
+  isBestReview: Boolean!
+
+  """답글여부"""
+  commentsCount: Int!
+
+  """신상체험단 리뷰 여부(A/B테스트)"""
+  isTest: Boolean!
+
+  """작성일"""
+  created: DateTime!
+}
+
+type ReviewDetail {
+  """댓글"""
+  comments: [ReviewComment!]!
+
+  """내용"""
+  contents: String!
+
+  """원문 내용"""
+  originalContents: String!
+
+  """원문 언어"""
+  originalLanguage: String
+
+  """유저 정보"""
+  memNo: String!
+}
+
+type ProductReviewWrite {
+  """상품 제목"""
+  title: String!
+
+  """이미지 URL"""
+  imageUrl: String!
+
+  """브랜드 명"""
+  brandName: String!
+
+  """리뷰 제목"""
+  reviewTitle: String
+
+  """리뷰 본문"""
+  reviewContents: String
+
+  """리뷰 레이팅"""
+  reviewRating: Float
+}
+
+type FileInfo {
+  """파일 확장자"""
+  extensions: [String!]!
+
+  """동적 구성 요소"""
+  dynamicConfig: String
+
+  """파일 구성"""
+  fileConfig: [ProductFileConfig!]!
+
+  """업데이트 내용"""
+  updateContents: [ProductFileUpdate!]!
+}
+
+type ProductViewDetail {
+  """배너"""
+  banner: [Banner!]
+
+  """내용"""
+  contents: String!
+}
+
+type ProductViewCardItem {
+  """고도몰 상품번호"""
+  godoGoodsNo: Float!
+
+  """가격"""
+  realPrice: String!
+
+  """가격"""
+  price: String!
+
+  """이미지 URL"""
+  imageUrl: String!
+
+  """제목"""
+  title: String!
+
+  """브랜드 명"""
+  brand: String!
+
+  """브랜드 코드"""
+  brandCd: String!
+}
+
+type SyncGoodsList {
+  """상품들"""
+  products: [Product!]!
+
+  """뱃지들"""
+  badges: [BadgeModel!]!
+}
+
+type ReviewContents {
+  reviewId: Int!
+  languageCode: LanguageCodeEnum!
+
+  """원본 리뷰 여부"""
+  isOriginal: Boolean!
+  title: String!
+  contents: String!
+}
+
+type ReviewReplyContent {
+  reviewReplyId: Int!
+  languageCode: LanguageCodeEnum!
+
+  """원본 리뷰 여부"""
+  isOriginal: Boolean!
+  content: String!
+}
+
+type ReviewReply {
+  id: Int!
+  reviewId: Int!
+  adminUser: AdminUser!
+  reviewReplyContents: [ReviewReplyContent!]
+  created: DateTime!
+}
+
+type ReviewUpdateHistory {
+  date: String
+}
+
+type ReviewAdminUpdateHistory {
+  date: String
+  content: String!
+  adminId: String!
+}
+
+type ReviewImage {
+  imageNumber: Int!
+  imageUrl: String!
+}
+
+type Review {
+  id: Int!
+  reviewContentsItems(isOriginal: Boolean, languageCode: String): [ReviewContents!]!
+  reviewImages: [ReviewImage!]
+  reviewReplies: [ReviewReply!]
+  godoMemNo: Int!
+  godoUserId: String
+  godoGoodsNo: Int!
+  godoOrderNo: String
+
+  """리뷰 대표이미지"""
+  imageUrl: String
+
+  """리뷰 별점"""
+  rating: Int!
+  isBestReview: Boolean!
+  isSecret: Boolean!
+  isScrap: Boolean
+  userUpdateHistories: [ReviewUpdateHistory!]
+  adminUpdateHistories: [ReviewAdminUpdateHistory!]
+  product(languageCode: LanguageCodeEnum!): Acon3dProduct
+  created: DateTime!
+  deleted: DateTime
+  favoriteCount: Int
+  isFavorite: Boolean
+  author: String!
+  nonMaskedGodoUserId: String!
+  commentsCount: Int!
+  isImage: Boolean!
+  isNew: Boolean!
+}
+
+type ReviewEdge {
+  cursor: Int
+  node: Review
+}
+
+type PaginatedReview {
+  edge: ReviewEdge
+  nodes: [Review!]
+}
+
+type PaginatedDetailReview {
+  nextCursor: Int
+  prevCursor: Int
+  nth: Int
+  node: Review
+}
+
+type CategoryOutput {
+  """하위 카테고리"""
+  subs: [CategoryOutput]
+  code: String!
+  name: String!
+}
+
+type CategoryAtom {
+  """카테고리 코드"""
+  code: String!
+
+  """카테고리 이름"""
+  name: String!
+}
+
+type CategoryMolecule {
+  """1차 카테고리"""
+  primary: CategoryAtom!
+
+  """2차 카테고리 """
+  secondaries: [CategoryAtom!]!
+}
+
+type CategoryOutputV2 {
+  """카테고리 분류 장르별=GENRE, 주제별=THEME"""
+  type: String!
+  categories: [CategoryMolecule!]!
+}
+
+type OrderLicenseProjectGoodsModel {
+  """고유 ID"""
+  id: Float!
+
+  """주문 사용권 프로젝트의 ID"""
+  orderLicenseProjectId: Float!
+
+  """상품번호"""
+  goodsNo: Float!
+}
+
+type OrderLicenseProjectModel {
+  """고유 ID"""
+  id: Float!
+
+  """주문 사용권 ID"""
+  orderLicenseId: Float!
+
+  """작품 / 프로젝트 명"""
+  name: String!
+
+  """프로젝트 상품들"""
+  goods: [OrderLicenseProjectGoodsModel!]
+}
+
+type OrderLicenseVersionModel {
+  """고유 ID"""
+  id: Float!
+
+  """주문 사용권 ID"""
+  orderLicenseId: Float!
+
+  """버전 Major"""
+  major: Float
+
+  """버전 Minor"""
+  minor: Float
+
+  """데이터 전체 JSON"""
+  contents: String
+
+  """어드민 고유 ID"""
+  adminId: String
+  adminUser: AdminUserModel
+
+  """생성 일자"""
+  created: DateTime!
+
+  """수정 일자"""
+  updated: DateTime!
+}
+
+type OrderLicenseModel {
+  """고유 ID"""
+  id: Float!
+
+  """주문번호"""
+  orderNo: String!
+
+  """유형"""
+  type: String!
+
+  """필명 정보"""
+  names: [OrderLicenseNameModel!]
+
+  """프로젝트 정보"""
+  projects: [OrderLicenseProjectModel!]
+
+  """사용권 버전"""
+  versions: [OrderLicenseVersionModel!]
+}
+
+type OrderLicenseNameModel {
+  """고유 ID"""
+  id: Float!
+
+  """주문의 사용권 ID """
+  orderLicenseId: Float!
+
+  """필명 OR 작품 / 프로젝트명"""
+  name: String!
+}
+
+type RecentOrder {
+  orderedProducts: [RecentOrderedProduct!]!
+  orderNo: Float!
+  orderedAt: DateTime!
+  settlePrice: Float!
+}
+
+type RecentOrderedProduct {
+  product(langCode: String): Product!
+  sno: Float!
+  title: String!
+  godoGoodsNo: Float!
+  status: String!
+  statusString: String!
+  price: Float!
+  hasWrittenReview: Boolean!
+  reviewSno: Float
+  reviewId: Float
+}
+
+type Settle {
+  """sno"""
+  sno: String!
+
+  """주문번호"""
+  orderNo: String!
+
+  """브랜드코드"""
+  brandCd: String!
+
+  """주문메모"""
+  orderMemo: String!
+
+  """라이센스 유형"""
+  licenseType: String
+
+  """주문자명"""
+  orderName: String!
+
+  """상품명"""
+  goodsNm: String!
+  goodsNo: Int
+
+  """등록일"""
+  regDt: DateTime!
+
+  """지불일자"""
+  paymentDt: DateTime!
+
+  """정산일자"""
+  settleDt: DateTime!
+
+  """상품가격"""
+  goodsPrice: String!
+
+  """상품할인가격"""
+  goodsDcPrice: String!
+
+  """쿠폰 상품 dc 가격"""
+  couponGoodsDcPrice: String!
+
+  """추가필드"""
+  addField: String!
+
+  """혜택 부담도"""
+  benefitBrandBurden: String!
+
+  """부담도"""
+  brandBurden: String
+}
+
+type SettleCount {
+  """총 합계"""
+  totalCount: Int!
+
+  """검색 합계"""
+  searchCount: Int!
+}
+
+type CouponBurden {
+  """sno"""
+  sno: String!
+
+  """이름"""
+  name: String!
+
+  """부담도"""
+  burden: String
+}
+
+type BenefitBurden {
+  """sno"""
+  sno: String!
+
+  """이름"""
+  name: String!
+
+  """부담도"""
+  burden: String
+}
+
+type SettleDetail {
+  orderNo: String!
+  brandCd: String!
+
+  """사용권 유형 personal: 개인사용권, company: 공동사용권"""
+  licenseType: String!
+
+  """개인/공동 사용권명"""
+  licenseName: String!
+
+  """공동사용권 상품사용예정작품명"""
+  projectName: String
+  orderName: String!
+  goodsNm: String!
+  regDt: DateTime!
+  paymentDt: DateTime!
+  settleDt: DateTime!
+  goodsPrice: Int!
+  goodsDcPrice: Int!
+  couponGoodsDcPrice: Int!
+
+  """고도몰 추가필드"""
+  addField: String
+
+  """혜택 브랜드 부담도"""
+  benefitBrandBurden: Int
+
+  """브랜드 부담도"""
+  brandBurden: Int
+
+  """주문한 쇼핑몰 국가코드"""
+  languageCode: String!
+
+  """구매한 회원의 국가정보"""
+  country: String
+}
+
+type SettlementExcelDownloadHistory {
+  id: Int!
+
+  """다운로드 유저 이름(ex. 미우)"""
+  userName: String!
+
+  """정산구간: 시작일자"""
+  startDate: DateTime!
+
+  """정산구간: 종료일자"""
+  endDate: DateTime!
+
+  """엑셀파일 다운로드 일자"""
+  downloadDate: DateTime!
+}
+
+type OrderViewReceiptDto {
+  cashFl: String
+  limitDateFl: String
+  particularFl: String
+  periodDay: String
+  periodFl: String
+  taxFl: String
+  taxInvoiceLimitDate: String
+}
+
+type OrderViewUserInfoDto {
+  """휴대폰 번호"""
+  cellPhone: String!
+
+  """이메일"""
+  email: String!
+
+  """사용자 이름"""
+  name: String!
+}
+
+type OrderViewProductDto {
+  """상품번호"""
+  goodsNo: Float!
+
+  """판매 금액"""
+  price: Float!
+
+  """정가"""
+  realPrice: Float! @deprecated(reason: "realPrice -> price, price -> salePrice로 대체")
+
+  """판매가"""
+  salePrice: Int!
+
+  """상태"""
+  status: String!
+  statusStr: String!
+
+  """이미지 URL"""
+  imageUrl: String!
+  product: Product
+}
+
+type OrderPaymentDto {
+  """결제 수단"""
+  payMethod: String!
+
+  """결제 통화 단위 정보"""
+  currency: String!
+
+  """영수증 확인 URL (현금영수증, 매출전표)"""
+  receiptUrl: String
+
+  """가상계좌 은행 코드"""
+  vbankCode: String
+
+  """가상계좌 예금자 명"""
+  vbankHolder: String
+
+  """가상계좌 송금 일자"""
+  vbankIssuedAt: String
+
+  """가상계좌 입금 은행"""
+  vbankName: String
+
+  """가상계좌 입금 계좌 번호"""
+  vbankNum: String
+
+  """입금 완료 일자"""
+  confirmDate: DateTime
+}
+
+type OrderDto {
+  """주문번호"""
+  id: String!
+
+  """고도몰 주문번호"""
+  godoOrderId: String!
+
+  """상품 금액"""
+  amount: Int!
+
+  """주문 몰"""
+  memNo: Int!
+
+  """주문 몰"""
+  langCode: String!
+
+  """주문 시 입력한 이름"""
+  name: String
+
+  """주문 시 입력한 전화번호"""
+  cellPhone: String
+
+  """주문 시 입력한 이메일"""
+  email: String
+
+  """주문 상태"""
+  status: String
+
+  """고도몰 장바구니 sno 배열"""
+  godoCartSno: [String!]!
+
+  """결제 정보"""
+  payment: OrderPaymentDto
+}
+
+type OrderViewDto {
+  """영수증"""
+  receipt: OrderViewReceiptDto
+
+  """사용자 정보"""
+  user: OrderViewUserInfoDto!
+
+  """주문 상세 상품들"""
+  orderProducts: [OrderViewProductDto!]!
+
+  """주문 정보"""
+  order: OrderDto
+
+  """주문 상세 사용권들"""
+  license: OrderLicenseModel
+
+  """주문일자"""
+  orderDate: DateTime!
+
+  """영수증"""
+  settleReceipt: String!
+
+  """결제"""
+  settleName: String!
+
+  """결제방법"""
+  settleMethod: String!
+
+  """주문상태"""
+  status: String!
+
+  """은행"""
+  bank: String!
+
+  """계좌"""
+  bankAccount: String!
+
+  """입금자"""
+  bankSender: String!
+
+  """예금주"""
+  bankHolder: String!
+
+  """pg사 실패사유"""
+  pgFailReason: String!
+
+  """결제금액"""
+  settlePrice: Int!
+
+  """총 할인금액"""
+  totalGoodsDcPrice: Int!
+
+  """사용된 마일리지"""
+  useMileage: Int!
+
+  """사용된 예치금"""
+  useDeposit: Int!
+  settleKind: String!
+  pgSettleNm: [String!]!
+  pgSettleCd: [String!]!
+  receiptFl: String!
+
+  """상품-쿠폰 할인금"""
+  totalCouponOrderDcPrice: Int!
+
+  """주문-쿠폰 할인금"""
+  totalCouponGoodsDcPrice: Int!
+
+  """배송비-쿠폰 할인금"""
+  totalCouponDeliveryDcPrice: Int!
+
+  """상품 총 합계"""
+  totalGoodsPrice: Int!
+  tax: String
+  cash: String
+}
+
+type LicenseUpdateHistory {
+  id: Int!
+  orderId: String!
+  adminUser: AdminUser!
+
+  """데이터 전체 JSON"""
+  contents: String
+  created: DateTime!
+}
+
+type OrderEventHistory {
+  orderId: String!
+  godoGoodsNo: Int
+  event: OrderEventTypeEnum!
+  createdAt: DateTime!
+}
+
+enum OrderEventTypeEnum {
+  confirm
+  settle
+  download
+  refund
+}
+
+type DownloadLog {
+  """id"""
+  id: Int!
+
+  """다운로드 횟수 차감 여부"""
+  isDeduction: Boolean!
+
+  """다운로드 카운트 id"""
+  downloadCountId: Float!
+
+  """유저 고유 번호"""
+  userNo: Int!
+
+  """유저 id"""
+  userId: String!
+
+  """주문 번호"""
+  orderNo: String!
+
+  """상품 번호"""
+  goodsNo: Int!
+
+  """제공된 모델 파일 id"""
+  modelFileId: Int!
+
+  """제공된 다운로드 url"""
+  downloadUrl: String!
+
+  """요청 ip"""
+  requestIp: String!
+
+  """생성일"""
+  created: DateTime!
+
+  """생성자"""
+  creator: Int
+}
+
+type DownloadCount {
+  """id"""
+  id: Int!
+
+  """유저 고유 번호"""
+  userNo: Int!
+
+  """유저 id"""
+  userId: String!
+
+  """유저 분류 (personal, enterprise, admin)"""
+  userType: String!
+
+  """주문 번호"""
+  orderNo: String!
+
+  """상품 번호"""
+  goodsNo: Int!
+
+  """부여된 다운로드 횟수"""
+  givenCount: Int!
+  logs: [DownloadLog!]
+
+  """수정자"""
+  updator: Int!
+
+  """생성일"""
+  created: DateTime!
+}
+
+type DownloadLogResponse {
+  """가져온 갯수"""
+  totalCount: Int!
+
+  """다운로드 카운터 객체"""
+  downloadCounts: [DownloadCount!]!
+}
+
+type DisplayCouponBanner {
+  """언어"""
+  lang: String!
+
+  """제목"""
+  title: String!
+
+  """조건1"""
+  conditionFirst: String!
+
+  """조건2"""
+  conditionSecond: String!
+
+  """배너 바디 이미지"""
+  imageUrl: String
+
+  """쿠폰 번호"""
+  couponNo: Float!
+
+  """노출 시작 시간"""
+  startDate: DateTime!
+
+  """노출 종료 시간"""
+  endDate: DateTime!
+}
+
+type BandBannerItems {
+  """띠 배너 텍스트"""
+  id: Int!
+
+  """띠 배너 텍스트"""
+  text: String!
+
+  """배경 색"""
+  backgroundColor: String!
+
+  """닫기 색"""
+  closeColor: String!
+
+  """링크 URL"""
+  href: String!
+
+  """새창 띄우기 여부"""
+  isBlank: Boolean!
+
+  """시작일자"""
+  startDate: DateTime!
+
+  """종료일자"""
+  endDate: DateTime!
+
+  """종료 노출 타입"""
+  closedShow: String!
+}
+
+type BannerItem {
+  """이미지 URL"""
+  imageUrl: String!
+
+  """링크 URL"""
+  linkUrl: String!
+
+  """색상"""
+  color: String
+
+  """a 태그 옵션의 _blank 여부"""
+  isBlank: Boolean!
+}
+
+type BannerInfo {
+  """슬라이드 속도"""
+  speed: Int!
+
+  """슬라이드 시간"""
+  time: Int!
+
+  """슬라이드 효과"""
+  effect: String!
+
+  """배너 너비"""
+  width: Int!
+
+  """배너 높이"""
+  height: Int!
+
+  """배너 사이즈에 따른 px or % (true : px, false: %)"""
+  isPx: Boolean!
+
+  """사이드 버튼 여부"""
+  isSideButton: Boolean!
+
+  """사이드 버튼 색상"""
+  sideButtonColor: String!
+
+  """네비게이션 버튼 여부"""
+  isNaviButton: Boolean!
+
+  """네비게이션 버튼 유형"""
+  naviButtonType: String!
+
+  """네비게이션 버튼 비활성화 되었을 때의 색상"""
+  naviButtonColor: String!
+
+  """네비게이션 버튼 활성화 되었을 때의 색상"""
+  naviButtonActiveColor: String!
+
+  """네비게이션 버튼 크기"""
+  naviButtonSize: Int!
+
+  """배너 목록"""
+  bannerList: [BannerItem!]!
+}
+
+type BandBannerInfo {
+  """배너문구"""
+  title: String!
+
+  """배경색상"""
+  backgroundColor: String!
+
+  """종료버튼색상"""
+  closeButtonColor: String
+
+  """링크 url"""
+  linkUrl: String!
+
+  """기간 마감 여부"""
+  isPeriod: Boolean!
+
+  """종료일자"""
+  endDate: DateTime
+}
+
+type Lang {
+  """언어 ID"""
+  id: Float
+
+  """언어 코드"""
+  code: String
+}
+
+type Type {
+  """혜택 유형 코드 ID"""
+  id: Float
+
+  """혜택 유형 코드 명"""
+  name: String
+
+  """혜택 유형 코드"""
+  code: String
+}
+
+type ApplyType {
+  """혜택 적용 설정 코드 ID"""
+  id: Float
+
+  """혜택 적용 설정 코드 명"""
+  name: String
+
+  """혜택 적용 설정 코드"""
+  code: String
+}
+
+type ApplyItems {
+  """혜택 적용 설정 값"""
+  value: String
+}
+
+type CouponBenefitItem {
+  """고유 ID"""
+  id: Int!
+
+  """쿠폰 혜택을 적용할 다국어몰"""
+  language: Lang
+
+  """쿠폰 헤택 유형"""
+  type: Type
+
+  """고도몰 쿠폰 고유 ID"""
+  godoCouponNo: String
+
+  """고도몰 쿠폰 명"""
+  godoCouponName: String
+
+  """고도몰 쿠폰 등록일"""
+  godoCouponRegDt: String
+
+  """쿠폰 혜택 적용 설정"""
+  applyType: ApplyType
+
+  """쿠폰 혜택 설정 값 리스트"""
+  applyList: [ApplyItems!]
+}
+
+type CouponItems {
+  """고도몰 쿠폰 고유 ID"""
+  godoCouponNo: String
+
+  """고도몰 쿠폰 명"""
+  godoCouponName: String
+
+  """고도몰 쿠폰 등록일"""
+  godoCouponRegDt: String
+
+  """고도몰 쿠폰 남은 수량"""
+  remaining: Int
+}
+
+type ProductFileInfo {
+  """고유 ID"""
+  id: Float!
+
+  """브랜드 ID"""
+  brandId: Float
+
+  """파일 이름을 포함한 경로"""
+  fullName: String!
+
+  """원본 파일 이름"""
+  path: String!
+
+  """업로드한 사람"""
+  creator: Float!
+}
+
+type GodoMainGroup {
+  """상태"""
+  sno: Int!
+
+  """이름"""
+  name: String!
+
+  """하위 항목들"""
+  trans: [GodoMainGropTrans!]!
+}
+
+type GodoMainGropTrans {
+  """상태"""
+  lang: String!
+
+  """이름"""
+  name: String!
+}
+
+type PaymentPoint {
+  """총 포인트 혜택"""
+  point: Int!
+
+  """총 포인트 혜택"""
+  godoGoodsNo: Int!
+
+  """구매 완료 기본 지급 포인트"""
+  defaultPaymentPoint: Int!
+
+  """리뷰 작성 기본 지급 포인트"""
+  defaultWriteReviewPoint: Int!
+}
+
+type IssuedCount {
+  """고도몰 지급 개수"""
+  godoPaymentCount: Int!
+
+  """고도몰 차감 개수"""
+  godoDeductionCount: Int!
+
+  """허브 지급 개수"""
+  paymentCount: Int!
+
+  """허브 차감 개수"""
+  deductionCount: Int!
+}
+
+type GodoPopupInfo {
+  """오늘 하루 보지 않음 기능 사용여부"""
+  isUseTodayHide: Boolean!
+
+  """오늘하루 보지않음 텍스트 위치"""
+  todayHideAlign: String!
+
+  """오늘하루 보지않음 폰트색상"""
+  todayHideTextColor: String!
+
+  """오늘하루 보지않음 배경색상"""
+  todayHideBgColor: String!
+
+  """팝업 너비 (ex: 100px / 50%)"""
+  width: String!
+
+  """팝업 높이(ex: 100px / 50%)"""
+  height: String!
+
+  """오늘 하루 보지 않음 기능 사용여부"""
+  content: String!
+}
+
+type SearchKeywordListReturn {
+  """키워드"""
+  keyword: String!
+
+  """언어 코드"""
+  lang: String!
+}
+
+type UserPlanResponse {
+  type: Float!
+  isExclusive: Boolean!
+  commissionRate: Float
+}
+
+type EventBannerItems {
+  """고유 ID"""
+  id: Int!
+
+  """언어"""
+  language: Language!
+
+  """첫번째 배너 내용 텍스트"""
+  bannerTextFirst: String!
+
+  """두번쨰 배너 내용 텍스트"""
+  bannerTextSecond: String!
+
+  """세번째 배너 내용 텍스트"""
+  bannerTextThird: String!
+
+  """배너 이미지"""
+  image: UploadFile!
+
+  """링크 설정 텍스트"""
+  settingLink: String!
+
+  """정렬순서"""
+  order: Int!
+
+  """노출 시작 일자"""
+  startDate: DateTime!
+
+  """노출 종료 일자"""
+  endDate: DateTime!
+}
+
+type SentryTestResponse {
+  testMessage: String!
+  testNumber: Float
+}
+
+type DepositItem {
+  """예치금 지급 액수"""
+  deposit: Int!
+
+  """예치금 지급 내용"""
+  contents: String!
+
+  """예치금 지급 일자"""
+  regDate: String!
+
+  """남은 예치금 액수"""
+  afterDeposit: Int!
+}
+
+type DepositList {
+  """지급 내역 전체 갯수"""
+  totalCount: Int!
+
+  """예치금 지급 내역 목록"""
+  items: [DepositItem!]!
+}
+
+type PointItem {
+  """포인트 지급 액수"""
+  point: Int!
+
+  """포인트 지급 내용"""
+  contents: String!
+
+  """포인트 지급 일자"""
+  regDate: String!
+
+  """포인트 만료 일자"""
+  deleteScheduleDate: String!
+
+  """남은 포인트 액수"""
+  afterPoint: Int!
+}
+
+type PointList {
+  """지급 내역 전체 갯수"""
+  totalCount: Int!
+
+  """포인트 지급 내역 목록"""
+  items: [PointItem!]!
+}
+
+type VBank {
+  """입금 은행 명"""
+  bankName: String
+
+  """예금주 명"""
+  bankHolder: String
+
+  """가상계좌 번호"""
+  bankNumber: String
+
+  """송금 기한"""
+  remittanceDate: DateTime
+}
+
+type CashItem {
+  """캐시 지급 액수"""
+  deposit: Int!
+
+  """잔여 캐시 액수"""
+  afterDeposit: Int!
+
+  """캐시 지급 내용"""
+  contents: String!
+
+  """캐시 지급 일자"""
+  regDate: String!
+
+  """결제 수단"""
+  payMethod: String
+
+  """결제 상태"""
+  status: String
+
+  """가상계좌 정보"""
+  vBank: VBank
+}
+
+type CashList {
+  """에이콘 캐시 내역 전체 갯수"""
+  totalCount: Int!
+
+  """에이콘 캐시 내역 목록"""
+  items: [CashItem!]!
+}
+
+type ProductInquiries {
+  total: Float!
+  count: Float!
+  data: [ProductInquiry!]!
+}
+
+type ProductInquiry {
+  sno: Float!
+  memNo: Float!
+  status: String!
+  category: String!
+  subject: String!
+  createdAt: DateTime!
+}
+
+type Clip {
+  id: Int!
+  godoMemNo: Int!
+  godoGoodsNo: Int!
+  created: DateTime
+}
+
+type GodoUserCartReturn {
+  godoGoodsNo: String!
+}
+
+type CartOutput {
+  productNo: Int!
+}
+
+type ProductListPageReturn {
+  """고유 ID"""
+  id: Float!
+  goodsNo: Float!
+  brandCd: String!
+  cateCd: String
+  title: String!
+  price: Float!
+  salePrice: Float!
+
+  """판매 종료 여부"""
+  isEndSales: Boolean!
+
+  """프로모션 여부"""
+  isPromotion: Boolean!
+
+  """판매 종료 여부"""
+  promotionEndDate: DateTime
+  mainImageUrl: String!
+  subImageUrl: String!
+
+  """상품 상세 이미지"""
+  detailImageUrl: String!
+  isAconOnly: Boolean!
+  orderCount: Float!
+  viewCount: Float!
+  reviewCount: Float!
+
+  """혜택 시작 일자"""
+  benefitStartDate: DateTime
+
+  """혜택 종료 일자"""
+  benefitEndDate: DateTime
+
+  """품절 여부"""
+  isSoldOut: Boolean!
+  godoCreated: DateTime!
+
+  """상품 카테고리들"""
+  category: [GodoProductCategoryModel!]
+
+  """상품 브랜드"""
+  brand: [GodoProductBrandModel!]
+
+  """상품들"""
+  products: [Product!]
+  badgeName: String!
+  brandName: String!
+  extension: [ExtensionConfig!]!
+}
+
+type BrandCategoryReturn {
+  name: String!
+  code: String!
+  isLink: Boolean!
+  isVisible: Boolean!
+  type: String
+}
+
+type ProductViewCardList {
+  """고도몰 상품번호"""
+  godoGoodsNo: Float!
+
+  """가격"""
+  realPrice: String!
+
+  """가격"""
+  price: String!
+
+  """이미지 URL"""
+  imageUrl: String!
+
+  """제목"""
+  title: String!
+
+  """브랜드 명"""
+  brand: String!
+
+  """브랜드 코드"""
+  brandCd: String!
+}
+
+type ProductListReturn {
+  """카테고리 코드"""
+  cateCd: String
+
+  """비슷한 작품 항목들"""
+  items: [ProductViewCardList!]
+
+  """개수"""
+  count: Float
+}
+
+type ProductFloatingCardReturn {
+  """속한 카테고리"""
+  category: [Category!]!
+
+  """상품 제목"""
+  title: String
+
+  """브랜드"""
+  brand: Brand!
+
+  """조회수"""
+  view: Int
+
+  """확장자"""
+  extension: [String!]
+
+  """모델 구성"""
+  modelConfigI18n: [ModelConfigI18n!]
+
+  """품절여부"""
+  isSoldOut: Boolean!
+
+  """가격"""
+  price: Float
+
+  """할인가"""
+  realPrice: Float
+
+  """혜택"""
+  benefitName: String
+
+  """혜택 시작일"""
+  benefitStartDate: DateTime
+
+  """혜택 종료일"""
+  benefitEndDate: DateTime
+
+  """배너"""
+  banner: [Banner!]
+}
+
+type ProductMainImageReturn {
+  """연관상품 확장자"""
+  relatedExtension: String
+
+  """연관상품 고도몰 상품번호"""
+  relatedGodoGoodsNo: Float
+
+  """확장자명"""
+  extensionName: String!
+
+  """제목"""
+  title: String!
+
+  """open graph 에서 사용되는 이미지 URL """
+  ogImageUrl: String
+
+  """상품 메인 이미지 URL """
+  mainImageUrl: String
+}
+
+type MainProductListReturn {
+  """sno"""
+  sno: String!
+
+  """제목"""
+  title: String!
+
+  """경로"""
+  source: String!
+
+  """상품 리스트"""
+  productList: [ProductListPageReturn!]!
+}
+
+type MainProductListV2Return {
+  """고도몰 메인구좌 관리번호"""
+  sno: String!
+  title: String!
+
+  """경로"""
+  source: String!
+
+  """상품 리스트"""
+  productList: [Int!]!
+}
+
+type GodoDisplayProductModel {
+  """고유 ID"""
+  id: Float!
+
+  """고도 표시 ID """
+  godoDisplayId: Float!
+
+  """상품 번호"""
+  goodsNo: Int!
+
+  """정렬 순서"""
+  sortNo: Int!
+}
+
+type FaqCreatorTypeI18nModel {
+  id: Float!
+  lang: String!
+  name: String!
+}
+
+type FaqCreatorTypeModel {
+  """id"""
+  id: Float!
+
+  """code"""
+  code: String!
+
+  """ACONFAQ 타입의 각 언어별 이름"""
+  i18n: [FaqCreatorTypeI18nModel!]
+}
+
+type FaqCreatorModel {
+  """고유 ID"""
+  id: Float!
+
+  """제목"""
+  title: String!
+
+  """질문형 제목"""
+  subtitle: String!
+
+  """내용"""
+  body: String!
+
+  """ACONFAQ 타입(노하우, 가이드, ...)"""
+  type: FaqCreatorTypeModel!
+
+  """언어"""
+  lang: String!
+
+  """표시 순서(번호)"""
+  order: Float!
+
+  """생성일"""
+  created: DateTime
+
+  """수정일"""
+  updated: DateTime
+}
+
+type FaqAconTypeI18nModel {
+  id: Float!
+  name: String
+  language: Language!
+}
+
+type FaqAconTypeModel {
+  """ACONFAQ 타입 id"""
+  id: Float!
+
+  """ACONFAQ 타입 코드(usage, product, ...)"""
+  code: String!
+
+  """ACONFAQ 타입의 각 언어별 이름"""
+  i18n: [FaqAconTypeI18nModel!]
+}
+
+type FaqAconModel {
+  """고유 ID"""
+  id: Float!
+
+  """ACONFAQ 제목"""
+  title: String!
+
+  """ACONFAQ 질문형 제목 (에이콘 상세 페이지에서 노출)"""
+  subtitle: String!
+
+  """ACONFAQ 내용(바디)"""
+  body: String!
+
+  """ACONFAQ 타입(노하우, 가이드, ...)"""
+  type: FaqAconTypeModel!
+
+  """ACONFAQ를 표시할 다국어몰"""
+  language: Language!
+
+  """표시 순서(번호)"""
+  order: Float!
+
+  """생성일"""
+  created: DateTime
+
+  """수정일"""
+  updated: DateTime
+}
+
+type UserPaginatedResponse {
+  count: Int!
+  rows: [User!]!
+}
+
+type ResultWithUser {
+  result: Boolean!
+  item: User
+}
+
+type GodoUserInfo {
+  memNo: String
+
+  """사용자 아이디"""
+  userId: String
+
+  """hash"""
+  hash: String
+
+  """스크랩 개수"""
+  wishCount: Int
+
+  """장바구니 개수"""
+  cartCount: Int
+
+  """쿠폰 알림 여부"""
+  isCouponNotification: String
+}
+
+type AconNotification {
+  """acon notification 고유번호"""
+  id: Int!
+
+  """고도몰 회원번호"""
+  memNo: Int!
+
+  """notification type"""
+  type: String!
+
+  """notification message"""
+  message: String
+}
+
+type ContentImage {
+  contentProjectId: Int!
+  contentLanguageCode: LanguageCodeEnum!
+  type: ProjectImageEnum!
+  uploadFile: UploadFileClone
+
+  """허브 상품 이미지 크롭기능 x 좌표"""
+  cropX: Int
+
+  """허브 상품 이미지 크롭기능 y 좌표"""
+  cropY: Int
+
+  """허브 상품 이미지 크롭기능 너비값"""
+  cropWidth: Int
+
+  """허브 상품 이미지 크롭기능 높이값"""
+  cropHeight: Int
+}
+
+enum ProjectImageEnum {
+  main
+  thumbnail
+  subImageLeft
+  subImageTopRight
+  subImageBottomRight
+}
+
+type Content {
+  projectId: Int!
+  languageCode: LanguageCodeEnum!
+  contentImages: [ContentImage!]
+  title: String!
+
+  """프로젝트 상세설명(상품 페이지 상세설명)"""
+  contents: String!
+
+  """프로젝트 부가설명(상품 페이지 부가설명)"""
+  description: String
+  searchKeyword: String!
+  copyright: String
+}
+
+type ModelCompositionName {
+  modelCompositionId: Int!
+  languageCode: LanguageCodeEnum!
+  name: String!
+}
+
+type ModelComposition {
+  id: Int!
+
+  """여러국가 모델구성 중 대표 모델구성"""
+  title: String!
+  modelCompositionNames: [ModelCompositionName!]!
+}
+
+type GoodsFileComposition {
+  id: Int!
+  name: String!
+  size: Int!
+}
+
+type GoodsUpdateHistory {
+  id: Int!
+  name: String!
+  date: String!
+}
+
+type Goods {
+  projectId: Int!
+  languageCode: LanguageCodeEnum!
+  uploadFileId: UploadFileClone
+  uploadFile: UploadFileClone
+  modelCompositions: [ModelComposition!]
+
+  """프로젝트 항목(옵션) 금액(정가)"""
+  listPrice: Int!
+
+  """프로젝트 항목(옵션) 할인가"""
+  salePrice: Int
+
+  """프로젝트 항목(옵션) 수수료"""
+  commission: Int
+  fileExtensions: String
+  dynamicElement: String
+  compositions: [GoodsFileComposition!]
+  updateHistories: [GoodsUpdateHistory!]
+}
+
+type CheckerAnswer {
+  projectId: Int!
+  type: CheckAnswerType!
+  content: String!
+}
+
+enum CheckAnswerType {
+  modifyContentAnswer
+  modifyContent
+  reject
+}
+
+type Project {
+  id: Int!
+  contents: [Content!]!
+  goodsItems: [Goods!]
+  projectCategories: [CategoryClone!]
+  checkerAnswers: [CheckerAnswer!]
+
+  """doc ID / 국가별 여러쌍 상품들을 하나로 묶어준 컬럼"""
+  docId: String
+
+  """프로젝트 검토 상태"""
+  status: ProjectStatusEnum!
+  godoGoodsNo: Int
+  openDate: DateTime
+
+  """프로젝트 검토 요청일"""
+  requestDate: DateTime
+  brandId: Int!
+  brand: BrandClone!
+}
+
+enum ProjectStatusEnum {
+  draft
+  request
+  inprogress
+  reject
+  approved
+  open
+}
+
+type PopupUrl {
+  id: Int!
+
+  """소속된 팝업"""
+  popup: PopupV2!
+
+  """하위 위치(메인 구분용)"""
+  subLocation: PopupSubLocationEnum
+
+  """하위 페이지 url"""
+  url: String!
+
+  """하위페이지 노출여부"""
+  isSubPageIncluded: Boolean!
+}
+
+enum PopupSubLocationEnum {
+  toon
+  game
+}
+
+type PopupHistory {
+  status: PopupStatus!
+  updated: DateTime!
+  updater: String!
+}
+
+enum PopupStatus {
+  open
+  pause
+  unPause
+  standby
+  end
+  temporarySaved
+}
+
+type PopupSubLocation {
+  id: Int!
+
+  """소속된 팝업"""
+  popup: PopupV2!
+
+  """하위 위치(메인 구분용)"""
+  subLocation: PopupSubLocationEnum!
+}
+
+type PopupV2 {
+  id: Int!
+
+  """팝업 제목(관리용)"""
+  title: String!
+
+  """노출 시작일"""
+  startDate: DateTime
+
+  """노출 종료일"""
+  endDate: DateTime
+
+  """팝업 이미지 아이디"""
+  image: UploadFile
+
+  """팝업 텍스트"""
+  text: String
+
+  """서브 텍스트"""
+  subText: String
+
+  """버튼 문구"""
+  buttonText: String
+
+  """버튼 연결 링크"""
+  connectedUrl: String
+
+  """팝업을 노출할 서비스"""
+  location: PopupLocationV2!
+
+  """언어"""
+  language: LanguageCodeEnum!
+
+  """하위 페이지 url"""
+  urls: [PopupUrl!]
+
+  """임시 저장용(노출 시킬건지 말건지)"""
+  isOpen: Boolean!
+
+  """일시 정지용"""
+  isStopped: Boolean
+  created: DateTime!
+
+  """등록자"""
+  creator: AdminUser!
+  updated: DateTime!
+
+  """수정자"""
+  updater: AdminUser!
+  popupHistories: [PopupHistory!]
+
+  """바로 노출"""
+  exposeImmediately: Boolean!
+
+  """종료일 없음"""
+  noEndDate: Boolean!
+
+  """하위 페이지 url"""
+  subLocations: [PopupSubLocation!]
+}
+
+enum PopupLocationV2 {
+  acon3d
+  partnerHub
+}
+
+type UrlsOutput {
+  url: String!
+  isSubPageIncluded: Boolean!
+}
+
+type PopupUrlOutput {
+  id: Int
+  popupId: Int
+  subLocation: PopupSubLocationEnum
+  urls: [UrlsOutput!]!
+}
+
+type PopupOutput {
+  id: Int!
+
+  """팝업 제목(관리용)"""
+  title: String!
+
+  """노출 시작일"""
+  startDate: DateTime
+
+  """노출 종료일"""
+  endDate: DateTime
+
+  """팝업 이미지 아이디"""
+  image: UploadFile
+
+  """팝업 텍스트"""
+  text: String
+
+  """서브 텍스트"""
+  subText: String
+
+  """버튼 문구"""
+  buttonText: String
+
+  """연결 URL"""
+  connectedUrl: String
+
+  """위치"""
+  location: PopupLocationV2!
+
+  """언어"""
+  language: LanguageCodeEnum!
+
+  """하위 페이지 url"""
+  urls: [PopupUrlOutput!]!
+
+  """임시 저장용(노출 시킬건지 말건지)"""
+  isOpen: Boolean!
+
+  """일시 정지용"""
+  isStopped: Boolean
+  created: DateTime!
+
+  """등록자"""
+  creator: AdminUser!
+  updated: DateTime!
+
+  """수정자"""
+  updater: AdminUser!
+  popupHistories: [PopupHistory!]!
+
+  """바로 노출"""
+  exposeImmediately: Boolean!
+
+  """종료일 없음"""
+  noEndDate: Boolean!
+
+  """하위 페이지 url"""
+  subLocations: [PopupSubLocation!]!
+}
+
+type ProductCardsSummary {
+  sort: ProductListSort
+
+  """상품 정보"""
+  products: [Acon3dProduct!]!
+}
+
+enum ProductListSort {
+  POPULARITY
+  NEWEST
+  RECOMMENDED
+}
+
+type SearchSummary {
+  sort: ProductListSort
+  products: [Acon3dProduct!]!
+  brandCode: String
+  brandName: String
+}
+
+type BrandProductsWithCategoriesOutput {
+  """상품 번호(ProductNo)"""
+  id: Int!
+
+  """카테고리 정보"""
+  categories: [Acon3dCategory!]!
+}
+
+type GodoBanner {
+  """이미지 경로"""
+  image: String
+
+  """링크"""
+  anchor: String
+
+  """링크 새 창으로 열기 여부"""
+  anchorTarget: Boolean!
+
+  """이미지 맵"""
+  map: String
+
+  """색상"""
+  color: String
+}
+
+type GodoTrans {
+  """언어 코드"""
+  lang: String!
+
+  """카테고리 이름"""
+  name: String!
+
+  """검색 결과 창 표시 여부"""
+  visibleResultStats: Boolean!
+
+  """배너 데이터"""
+  banner: GodoBanner!
+}
+
+type GodoDisplayCategory {
+  """카테고리 코드"""
+  code: String!
+
+  """카테고리 이름"""
+  name: String!
+
+  """링크 여부"""
+  isLink: Boolean!
+
+  """표시 여부"""
+  isVisible: Boolean!
+}
+
+type GodoCategory {
+  """고도몰 카테고리 코드"""
+  id: String!
+
+  """카테고리 이름"""
+  name: String!
+
+  """다국어 데이터"""
+  trans: [GodoTrans!]!
+
+  """카테고리 대분류"""
+  type: String
+}
+
+type GodoGoodsListCategoryResult {
+  """번역된 카테고리 이름"""
+  name: String!
+}
+
+type TwoDepthCategory {
+  name: String!
+  code: String!
+}
+
+type PromotionBadgeI18n {
+  """고유 ID"""
+  id: Float!
+
+  """프로모션 뱃지 id"""
+  promotionBadgeId: Float!
+  language: Language
+
+  """제공 가격"""
+  amount: String!
+}
+
+type PromotionBadge {
+  """고유 ID"""
+  id: Float!
+  promotionId: Float!
+
+  """혜택 종류(point, coupon)"""
+  type: String!
+  item: [PromotionBadgeI18n!]
+}
+
+type PromotionBenefit {
+  """고유 ID"""
+  id: Float!
+  promotionId: Float!
+
+  """스냅샷된 혜택 시작일자"""
+  startDate: DateTime!
+
+  """스냅샷된 혜택 종료일자"""
+  endDate: DateTime!
+
+  """스냅샷된 혜택 명"""
+  name: String!
+
+  """"""
+  amount: Float!
+
+  """할인된 결과물에 대한 금액"""
+  discount: Float!
+
+  """스냅샷된 할인 단위"""
+  discountUnit: String!
+
+  """혜택 유형 (1,2,3이 존재)"""
+  type: Int!
+}
+
+type PromotionImage {
+  """고유 ID"""
+  id: Float!
+  promotionId: Float!
+  originUploadFileId: Float!
+  resizeUploadFileId: Float!
+  originUploadFile: UploadFile
+  resizeUploadFile: UploadFile
+
+  """크롭 x 위치"""
+  cropX: Float
+
+  """크롭 y 위치"""
+  cropY: Float
+
+  """크롭 너비"""
+  cropWidth: Float
+
+  """크롭 높이"""
+  cropHeight: Float
+
+  """이미지 유형"""
+  type: Float!
+  created: DateTime!
+}
+
+type PromotionLang {
+  """고유 ID"""
+  id: Float!
+  promotionId: Float!
+  language: Language!
+}
+
+type Promotion {
+  """고유 ID"""
+  id: Float!
+
+  """프로모션의 타입입니다. (cosmic, comet)"""
+  type: String!
+
+  """리뷰 작성 시 포인트 지급 혜택을 자동 생성할 지 여부"""
+  isAutoCreateReviewBenefit: Boolean
+
+  """고도몰 상품번호"""
+  godoGoodsNo: Float!
+
+  """프로모션이 저장되는 시점에 해당되는 상품의 제목입니다."""
+  productTitle: String!
+
+  """프로모션이 저장되는 시점에 해당되는 상품의 브랜드 명입니다."""
+  productBrandName: String!
+
+  """예약날짜"""
+  reserveDate: DateTime
+
+  """프로모션 이미지 리스트"""
+  imageList: [PromotionImage!]
+
+  """프로모션 혜택 리스트"""
+  benefitList: [PromotionBenefit!]
+
+  """프로모션 언어 리스트"""
+  languageList: [PromotionLang!]
+
+  """프로모션 뱃지 리스트"""
+  badgeList: [PromotionBadge!]
+}
+
+type DisplayPromotionItem {
+  """항목 ID"""
+  id: Int!
+
+  """작품명"""
+  title: String!
+
+  """작가명"""
+  brandName: String!
+
+  """진행기간"""
+  periods: [Periods!]!
+  status: [String!]!
+}
+
+type Periods {
+  """시작일자"""
+  startDate: DateTime!
+
+  """종료일자"""
+  endDate: DateTime!
+}
+
+type BenefitList {
+  """차수"""
+  roundNo: Int
+
+  """할인률"""
+  discountRate: Int
+
+  """할인 가격"""
+  salePrice: String
+
+  """시작 일자"""
+  startDate: DateTime
+
+  """종료 일자"""
+  endDate: DateTime
+}
+
+type cosmicDealsStatistics {
+  """누적 금액"""
+  totalPrice: String
+
+  """탑승자 수"""
+  totalBuyer: String
+}
+
+type BadgeI18n {
+  """언어 코드"""
+  lang: String!
+
+  """뱃지 내용"""
+  text: String!
+
+  """language table 고유번호"""
+  langId: Float
+}
+
+type BadgeReturn {
+  """badge table 고유번호"""
+  id: Float
+
+  """상품 뱃지 문구"""
+  texts: [BadgeI18n!]!
+
+  """뱃지 노출날짜 : 시작날짜"""
+  startDate: DateTime!
+
+  """뱃지 노출날짜 : 끝날짜"""
+  endDate: DateTime!
+
+  """고도몰 상품 번호 배열"""
+  godoGoodsNos: [String!]!
+
+  """상태"""
+  status: String
+
+  """자동 생성 여부"""
+  isAutoCreate: Boolean
+}
+
+type ProductFunding {
+  """펀딩 목표 금액"""
+  goalAmount: Int!
+
+  """펀딩 누적판매 금액"""
+  soldAmount: Int
+
+  """펀딩 판매량(참여자 수)"""
+  soldVolume: Int
+
+  """펀딩 시작일자"""
+  startDate: DateTime!
+
+  """펀딩 종료일자"""
+  endDate: DateTime!
+
+  """펀딩 상품 전달일자"""
+  deliveryDate: DateTime!
+}
+
+type ProductPackageComponent {
+  """godoGoodsNo"""
+  id: Int
+
+  """docId"""
+  docId: String
+
+  """상품 제목"""
+  title: String
+}
+
+type ProductPackage {
+  """parent, child 여부"""
+  type: String
+
+  """package parent when the product is a child"""
+  parents: [ProductPackageComponent]
+
+  """package children array when the product is a parent"""
+  children: [ProductPackageComponent]
+}
+
+type ProductCropType {
+  """x축 위치"""
+  imageOriginX: Float
+
+  """y축 위치"""
+  imageOriginY: Float
+
+  """너비"""
+  imageWidth: Float
+
+  """높이"""
+  imageHeight: Float
+}
+
+type ProductImageDetail {
+  """UploadFile ID"""
+  imageFileId: Int
+
+  """Azure Storage Temp Path (tmp/*.*)"""
+  imagePath: String
+
+  """이미지 파일명(*.*)"""
+  imageName: String
+
+  """이미지 크롭정보"""
+  cropInfo: ProductCropType
+}
+
+type ProductFileAttribute {
+  """속성 ID"""
+  attributeId: Int
+
+  """속성 이름"""
+  attributeName: String
+}
+
+type ProductFileComponent {
+  """업로드파일 ID: product_file_config.id"""
+  fileComponentId: Int!
+
+  """파일 이름"""
+  fileComponentName: String!
+
+  """파일 크기(MB)"""
+  fileComponentSize: Float!
+}
+
+type ProductUploadFile {
+  """모델 파일의 upload_file.id (query/mutation)"""
+  fileId: Int @deprecated(reason: "외부 applications로 통합")
+
+  """확장자 포함한 모델 파일명(*.zip) (query/mutation)"""
+  fileName: String! @deprecated(reason: "외부 applications로 통합")
+
+  """모델 파일 Azure Storage Temp Path(tmp/*.*) (query/mutation)"""
+  filePath: String! @deprecated(reason: "외부 applications로 통합")
+}
+
+type ProductFileUpdateHistory {
+  """업데이트 내역 ID"""
+  id: Int
+
+  """업데이트 내용"""
+  updateContent: String!
+
+  """업데이트 일자"""
+  updateDate: DateTime!
+}
+
+type ProductEssential {
+  """문서 ID(UUID wo/ dash)"""
+  docId: String
+
+  """언어 코드"""
+  languageCode: LanguageCodeEnum!
+
+  """오리지널 언어 코드"""
+  originalLanguageCode: LanguageCodeEnum
+
+  """상품 상태 enum"""
+  status: ProductStatus
+
+  """상품 오픈 여부"""
+  isOpen: Boolean @deprecated(reason: "모든 상품 업데이트는 이제 오픈되지 않은 레코드를 대상으로 함")
+
+  """상품 오픈 전적 여부(product.openDate가 있으면 true): 버전 정보 컴포넌트를 띄우기 위함"""
+  hasOpened: Boolean
+
+  """상품 수정 여부"""
+  isEdit: Boolean!
+
+  """상품 수정검토 적용 여부"""
+  isModified: Boolean
+  newStatus: String
+
+  """최신 메이저 버전"""
+  versionMajor: Int
+
+  """최신 마이너 버전"""
+  versionMinor: Int
+}
+
+enum ProductStatus {
+  draft
+  request
+  inprogress
+  reject
+  complete
+  open
+}
+
+type ProductCopyright {
+  """직접 제작 여부"""
+  owned: Boolean!
+
+  """3D웨어하우스 소스 사용 여부"""
+  usedWarehouseSource: Boolean
+
+  """사용된 3D웨어하우스 소스 목록"""
+  warehouseSourceList: String
+
+  """무료 외부소스 사용 여부"""
+  usedFreeExternalSource: Boolean
+
+  """사용된 무료 외부소스 목록"""
+  freeExternalSourceList: String
+
+  """유료 외부소스 사용 여부"""
+  usedPaidExternalSource: Boolean
+
+  """사용된 유료 외부소스 목록"""
+  paidExternalSourceList: String
+
+  """최종 저작권 정보 확인 여부"""
+  isAgreementChecked: Boolean!
+}
+
+type ProductNote {
+  """[Admin]반려사유"""
+  rejectComment: String @deprecated(reason: "외부 comments로 통합")
+
+  """작가의 수정의견"""
+  updateRequest: String @deprecated(reason: "외부 comments로 통합")
+
+  """[Admin]수정사항"""
+  updateResponse: String @deprecated(reason: "외부 comments로 통합")
+  content: String
+
+  """에디터 userId"""
+  editorId: Int
+}
+
+type ProductInfo {
+  """[Admin]작가: 상품 브랜드 ID"""
+  brandId: Int
+
+  """[Admin]고도몰 상품번호"""
+  godoGoodsNo: Int
+
+  """[Admin](선택) 관리자 메모"""
+  editorMemo: String
+}
+
+type ProductImageInfo {
+  """메인이미지"""
+  main: ProductImageDetail
+
+  """썸네일이미지"""
+  thumbnail: ProductImageDetail
+
+  """서브이미지 1"""
+  subImage1: ProductImageDetail
+
+  """서브이미지 2"""
+  subImage2: ProductImageDetail
+
+  """서브이미지 3"""
+  subImage3: ProductImageDetail
+}
+
+type HubProductCategory {
+  type: String!
+  primary: String!
+  secondary: String!
+}
+
+type ProductSale {
+  """[Admin]정가"""
+  price: Float
+
+  """할인가: 할인가(여기가 유저가 입력하는 가격 항목)"""
+  salePrice: Float
+
+  """[Admin](선택) 에이콘 수수료"""
+  commission: Float
+}
+
+type ProductModelInfo {
+  """[Admin]카테고리 설정: 카테고리 ID 배열"""
+  categories: [Int] @deprecated(reason: "firstCategory, secondCategory 사용")
+
+  """[Admin]모델구성: 상품 파일 속성-7:내부/8:외부/9:소품/10:동물"""
+  attributes: [ProductFileAttribute]
+
+  """[Admin](선택)상품 동적요소"""
+  dynamicComponent: String
+}
+
+type ProductFile {
+  """작품파일: 상품 업로드파일(.zip) 정보"""
+  uploadFile: ProductUploadFile @deprecated(reason: "외부 filePath로 통합")
+
+  """[Admin]확장자: 확장자 ID 배열"""
+  extensions: [Int] @deprecated(reason: "외부 extensions 통합")
+
+  """[Admin]응용프로그램: 응용프로그램 ID 배열"""
+  applications: [Int] @deprecated(reason: "외부 applications로 통합")
+
+  """[Admin]파일 구성 및 용량구성: 개별파일 정보"""
+  components: [ProductFileComponent] @deprecated(reason: "외부 fileComponentsh로 통합")
+
+  """[Admin]업데이트 내역: 상품 파일 업데이트 내역"""
+  updateHistories: [ProductFileUpdateHistory] @deprecated(reason: "외부 fileUpdateHistories로 통합")
+}
+
+type HubProductComment {
+  """코멘트 타입 : REJECTION | REQUEST | RESPONSE"""
+  type: String!
+
+  """코멘트 내용"""
+  content: String!
+
+  """작성자 user.id"""
+  authorId: Int!
+}
+
+type HubProduct {
+  """작가 브랜드 ID"""
+  brandId: Int
+
+  """언어 코드"""
+  languageCode: LanguageCodeEnum
+
+  """문서 ID(UUID wo/ dash)"""
+  docId: String
+
+  """상품 상태 enum"""
+  status: NEW_PRODUCT_STATUS
+  version: Int
+  comments: [HubProductComment]
+
+  """상품 제목"""
+  title: String
+
+  """상품 판매가"""
+  price: Float
+
+  """메인 이미지 Azure Storage full path"""
+  mainImage: String
+
+  """서브 이미지 Azure Storage full path"""
+  subImage: String
+
+  """상품 요약"""
+  contentHead: String
+
+  """상품 본문"""
+  contentBody: String
+
+  """허브 카테고리 정보. 고도 카테고리 정보를 string으로 담아 보냅니다."""
+  categories: [HubProductCategory]
+
+  """상품 저작권(JSONTEXT)"""
+  copyright: String
+
+  """검색설정: (선택) 희망 검색 키워드"""
+  keywords: String
+
+  """모델 파일의 upload_file.id (query/mutation)"""
+  filePath: String
+
+  """확장자 포함한 모델 파일명(*.zip) (query/mutation)"""
+  fileName: String
+  fileComponents: [ProductFileComponent]
+  fileUpdateHistories: [ProductFileUpdateHistory]
+  notes: [ProductNote]
+
+  """확장자 ID 배열"""
+  extensions: [Int]
+
+  """응용프로그램 ID 배열"""
+  applications: [Int]
+
+  """상품번호"""
+  productNo: Int
+
+  """세트상품 정보"""
+  package: ProductPackage
+
+  """상품펀딩 정보"""
+  funding: ProductFunding
+
+  """오리지널 언어 코드"""
+  originalLanguageCode: LanguageCodeEnum
+
+  """[Admin](선택) 관리자 메모"""
+  editorMemo: String @deprecated(reason: "notes로 평탄화")
+
+  """상품 기본 데이터"""
+  essential: ProductEssential! @deprecated(reason: "일반 필드로 평탄화")
+
+  """상품정보"""
+  info: ProductInfo @deprecated(reason: "일반 필드로 평탄화")
+
+  """상품 이미지들"""
+  image: ProductImageInfo @deprecated(reason: "images: HubProductImage[] 필드로 대체")
+
+  """본문 내용"""
+  content: String @deprecated(reason: "contentHead, contentBody로 대체")
+
+  """판매가"""
+  sale: ProductSale @deprecated(reason: "price 단일 스칼라 필드로 대체")
+
+  """저작권V2: 상품 저작권 관련 정보"""
+  copyrights: ProductCopyright @deprecated(reason: "keep using copyright")
+
+  """[Admin]연관상품: 관련상품 godoGoodsNo[]"""
+  relatedProducts: [Int] @deprecated(reason: "더 이상 사용하지 않음")
+
+  """모델정보"""
+  modelInfo: ProductModelInfo @deprecated(reason: "카테고리 정보만 남기고 이를 평탄화")
+
+  """파일관리"""
+  file: ProductFile @deprecated(reason: "일반 필드로 평탄화")
+
+  """반려사유, (작가)수정의견, 수정사항)"""
+  note: ProductNote @deprecated(reason: "comments로 평탄화")
+}
+
+enum NEW_PRODUCT_STATUS {
+  DRAFT
+  REJECTED
+  REQUESTED
+  IN_REVIEW
+  COMPLETE
+  DRAFT_ON_OPEN
+  REQUESTED_ON_OPEN
+  IN_REVIEW_ON_OPEN
+  COMPLETE_ON_OPEN
+}
+
+type HubAdminPost {
+  id: Int!
+  title: String!
+  body: String!
+  typeId: Int!
+  typeName: String!
+
+  """고정글인 경우 순서"""
+  anchoringOrder: Int
+  created: DateTime!
+  next: HubAdminPost
+  prev: HubAdminPost
+}
+
+type HubAdminPosts {
+  """고정글"""
+  anchors: [HubAdminPost!]!
+
+  """일반글"""
+  regulars: [HubAdminPost!]!
+}
+
+type AconAdultMember {
+  aconMemberId: Float!
+  impUid: String!
+  approvedAt: DateTime!
+}
+
+input ProductFundingInput {
+  """펀딩 목표 금액"""
+  goalAmount: Int!
+
+  """펀딩 누적판매 금액"""
+  soldAmount: Int
+
+  """펀딩 판매량(참여자 수)"""
+  soldVolume: Int
+
+  """펀딩 시작일자"""
+  startDate: DateTime!
+
+  """펀딩 종료일자"""
+  endDate: DateTime!
+
+  """펀딩 상품 전달일자"""
+  deliveryDate: DateTime!
+}
+
+input ProductPackageComponentInput {
+  """godoGoodsNo"""
+  id: Int
+
+  """docId"""
+  docId: String
+
+  """상품 제목"""
+  title: String
+}
+
+input ProductPackageInput {
+  """parent, child 여부"""
+  type: String
+
+  """package parent when the product is a child"""
+  parents: [ProductPackageComponentInput]
+
+  """package children array when the product is a parent"""
+  children: [ProductPackageComponentInput]
+}
+
+input ProductCropTypeInput {
+  """x축 위치"""
+  imageOriginX: Float
+
+  """y축 위치"""
+  imageOriginY: Float
+
+  """너비"""
+  imageWidth: Float
+
+  """높이"""
+  imageHeight: Float
+}
+
+input ProductImageDetailInput {
+  """UploadFile ID"""
+  imageFileId: Int
+
+  """Azure Storage Temp Path (tmp/*.*)"""
+  imagePath: String
+
+  """이미지 파일명(*.*)"""
+  imageName: String
+
+  """이미지 크롭정보"""
+  cropInfo: ProductCropTypeInput
+}
+
+"""상품 파일 속성: 7:내부/8:외부/9:소품/10:동물"""
+input ProductFileAttributeInput {
+  """속성 ID"""
+  attributeId: Int
+
+  """속성 이름"""
+  attributeName: String
+}
+
+"""상품 파일 각 구성요소의 이름과 크기"""
+input ProductFileComponentInput {
+  """업로드파일 ID: product_file_config.id"""
+  fileComponentId: Int!
+
+  """파일 이름"""
+  fileComponentName: String!
+
+  """파일 크기(MB)"""
+  fileComponentSize: Float!
+}
+
+"""상품 파일(.zip) 정보"""
+input ProductUploadFileInput {
+  """모델 파일의 upload_file.id (query/mutation)"""
+  fileId: Int
+
+  """확장자 포함한 모델 파일명(*.zip) (query/mutation)"""
+  fileName: String!
+
+  """모델 파일 Azure Storage Temp Path(tmp/*.*) (query/mutation)"""
+  filePath: String!
+}
+
+input ProductFileUpdateHistoryInput {
+  """업데이트 내역 ID"""
+  id: Int
+
+  """업데이트 내용"""
+  updateContent: String!
+
+  """업데이트 일자"""
+  updateDate: DateTime!
+}
+
+input ProductEssentialInput {
+  """문서 ID(UUID wo/ dash)"""
+  docId: String
+
+  """언어 코드"""
+  languageCode: LanguageCodeEnum!
+
+  """오리지널 언어 코드"""
+  originalLanguageCode: LanguageCodeEnum
+
+  """상품 상태 enum"""
+  status: ProductStatus
+
+  """상품 오픈 여부"""
+  isOpen: Boolean
+
+  """상품 오픈 전적 여부(product.openDate가 있으면 true): 버전 정보 컴포넌트를 띄우기 위함"""
+  hasOpened: Boolean
+
+  """상품 수정 여부"""
+  isEdit: Boolean!
+
+  """상품 수정검토 적용 여부"""
+  isModified: Boolean
+  newStatus: String
+
+  """최신 메이저 버전"""
+  versionMajor: Int
+
+  """최신 마이너 버전"""
+  versionMinor: Int
+}
+
+input ProductCopyrightInput {
+  """직접 제작 여부"""
+  owned: Boolean!
+
+  """3D웨어하우스 소스 사용 여부"""
+  usedWarehouseSource: Boolean
+
+  """사용된 3D웨어하우스 소스 목록"""
+  warehouseSourceList: String
+
+  """무료 외부소스 사용 여부"""
+  usedFreeExternalSource: Boolean
+
+  """사용된 무료 외부소스 목록"""
+  freeExternalSourceList: String
+
+  """유료 외부소스 사용 여부"""
+  usedPaidExternalSource: Boolean
+
+  """사용된 유료 외부소스 목록"""
+  paidExternalSourceList: String
+
+  """최종 저작권 정보 확인 여부"""
+  isAgreementChecked: Boolean!
+}
+
+input ProductNoteInput {
+  """[Admin]반려사유"""
+  rejectComment: String
+
+  """작가의 수정의견"""
+  updateRequest: String
+
+  """[Admin]수정사항"""
+  updateResponse: String
+  content: String = ""
+
+  """에디터 userId"""
+  editorId: Int = 1104
+}
+
+input ProductInfoInput {
+  """[Admin]작가: 상품 브랜드 ID"""
+  brandId: Int
+
+  """[Admin]고도몰 상품번호"""
+  godoGoodsNo: Int
+
+  """[Admin](선택) 관리자 메모"""
+  editorMemo: String
+}
+
+input ProductImageInfoInput {
+  """메인이미지"""
+  main: ProductImageDetailInput
+
+  """썸네일이미지"""
+  thumbnail: ProductImageDetailInput
+
+  """서브이미지 1"""
+  subImage1: ProductImageDetailInput
+
+  """서브이미지 2"""
+  subImage2: ProductImageDetailInput
+
+  """서브이미지 3"""
+  subImage3: ProductImageDetailInput
+}
+
+input HubProductCategoryInput {
+  type: String!
+  primary: String!
+  secondary: String!
+}
+
+input ProductSaleInput {
+  """[Admin]정가"""
+  price: Float
+
+  """할인가: 할인가(여기가 유저가 입력하는 가격 항목)"""
+  salePrice: Float
+
+  """[Admin](선택) 에이콘 수수료"""
+  commission: Float
+}
+
+input ProductModelInfoInput {
+  """[Admin]카테고리 설정: 카테고리 ID 배열"""
+  categories: [Int]
+
+  """[Admin]모델구성: 상품 파일 속성-7:내부/8:외부/9:소품/10:동물"""
+  attributes: [ProductFileAttributeInput]
+
+  """[Admin](선택)상품 동적요소"""
+  dynamicComponent: String
+}
+
+input ProductFileInput {
+  """작품파일: 상품 업로드파일(.zip) 정보"""
+  uploadFile: ProductUploadFileInput
+
+  """[Admin]확장자: 확장자 ID 배열"""
+  extensions: [Int]
+
+  """[Admin]응용프로그램: 응용프로그램 ID 배열"""
+  applications: [Int]
+
+  """[Admin]파일 구성 및 용량구성: 개별파일 정보"""
+  components: [ProductFileComponentInput]
+
+  """[Admin]업데이트 내역: 상품 파일 업데이트 내역"""
+  updateHistories: [ProductFileUpdateHistoryInput]
+}
+
+input HubProductCommentInput {
+  """코멘트 타입 : REJECTION | REQUEST | RESPONSE"""
+  type: String!
+
+  """코멘트 내용"""
+  content: String!
+
+  """작성자 user.id"""
+  authorId: Int!
+}
+
+"""허브 컴포넌트별로 타입 구분되어 있습니다"""
+input HubWriteProductInput {
+  """작가 브랜드 ID"""
+  brandId: Int
+
+  """언어 코드"""
+  languageCode: LanguageCodeEnum
+
+  """문서 ID(UUID wo/ dash)"""
+  docId: String
+
+  """상품 상태 enum"""
+  status: NEW_PRODUCT_STATUS
+  version: Int = 0
+  comments: [HubProductCommentInput]
+
+  """상품 제목"""
+  title: String
+
+  """상품 판매가"""
+  price: Float
+
+  """메인 이미지 Azure Storage full path"""
+  mainImage: String
+
+  """서브 이미지 Azure Storage full path"""
+  subImage: String
+
+  """상품 요약"""
+  contentHead: String = ""
+
+  """상품 본문"""
+  contentBody: String = ""
+
+  """허브 카테고리 정보. 고도 카테고리 정보를 string으로 담아 보냅니다."""
+  categories: [HubProductCategoryInput]
+
+  """상품 저작권(JSONTEXT)"""
+  copyright: String
+
+  """검색설정: (선택) 희망 검색 키워드"""
+  keywords: String
+
+  """모델 파일의 upload_file.id (query/mutation)"""
+  filePath: String
+
+  """확장자 포함한 모델 파일명(*.zip) (query/mutation)"""
+  fileName: String
+  fileComponents: [ProductFileComponentInput]
+  fileUpdateHistories: [ProductFileUpdateHistoryInput]
+  notes: [ProductNoteInput]
+
+  """확장자 ID 배열"""
+  extensions: [Int]
+
+  """응용프로그램 ID 배열"""
+  applications: [Int]
+
+  """상품번호"""
+  productNo: Int
+
+  """세트상품 정보"""
+  package: ProductPackageInput
+
+  """상품펀딩 정보"""
+  funding: ProductFundingInput
+
+  """오리지널 언어 코드"""
+  originalLanguageCode: LanguageCodeEnum
+
+  """[Admin](선택) 관리자 메모"""
+  editorMemo: String
+
+  """상품 기본 데이터"""
+  essential: ProductEssentialInput!
+
+  """상품정보"""
+  info: ProductInfoInput
+
+  """상품 이미지들"""
+  image: ProductImageInfoInput
+
+  """본문 내용"""
+  content: String
+
+  """판매가"""
+  sale: ProductSaleInput
+
+  """저작권V2: 상품 저작권 관련 정보"""
+  copyrights: ProductCopyrightInput
+
+  """[Admin]연관상품: 관련상품 godoGoodsNo[]"""
+  relatedProducts: [Int]
+
+  """모델정보"""
+  modelInfo: ProductModelInfoInput
+
+  """파일관리"""
+  file: ProductFileInput
+
+  """반려사유, (작가)수정의견, 수정사항)"""
+  note: ProductNoteInput
+}
+
+type Query {
+  checkExceptionWorking: SentryTestResponse!
+  checkQueryDataWorking: SentryTestResponse!
+  productCards(
+    """언어 타입"""
+    languageCode: LanguageCodeEnum!
+
+    """상품 번호 배열"""
+    productNos: [Int!] = []
+
+    """23.04 스프린트 신상체험단 A/B테스트를 위한 입력필드. true면 신상체험단 리뷰가 보입니다. default: false"""
+    isExperimental: Boolean = false
+  ): [Acon3dProduct]!
+  productCardsSummary(
+    """상품 정렬 기준"""
+    sort: ProductListSort = null
+
+    """카테고리 코드"""
+    categoryCode: String = null
+
+    """브랜드 코드"""
+    brandCode: String = null
+  ): ProductCardsSummary!
+  brandProductsWithCategories(
+    """언어 코드"""
+    languageCode: LanguageCodeEnum!
+
+    """브랜드 코드"""
+    brandCode: String!
+  ): [BrandProductsWithCategoriesOutput!]!
+  productFileInfo(
+    """상품 번호"""
+    goodsNo: String!
+
+    """언어 코드"""
+    lang: String!
+  ): FileInfo
+  productsByBrandId(brandId: Float!): [Product!]!
+  hubWriteProduct(
+    """문서 ID"""
+    docId: String!
+
+    """오픈 여부"""
+    isOpen: Boolean!
+
+    """언어코드"""
+    languageCode: LanguageCodeEnum!
+
+    """버전"""
+    major: Int
+
+    """버전"""
+    minor: Int
+  ): HubProduct!
+  getProduct(
+    """문서 ID"""
+    docId: String!
+
+    """오픈 여부"""
+    isOpen: Boolean!
+
+    """언어"""
+    lang: String!
+
+    """버전"""
+    major: Int
+
+    """버전"""
+    minor: Int
+  ): Product
+  versionLanguage(
+    """문서 ID"""
+    docId: String!
+
+    """버전"""
+    major: Int!
+
+    """버전"""
+    minor: Int!
+  ): [String!]
+  getApplications: [Application!]!
+  getBadge(
+    """badge table 고유번호"""
+    id: Float
+
+    """페이징 offset"""
+    page: Int
+
+    """페이징 limit"""
+    limit: Int
+  ): BadgeReturn
+  getBadges(
+    """badge table 고유번호"""
+    id: Float
+
+    """페이징 offset"""
+    page: Int
+
+    """페이징 limit"""
+    limit: Int
+  ): [BadgeReturn!]!
+  getBadgeCount: Float!
+  categoriesV3(languageCode: LanguageCodeEnum!): [CategoryOutputV2!]!
+  categoriesV2(languageCode: LanguageCodeEnum!): [CategoryOutput!]!
+  getCategoriesByLang(lang: String!): [Category!]!
+  getTransGodoCategoryChildItems(
+    """언어"""
+    lang: String!
+
+    """고도몰 카테고리 코드"""
+    cateCds: [String!]!
+
+    """대분류 필터"""
+    type: String
+  ): [GodoDisplayCategory!]!
+  getTransGodoCategoryItems(
+    """언어"""
+    lang: String!
+
+    """고도몰 카테고리 코드"""
+    cateCds: [String!]!
+
+    """대분류 필터"""
+    type: String
+  ): [GodoDisplayCategory!]!
+  getExtensions: [Category!]!
+  getCategories: [Category!]!
+  categories: [GodoCategory!]!
+  getCategory(
+    """고도몰 카테고리 코드"""
+    godoCateCd: String!
+  ): GodoCategory
+
+  """카테고리 번호를 이용하여 카테고리 명, 상품 갯수를 가져오는 메소드입니다."""
+  godoGoodsListCategoryResult(
+    """고도몰 카테고리 번호"""
+    godoCateCd: String!
+
+    """언어"""
+    lang: String!
+  ): GodoGoodsListCategoryResult!
+  getFilterTransGodoCategoryChildItems(
+    """언어"""
+    lang: String!
+
+    """고도몰 브랜드 코드"""
+    brandCode: String
+
+    """고도몰 확장자 코드 배열"""
+    extensions: [String!]
+
+    """기타 확장자 체크 여부"""
+    containsEtc: Boolean
+    godoGoodsNos: [Int!]
+  ): [GodoDisplayCategory!]!
+  twoDepthCategories(languageCode: String!, oneDepthCategoryCodes: [String!]!): [TwoDepthCategory!]!
+  getExtensionConfigs: [ExtensionConfig!]
+  fundingProductNos: [Int!]!
+  sasUrl(inputs: SasUrlInput!): String!
+  getPromotion(
+    """프로모션 항목 ID """
+    id: Int!
+  ): Promotion!
+  getPromotions(
+    """브랜드명"""
+    brandName: String
+
+    """상품명"""
+    title: String
+
+    """페이지"""
+    page: Int!
+
+    """개수제한"""
+    limit: Int!
+
+    """타입(cosmic, comet)"""
+    type: String = null
+  ): [DisplayPromotionItem!]
+  getPromotionCount(
+    """브랜드명"""
+    brandName: String
+
+    """상품명"""
+    title: String
+
+    """타입(cosmic, comet)"""
+    type: String
+  ): Int!
+  isExistPromotion(
+    """항목 ID"""
+    id: Int
+
+    """고도몰 상품번호"""
+    godoGoodsNo: Int!
+
+    """프로모션 유형"""
+    type: String!
+  ): Boolean!
+
+  """우주최저가 누적 판매 금액, 누적 탑승자 수를 가져오는 메소드 입니다."""
+  cosmicDealsStatisticsV2(
+    """언어"""
+    lang: String!
+  ): cosmicDealsStatistics!
+  ongoingCosmicPromotionProductNos(languageCode: LanguageCodeEnum!): [Int!]!
+  ongoingCometPromotionProductNos(languageCode: LanguageCodeEnum!): [Int!]!
+  getAdminReview(id: Int!): Review!
+  getAdminReviews(
+    id: Int = null
+
+    """contents: 리뷰 내용, user: 작성자 ID, goods: 상품번호"""
+    keywordType: KeywordTypeEnum = null
+    keyword: String = null
+    startDate: DateTime = null
+    endDate: DateTime = null
+    isImageUrl: Boolean = null
+    isCollectScrap: Boolean = null
+    isWithDeleted: Boolean = null
+    isBestReview: Boolean = null
+    rating: Int = null
+    originalLanguageCode: LanguageCodeEnum = null
+    take: Int = 5
+    skip: Int = null
+  ): [Review!]!
+  getAdminReviewsCount(
+    id: Int = null
+
+    """contents: 리뷰 내용, user: 작성자 ID, goods: 상품번호"""
+    keywordType: KeywordTypeEnum = null
+    keyword: String = null
+    startDate: DateTime = null
+    endDate: DateTime = null
+    isImageUrl: Boolean = null
+    isCollectScrap: Boolean = null
+    isWithDeleted: Boolean = null
+    isBestReview: Boolean = null
+    rating: Int = null
+    originalLanguageCode: LanguageCodeEnum = null
+    take: Int = 5
+    skip: Int = null
+  ): Int!
+  getPhotoReview(id: Int = null, take: Int = 10, cursor: Int = null, isBestReview: Boolean = null, godoCateCd: Int = null): PaginatedDetailReview!
+  getPhotoReviews(id: Int = null, take: Int = 10, cursor: Int = null, isBestReview: Boolean = null, godoCateCd: Int = null): PaginatedReview!
+  getPhotoReviewTotalCount(id: Int = null, take: Int = 10, cursor: Int = null, isBestReview: Boolean = null, godoCateCd: Int = null): Int!
+  review(reviewId: Int!): Review
+  reviews(
+    """상품 번호"""
+    goodsNo: String!
+
+    """언어"""
+    lang: String!
+
+    """가져올 갯수"""
+    limit: Int!
+
+    """페이지"""
+    page: Int!
+
+    """created: 등록날짜 순, rating: 별점순 정렬"""
+    sortType: String = null
+    rating: [Int!] = null
+
+    """23.04 스프린트 신상체험단 A/B테스트를 위한 입력필드. true면 신상체험단 리뷰가 보입니다. default: false"""
+    isExperimental: Boolean = false
+  ): [Review!]!
+
+  """제품의 리뷰를 가져오는 메소드"""
+  reviewsV2(
+    """상품 번호"""
+    goodsNo: String!
+
+    """언어"""
+    lang: String!
+
+    """가져올 갯수"""
+    limit: Int!
+
+    """페이지"""
+    page: Int!
+
+    """created: 등록날짜 순, rating: 별점순 정렬"""
+    sortType: String = null
+    rating: [Int!] = null
+
+    """23.04 스프린트 신상체험단 A/B테스트를 위한 입력필드. true면 신상체험단 리뷰가 보입니다. default: false"""
+    isExperimental: Boolean = false
+  ): [ReviewV2!]!
+
+  """제품의 리뷰 상세를 가져오는 메소드"""
+  reviewDetailV2(
+    """sno"""
+    sno: Int!
+
+    """언어"""
+    lang: String!
+  ): ReviewDetail!
+  getMyReview(id: Int!): Review!
+  getMyReviews: [Review!]
+  reviewCountByGodoGoodsNo(godoGoodsNo: String!): Int!
+  getMyReviewsByGodoGoodsNo(godoGoodsNo: String!): [Review!]
+  GODO_EVENT_ORDER_COMPLETE(lang: String!, orderNo: String!): Boolean!
+  GODO_EVENT_ORDER_SETTLE(lang: String!, orderNo: String!, goodsNo: [String!]!): Boolean!
+  GODO_EVENT_ORDER_REFUND(
+    """주문 번호"""
+    orderNo: String!
+
+    """구매한 상품번호"""
+    goodsNos: [String!]!
+  ): Boolean!
+  GODO_EVENT_BOARD_WRITE(lang: String!, bdId: String!, sno: Int, commentSno: Int): Float!
+  GODO_EVENT_BOARD_DELETE(lang: String!, bdId: String!, sno: Int, commentSno: Int): Boolean!
+  GODO_EVENT_BOARD_MODIFY(lang: String!, bdId: String!, sno: Int, commentSno: Int): Boolean!
+  GODO_EVENT_CHECK_BENEFIT(lang: String!, bdId: String!, sno: Int, commentSno: Int): Boolean!
+  GODO_ORDER_LOG(
+    """몰 언어"""
+    lang: String!
+
+    """주문 번호"""
+    orderId: String
+
+    """요청 파라미터 정보"""
+    requestParameter: String
+
+    """페이팔 상태 메세지"""
+    paypalStatus: String
+
+    """에러 메세지"""
+    errorMessage: String
+  ): Boolean!
+  settlement(settlementEndDate: String!, settlementStartDate: String!): String!
+  settlementExcelDownloadHistory: [SettlementExcelDownloadHistory!]!
+  getSettleCount(
+    """고도몰브랜드코드"""
+    brandId: String
+
+    """검색 시작일자"""
+    startDate: String
+
+    """검색 종료일자"""
+    endDate: String
+
+    """유료/무료"""
+    isFree: Boolean
+
+    """상품명"""
+    goodsNm: String
+
+    """필명"""
+    penNm: String
+
+    """정산 시작일자"""
+    settleStartDate: String
+
+    """정산 종료일자"""
+    settleEndDate: String
+
+    """결제 시작일자"""
+    paymentStartDate: String
+
+    """결제 종료일자"""
+    paymentEndDate: String
+  ): SettleCount!
+  getCouponBurdenList(
+    """페이지"""
+    page: Int
+
+    """제한"""
+    limit: Int
+  ): [CouponBurden!]
+  getBenefitBurdenList(
+    """페이지"""
+    page: Int
+
+    """제한"""
+    limit: Int
+  ): [BenefitBurden!]!
+  getCouponBurdenCount: Float!
+  getBenefitBurdenCount: Float!
+  getSettleAllList(
+    """검색 시작일자"""
+    startDate: String
+
+    """검색 종료일자"""
+    endDate: String
+
+    """정산 시작일자"""
+    settleStartDate: String
+
+    """정산 종료일자"""
+    settleEndDate: String
+
+    """결제 시작일자"""
+    paymentStartDate: String
+
+    """결제 종료일자"""
+    paymentEndDate: String
+  ): [Settle!]
+  getSettleAllListV2(
+    """검색 시작일자"""
+    startDate: String
+
+    """검색 종료일자"""
+    endDate: String
+
+    """정산 시작일자"""
+    settleStartDate: String
+
+    """정산 종료일자"""
+    settleEndDate: String
+
+    """결제 시작일자"""
+    paymentStartDate: String
+
+    """결제 종료일자"""
+    paymentEndDate: String
+  ): [Settle!]
+  getSettleList(
+    """고도몰브랜드코드"""
+    brandId: String
+
+    """검색 시작일자"""
+    startDate: String
+
+    """검색 종료일자"""
+    endDate: String
+
+    """유료/무료"""
+    isFree: Boolean
+
+    """상품명"""
+    goodsNm: String
+
+    """필명"""
+    penNm: String
+
+    """정산 시작일자"""
+    settleStartDate: String
+
+    """정산 종료일자"""
+    settleEndDate: String
+
+    """결제 시작일자"""
+    paymentStartDate: String
+
+    """결제 종료일자"""
+    paymentEndDate: String
+
+    """페이지"""
+    page: Int
+
+    """제한"""
+    limit: Int
+  ): [Settle!]
+  getSettleListV2(
+    """고도몰브랜드코드"""
+    brandId: String
+
+    """검색 시작일자"""
+    startDate: String
+
+    """검색 종료일자"""
+    endDate: String
+
+    """유료/무료"""
+    isFree: Boolean
+
+    """상품명"""
+    goodsNm: String
+
+    """필명"""
+    penNm: String
+
+    """정산 시작일자"""
+    settleStartDate: String
+
+    """정산 종료일자"""
+    settleEndDate: String
+
+    """결제 시작일자"""
+    paymentStartDate: String
+
+    """결제 종료일자"""
+    paymentEndDate: String
+
+    """페이지"""
+    page: Int
+
+    """제한"""
+    limit: Int
+  ): [Settle!]
+  getSettleAllPrice(
+    """고도몰브랜드코드"""
+    brandId: String
+
+    """검색 시작일자"""
+    startDate: String
+
+    """검색 종료일자"""
+    endDate: String
+
+    """유료/무료"""
+    isFree: Boolean
+
+    """상품명"""
+    goodsNm: String
+
+    """필명"""
+    penNm: String
+
+    """정산 시작일자"""
+    settleStartDate: String
+
+    """정산 종료일자"""
+    settleEndDate: String
+
+    """결제 시작일자"""
+    paymentStartDate: String
+
+    """결제 종료일자"""
+    paymentEndDate: String
+  ): Float!
+  getSettle(brandCd: String!, orderNo: String!): SettleDetail!
+  getSettleV2(goodsNo: Int!, orderNo: String!): SettleDetail!
+  orderProduct(id: String!): OrderProductClone!
+  getOrderNoWithoutReview(godoGoodsNo: String!): String
+
+  """문의 페이지에서 자기 자신의 주문별 상품 조회에 사용될 메소드 입니다."""
+  godoMyOrders(offset: Int = 0, limit: Int = 10): [godoOrderGoodsNo!]!
+  getOrderInfo(lang: String, godoCartNos: [String!]): OrderInfo!
+  getOrderCouponItems(godoCartSnos: [String!], couponApplyOrderNo: String, lang: String): [OrderCouponItems!]
+  orderView(
+    """언어"""
+    lang: String!
+
+    """주문번호"""
+    orderNo: Float!
+  ): OrderViewDto! @deprecated(reason: "orderViewV2 used to corporate salePrice")
+  orderViewV2(
+    """언어"""
+    lang: String!
+
+    """주문번호"""
+    orderNo: Float!
+  ): OrderViewDto!
+
+  """주문 목록을 가져오는 쿼리"""
+  orders(godoOrderNo: String, godoMemId: String, godoOrderEmail: String, godoGoodsNo: Int, startDate: DateTime, endDate: DateTime, offset: Int, limit: Int): [OrderReturn!]
+  getAdminOrders(godoOrderNo: String, godoMemId: String, godoOrderEmail: String, godoGoodsNo: Int, startDate: DateTime, endDate: DateTime, offset: Int, limit: Int): [OrderProductClone!]!
+  getAdminOrder(orderNo: String!): OrderProductClone!
+
+  """주문 목록의 개수를 가져오는 쿼리"""
+  ordersCount(godoOrderNo: String, godoMemId: String, godoOrderEmail: String, godoGoodsNo: Int, startDate: DateTime, endDate: DateTime, offset: Int, limit: Int): Int
+  getAdminOrdersCount(godoOrderNo: String, godoMemId: String, godoOrderEmail: String, godoGoodsNo: Int, startDate: DateTime, endDate: DateTime, offset: Int, limit: Int): Int!
+  adminOrderPaymentInfo(orderNo: String!): OrderPaymentReturn!
+  adminOrderCouponInfo(orderNo: String!): [OrderCouponReturn!]!
+  adminOrderEventHistory(orderId: String!): [OrderEventHistory!]!
+
+  """주문 시 입력한 필명 정보를 가져오는 쿼리"""
+  orderLicense(
+    """주문번호"""
+    orderNo: Float!
+  ): OrderLicenseModel
+
+  """주문 상품을 가져오는 쿼리"""
+  orderProducts(lang: String!, orderNo: Float!): [OrderProductReturn!]
+  GODO_UPDATE_ISREFUNDED(
+    """주문 번호"""
+    orderNo: String!
+
+    """구매한 상품번호"""
+    goodsNos: [String!]!
+  ): Boolean!
+  recentOrdersV2: [RecentOrder!]!
+  getMyOrders(
+    """몰 언어"""
+    languageCode: LanguageCodeEnum!
+  ): [MyOrderReturn!]!
+  adminOrderGoodsPriceInfo(input: OrderGoodsPriceInfoArgs!): OrderAdminRefundModalReturn!
+  godoUserInfo: GodoUserInfo
+  existsUser(account: String!): Boolean!
+  signedUser: User!
+  userV2(id: Float): User!
+  userAcceptStatusNumber(modifyStatus: Float, status: Float!): Float!
+  sign(password: String!, account: String!): ResultWithUser!
+  refresh(account: String!): User!
+  signInWidthToken(token: String!): User!
+  signIn(authInfo: AuthInfoInput!): User!
+  user(id: Float!): User!
+  userAdmin(id: Float!): User!
+  userSettle(id: Float!, password: String!): User!
+  getUserSearch(type: String!, keyword: String!, limit: Float!, offset: Float!): UserPaginatedResponse!
+  isEqualPassword(password: String!): Boolean!
+  getUsers(type: String!, keyword: String!, limit: Float!, offset: Float!): UserPaginatedResponse!
+  isCouponNotification: Boolean!
+  getUserApprovalDt: DateTime!
+  users(
+    """이메일"""
+    userEmail: String
+
+    """해외 유저 여부"""
+    isOversea: Boolean
+
+    """상태"""
+    userType: UserTypeEnum
+
+    """상태"""
+    status: UserSettleStatusEnum
+
+    """시작일"""
+    startDate: DateTime
+
+    """종료일"""
+    endDate: DateTime
+
+    """사용자 정렬 컬럼"""
+    orderCol: UserOrderColEnum
+
+    """정렬순서"""
+    orderBy: UserOrderByEnum
+    offset: Int
+    limit: Int
+  ): UserPaginatedResponse!
+  notice(id: Int!): HubAdminPost
+  notices: HubAdminPosts!
+  faq(id: Int!): HubAdminPost
+  faqs: HubAdminPosts!
+  hasNewCoupon: Boolean!
+  hasNewPoint: Boolean!
+  getCouponList(state: String, endDate: String, startDate: String, page: Int!, lang: String!): CouponList!
+  getPointList(endDate: String!, startDate: String!, page: Int!, lang: String!): PointList!
+  getDepositList(endDate: String!, startDate: String!, page: Int!, lang: String!): DepositList!
+  productInquiries: ProductInquiries!
+  getCashList(endDate: String!, startDate: String!, type: String!, page: Int!): CashList
+  getBandBannersTotalCount: Float!
+  getBandBanners(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+  ): [BandBanner!]!
+  getBandBanner(
+    """띠 배너 ID"""
+    id: Int!
+  ): BandBanner
+  getBandBannerTypes: [BandBannerType!]!
+  getBandBannerClosed: [BandBannerClosed!]!
+  getBandBannerForPage(
+    """언어"""
+    lang: String!
+  ): [BandBannerItems!]
+  banks: [Bank!]!
+  getBannersTotalCount: Float!
+  getBanners(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+  ): [Banner!]!
+  getBanner(
+    """배너 ID"""
+    id: Int!
+  ): Banner
+  getBannersByGodoNo(
+    """고도몰상품번호"""
+    godoGoodsNo: Int!
+
+    """배너를 표시할 언어"""
+    lang: String!
+  ): [Banner!]
+  getBannerTypes: [BannerType!]!
+  getGodoBannerInfo(
+    """고도몰 배너 코드 """
+    bannerCode: Float!
+  ): BannerInfo!
+  getGodoBandBannerInfo: BandBannerInfo!
+  getPointLimitPolicyList(
+    """페이지"""
+    page: Int!
+
+    """가져올 갯수"""
+    limit: Int!
+  ): [BenefitLimit!]!
+  getPointLimitPolicy(
+    """id"""
+    id: Int!
+  ): BenefitLimit!
+  getPointLimitPolicyCount: Int!
+  brand: Brand
+  existsPenName(penName: String!): Boolean!
+  isDuplicateBrandName(
+    """언어"""
+    lang: String!
+
+    """브랜드 명"""
+    name: String!
+  ): Boolean!
+  getBrandsNotHavingUser: [Brand!]!
+  getBrands: [Brand!]!
+  getGodoBrandName(
+    """브랜드 ID"""
+    brandCode: String
+
+    """언어"""
+    lang: String
+  ): String!
+  getCounts(
+    """진행 중인 쿠폰만 보기 여부"""
+    viewOnlyActiveCoupons: Boolean!
+
+    """언어 id"""
+    lang: String!
+  ): Int!
+  getItems(
+    """페이지"""
+    page: Int!
+
+    """가져올 갯수"""
+    limit: Int!
+
+    """진행 중인 쿠폰만 보기 여부"""
+    viewOnlyActiveCoupons: Boolean!
+
+    """언어 id"""
+    lang: String!
+  ): [CouponBanner!]
+  getDisplayItems(
+    """언어 id"""
+    lang: String!
+  ): [DisplayCouponBanner!]
+  getItem(
+    """id"""
+    id: Int
+  ): CouponBanner
+  getCouponBenefitsTotalCount(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+
+    """언어 ID"""
+    langId: Int
+  ): Float!
+  getCouponBenefit(
+    """포인트 혜택 ID"""
+    id: Int!
+  ): CouponBenefitItem
+  getCouponBenefits(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+
+    """언어 ID"""
+    langId: Int
+  ): [CouponBenefitItem!]
+  getCouponItems(
+    """쿠폰 ID"""
+    couponNos: [String!]
+
+    """쿠폰 명"""
+    couponName: String
+
+    """쿠폰 등록일"""
+    couponRegDt: String
+  ): [CouponItems!]
+  couponTest: Boolean
+  GetCouponIssueCount(
+    """쿠폰 ID"""
+    couponNo: Int
+  ): Float
+  getFaqsTotalCount(
+    """검색어 타입"""
+    type: String
+
+    """검색어 키워드"""
+    keyword: String
+  ): Float!
+  getFaqs(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+
+    """검색어 타입"""
+    type: String
+
+    """검색어 키워드"""
+    keyword: String
+  ): [Faq!]!
+  getFaq(
+    """FAQ ID"""
+    id: Int!
+  ): Faq
+  getFaqTypes: [FaqType!]!
+  file(id: Float!): UploadFile!
+  fileInfo(id: Float!): ProductFileInfo!
+  getLanguages: [Language!]!
+  mainGroup: MainGroup
+  mainGroups: [GodoMainGroup!]!
+  getMainGroups: [MainGroup!]!
+  getNoticesTotalCount(
+    """검색어 타입"""
+    type: String
+
+    """검색어 키워드"""
+    keyword: String
+  ): Float!
+  getNotices(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+
+    """검색어 타입"""
+    type: String
+
+    """검색어 키워드"""
+    keyword: String
+  ): [Notice!]!
+  getNotice(
+    """공지사항 ID"""
+    id: Int!
+  ): Notice
+  getNoticeTypes: [NoticeType!]!
+  notifications: [Get!]!
+  getPointBenefitsTotalCount(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+
+    """언어 ID"""
+    langId: Int
+  ): Float!
+  getPointBenefitTypes: [BenefitType!]!
+  getPointBenefitApply: [BenefitApply!]!
+  getPointBenefit(
+    """포인트 혜택 ID"""
+    id: Int!
+  ): PointBenefit
+  getPointBenefits(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+
+    """언어 ID"""
+    langId: Int
+  ): [PointBenefit!]
+  getValidationGoodsNo(
+    """고도몰 번호"""
+    godoGoodsNo: Int
+
+    """언어"""
+    lang: String
+  ): Boolean
+  getReviewPointItems: [PointBenefit!]
+  getPaymentPoint(
+    """고도몰 상품 번호 배열"""
+    godoGoodsNo: [Int!]
+
+    """고도몰 상품 가격 배열"""
+    godoPrice: [Int!]
+
+    """언어"""
+    lang: String
+  ): [PaymentPoint!]
+  getReceivePointByReview(isPhotoReview: Boolean!, languageCode: String!, goodsNo: Float!): Int
+  getIssuedCount: IssuedCount!
+  getGodoPopup(
+    """고도 팝업 URL"""
+    url: String!
+  ): [GodoPopupInfo!]
+  getGoodsBuyers(goodsNo: Float!): [GoodsBuyers!]!
+  getDisplayProductsTotal(
+    """고유 ID들"""
+    ids: [Int!]
+
+    """브랜드 ID들"""
+    brandIds: [Int!]
+
+    """페이지"""
+    page: Int
+
+    """항목 개수제한"""
+    limit: Int
+
+    """제목"""
+    title: String
+
+    """본문"""
+    contents: String
+
+    """고도몰 상품번호"""
+    godoGoodsNo: Int
+
+    """상태들"""
+    status: [String!]
+
+    """생성일자 필터 시작일자"""
+    createStartDate: String
+
+    """생성일자 필터 시작일자"""
+    createEndDate: String
+
+    """리뷰요청일 필터 시작일자"""
+    requestStartDate: String
+
+    """리뷰요청일 필터 종료일자"""
+    requestEndDate: String
+  ): Int!
+  getDisplayProducts(
+    """고유 ID들"""
+    ids: [Int!]
+
+    """브랜드 ID들"""
+    brandIds: [Int!]
+
+    """페이지"""
+    page: Int
+
+    """항목 개수제한"""
+    limit: Int
+
+    """제목"""
+    title: String
+
+    """본문"""
+    contents: String
+
+    """고도몰 상품번호"""
+    godoGoodsNo: Int
+
+    """상태들"""
+    status: [String!]
+
+    """생성일자 필터 시작일자"""
+    createStartDate: String
+
+    """생성일자 필터 시작일자"""
+    createEndDate: String
+
+    """리뷰요청일 필터 시작일자"""
+    requestStartDate: String
+
+    """리뷰요청일 필터 종료일자"""
+    requestEndDate: String
+  ): [DisplayProducts!]!
+  getProductLang(
+    """고도몰 상품 번호"""
+    godoGoodsNo: [Int!]
+
+    """언어"""
+    lang: String!
+  ): [ProductLang!]!
+
+  """상품 버전들을 가져오는 메소드입니다."""
+  productVersions(
+    """문서 ID"""
+    docId: String!
+
+    """언어"""
+    lang: String!
+  ): [ProductVersion!]!
+
+  """상품 언어들을 가져오는 메소드입니다."""
+  productLanguages(
+    """문서 ID"""
+    docId: String!
+  ): [String!]!
+  productViewDetail(
+    """고도몰 상품번호"""
+    goodsNo: Int
+
+    """언어"""
+    lang: String!
+  ): ProductViewDetail!
+
+  """고띄몰 생품번호의 중복여부를 확인하는 메소드입니다."""
+  isValidGodoGoodsNo(
+    """문서번호"""
+    docId: String
+
+    """고도몰 상품번호"""
+    godoGoodsNo: Int!
+  ): Boolean!
+
+  """고띄몰의 정의띘어 있는 우주최저가 리스트를 가져오는 메소드입니다."""
+  godoCosmicDealList(
+    """고도몰 상품번호"""
+    godoGoodsNo: Int!
+  ): [GodoCosmicDeal!]
+
+  """생품 리뷰 작성 시 필요로한 띰이터를 가져오는 메소드입니다."""
+  productReviewWriteInfo(
+    """상품 번호"""
+    goodsNo: String!
+
+    """언어 코드"""
+    lang: String!
+
+    """sno"""
+    sno: Int
+  ): ProductReviewWrite!
+
+  """상품의 상세페이지에서 업데이트 불릿 여부를 가져오는 메소드입니다."""
+  isUpdate(
+    """상품 번호"""
+    goodsNo: String!
+
+    """언어 코드"""
+    lang: String!
+  ): Boolean!
+
+  """제품의 유의사항 띰이터를 가져오는 메소드"""
+  productCopyright(
+    """상품 번호"""
+    goodsNo: String!
+
+    """언어 코드"""
+    lang: String!
+  ): String
+
+  """고띄몰의 정의띘어 있는 혜성특가 리스트를 가져오는 메소드입니다."""
+  godoCometDealList(
+    """고도몰 상품번호"""
+    godoGoodsNo: Int!
+  ): [GodoCosmicDeal!]
+
+  """장바구니 상품 목록을 가져오는 메소드 입니다."""
+  carts(
+    """언어 코드"""
+    lang: String!
+  ): [CartItem!]!
+
+  """"""
+  syncProducts: SyncGoodsList!
+  getSearchKeywords: [SearchKeyword!]!
+  searchKeywordList(
+    """언어 코드"""
+    lang: String!
+  ): [SearchKeywordListReturn!]!
+  settle: UserSettle
+  getTerm(type: String!): Term!
+  getTermAll: [Term!]!
+  termAgree(id: Float): UserTermAgree
+  userPlan(id: Float): UserPlanResponse
+
+  """이벤트 배너 총 갯수를 가져오는 메소드입니다."""
+  getEventBannerTotalCount(
+    """진행중 이벤트 여부"""
+    isInprogressEvent: Boolean!
+
+    """조회 언어"""
+    lang: String!
+
+    """페이지"""
+    page: Int
+
+    """가져올 갯수"""
+    limit: Int
+  ): Float!
+
+  """이벤트 배너 항목을 가져오는 메소드 입니다."""
+  getEventBannerItem(
+    """배너 고유 ID"""
+    id: Int!
+  ): EventBannerItems
+
+  """이벤트 배너 목록을 가져오는 메소드 입니다."""
+  getEventBannerItems(
+    """진행중 이벤트 여부"""
+    isInprogressEvent: Boolean!
+
+    """조회 언어"""
+    lang: String!
+
+    """페이지"""
+    page: Int
+
+    """가져올 갯수"""
+    limit: Int
+  ): [EventBannerItems!]
+  getModelConfigs: [ModelConfig!]
+  productListPageCount(cateCd: String, brandCd: String, extensions: [String!]!, isEtc: Boolean!): Float!
+  syncCategory(brandCd: String, lang: String!, type: String): [BrandCategoryReturn!]!
+
+  """비슷한 작품들을 가져오는 메소드입니다."""
+  similarProductList(
+    """언어 코드"""
+    lang: String!
+
+    """상품 번호"""
+    godoGoodsNo: Int!
+
+    """count return 여부"""
+    isCount: Boolean!
+
+    """캐시 갱신 여부"""
+    isFresh: Boolean
+  ): ProductListReturn!
+
+  """다른 상품들을 가져오는 메소드입니다."""
+  otherProductList(
+    """언어 코드"""
+    lang: String!
+
+    """상품 번호"""
+    godoGoodsNo: Int!
+
+    """count return 여부"""
+    isCount: Boolean!
+
+    """캐시 갱신 여부"""
+    isFresh: Boolean
+  ): ProductListReturn!
+
+  """상품 상세의 플로팅 카드 정보를 가져오는 메소드 입니다."""
+  productDetailFloatingCard(
+    """언어 코드"""
+    lang: String!
+
+    """상품 번호"""
+    godoGoodsNo: Int!
+  ): ProductFloatingCardReturn!
+
+  """상품 보기를 가져오는 메소드입니다."""
+  productDetailView(
+    """언어 코드"""
+    lang: String!
+
+    """상품 번호"""
+    godoGoodsNo: Int!
+  ): ProductMainImageReturn!
+
+  """메인페이지 구좌의 상품 목록을 가져오는 메소드 입니다."""
+  mainProductList(
+    """sno"""
+    sno: Int!
+
+    """언어"""
+    lang: String!
+  ): MainProductListReturn!
+
+  """메인페이지 구좌의 상품 목록을 가져오는 메소드 입니다."""
+  mainProductListV2(
+    """sno"""
+    sno: Int!
+
+    """언어"""
+    lang: String!
+  ): MainProductListV2Return!
+
+  """입점 faq 항목들을 가져오는 쿼리"""
+  faqCreators(
+    """페이지 넘버"""
+    page: Int
+
+    """페이지 항목 개수"""
+    limit: Int
+
+    """언어"""
+    lang: String
+
+    """유형 ID"""
+    typeId: Int
+
+    """검색 유형"""
+    searchType: String
+
+    """검색 키워드"""
+    keyword: String
+  ): [FaqCreatorModel!]!
+
+  """입점 faq 항목들을 가져오는 쿼리"""
+  faqCreator(
+    """항목 ID"""
+    id: Int!
+  ): FaqCreatorModel
+
+  """입점 faq 카테고리 항목들을 가져오는 쿼리"""
+  faqCreatorCategories(
+    """항목 ID"""
+    id: Int!
+  ): [FaqCreatorModel!]
+
+  """입점 faq 항목들을 개수를 가져오는 쿼리"""
+  faqCreatorCount(
+    """언어"""
+    lang: String
+
+    """유형 ID"""
+    typeId: Int
+
+    """검색 유형"""
+    searchType: String
+
+    """검색 키워드"""
+    keyword: String
+  ): Int!
+
+  """입점 faq 유형들을 가져오는 메소드입니다."""
+  faqCreatorTypes(
+    """항목 ID"""
+    lang: String
+  ): [FaqCreatorTypeModel!]!
+  faqAconCount(
+    """언어"""
+    lang: String
+
+    """유형 ID"""
+    typeId: Int
+
+    """검색 유형"""
+    searchType: String
+
+    """검색 키워드"""
+    keyword: String
+  ): Float!
+  faqAcons(
+    """페이지 넘버"""
+    page: Int
+
+    """페이지 항목 개수"""
+    limit: Int
+
+    """언어"""
+    lang: String
+
+    """유형 ID"""
+    typeId: Int
+
+    """검색 유형"""
+    searchType: String
+
+    """검색 키워드"""
+    keyword: String
+  ): [FaqAconModel!]!
+  faqAcon(
+    """항목 ID"""
+    id: Int!
+  ): FaqAconModel
+  faqAconTypes(
+    """언어"""
+    lang: String
+  ): [FaqAconTypeModel!]!
+  getAconfaqsTotalCount(
+    """불러올 ACONFAQ의 타입 id. null일 경우 전체를 불러옵니다."""
+    typeId: Int
+
+    """불러올 ACONFAQ의 언어 id. null일 경우 전체를 불러옵니다."""
+    langId: Int
+
+    """검색어 타입"""
+    searchType: String
+
+    """검색어 키워드"""
+    keyword: String
+  ): Float!
+  getAconfaqs(
+    """불러올 페이지 번호"""
+    page: Int
+
+    """페이지당 항목 수"""
+    limit: Int
+
+    """불러올 ACONFAQ의 언어 id. null일 경우 전체를 불러옵니다."""
+    langId: Int
+
+    """불러올 ACONFAQ의 타입 id. null일 경우 전체를 불러옵니다."""
+    typeId: Int
+
+    """검색어 타입"""
+    searchType: String
+
+    """검색어 키워드"""
+    keyword: String
+  ): [FaqAconModel!]!
+  getAconfaq(
+    """ACONFAQ ID"""
+    id: Int!
+  ): FaqAconModel
+  getAconfaqTypes(
+    """언어"""
+    lang: String
+  ): [FaqAconTypeModel!]!
+  search(
+    keyword: String!
+
+    """몰 언어"""
+    languageCode: LanguageCodeEnum!
+  ): SearchSummary!
+  getDownloadLogs(limit: Int, offset: Int, userId: String, goodsNo: Int, orderNo: String): DownloadLogResponse!
+  isFirstDownload(goodsNo: Int!, orderNo: String!): Boolean!
+  clips: [Clip!]!
+  getMyClips: [Clip!]!
+  checkedPasswordChange(
+    """key"""
+    key: String!
+  ): Boolean!
+
+  """사용자 초대코드를 가져오는 쿼리"""
+  godoUserInvitationCode(
+    """언어"""
+    langCode: String!
+  ): String!
+
+  """초대 코드가 유효한지 여부를 가져오는 쿼리"""
+  isValidInvitationCode(
+    """초대 코드"""
+    code: String!
+  ): Boolean!
+
+  """초대 코드로 해당하는 초대코드의 언어를 가져오는 쿼리"""
+  invitationLangCode(
+    """초대 코드"""
+    code: String!
+  ): String
+
+  """친구 수를 가져오는 쿼리"""
+  friendsCount: Int!
+
+  """포인트 합산을 가져오는 쿼리"""
+  getTotalInvitationPoint: Int!
+
+  """사용자 명을 가져오는 쿼리"""
+  godoUserName: String!
+
+  """장바구니 정보를 가져오는 쿼리"""
+  godoUserCart: [GodoUserCartReturn!]!
+
+  """
+  유저의 장바구니 갯수를 가져오는 쿼리. 장바구니 아이콘에 숫자를 표시하고, 상품에서 장바구니에 담았는지 여부를 표현하기 위해 사용합니다.이전의 query godoUserCart()를 대체하는 쿼리입니다.
+  """
+  cart: [CartOutput!]!
+
+  """회원이 사업자인지 확인하는 메소드 입니다."""
+  checkedBusiness: Boolean!
+
+  """일정 기간동안 회원의 로그인 횟수 총합을 가져오는 메소드 입니다."""
+  totalLoginCount: Int!
+
+  """일정 기간동안 회원의 쿠폰 및 포인트를 제외한 결제 금액 총합을 가져오는 메소드 입니다."""
+  totalSettlePrice: Int!
+  checkAuthentication(
+    """인증요청 이메일을 보낸 이메일주소"""
+    email: String!
+  ): Boolean!
+  aconNotifications: [AconNotification!]!
+  project(id: Float!): Project!
+  projects: [Project!]!
+  myProject(id: Float!): Project!
+  myProjects: [Project!]!
+  getProjectCount: Int!
+  inquiry(id: Int!): Inquiry!
+  inquiries(
+    """문의 대분류"""
+    type: InquiryTypeEnum = null
+
+    """문의 소분류"""
+    subType: InquirySubTypeEnum = null
+
+    """회원 여부"""
+    isMember: Boolean = null
+
+    """답변 상태: unread | read | answered | cancelled"""
+    status: [InquiryStatusEnum] = null
+
+    """언어 코드"""
+    languageCode: String = null
+
+    """시작 날짜"""
+    startDate: DateTime = null
+
+    """종료 날짜"""
+    endDate: DateTime = null
+
+    """검색 키워드"""
+    keyword: String = null
+
+    """스크랩 여부"""
+    isClipped: Boolean = null
+
+    """정렬 기준(컬럼): id, created"""
+    orderCol: String = null
+
+    """정렬 순서: desc, asc"""
+    orderBy: String = null
+
+    """회원 번호"""
+    godoMemNo: String = null
+    offset: Int = null
+    limit: Int = null
+  ): [Inquiry!]!
+  inquiryCount(
+    """문의 대분류"""
+    type: InquiryTypeEnum = null
+
+    """문의 소분류"""
+    subType: InquirySubTypeEnum = null
+
+    """회원 여부"""
+    isMember: Boolean = null
+
+    """답변 상태: unread | read | answered | cancelled"""
+    status: [InquiryStatusEnum] = null
+
+    """언어 코드"""
+    languageCode: String = null
+
+    """시작 날짜"""
+    startDate: DateTime = null
+
+    """종료 날짜"""
+    endDate: DateTime = null
+
+    """검색 키워드"""
+    keyword: String = null
+
+    """스크랩 여부"""
+    isClipped: Boolean = null
+
+    """정렬 기준(컬럼): id, created"""
+    orderCol: String = null
+
+    """정렬 순서: desc, asc"""
+    orderBy: String = null
+
+    """회원 번호"""
+    godoMemNo: String = null
+    offset: Int = null
+    limit: Int = null
+  ): Int!
+  adminInquiry(id: Int!): Inquiry!
+  adminInquiries(
+    """문의 대분류"""
+    type: InquiryTypeEnum = null
+
+    """문의 소분류"""
+    subType: InquirySubTypeEnum = null
+
+    """회원 여부"""
+    isMember: Boolean = null
+
+    """답변 상태: unread | read | answered | cancelled"""
+    status: [InquiryStatusEnum] = null
+
+    """언어 코드"""
+    languageCode: String = null
+
+    """시작 날짜"""
+    startDate: DateTime = null
+
+    """종료 날짜"""
+    endDate: DateTime = null
+
+    """검색 키워드"""
+    keyword: String = null
+
+    """스크랩 여부"""
+    isClipped: Boolean = null
+
+    """정렬 기준(컬럼): id, created"""
+    orderCol: String = null
+
+    """정렬 순서: desc, asc"""
+    orderBy: String = null
+
+    """회원 번호"""
+    godoMemNo: String = null
+    offset: Int = null
+    limit: Int = null
+  ): [Inquiry!]!
+  adminInquiryCount(
+    """문의 대분류"""
+    type: InquiryTypeEnum = null
+
+    """문의 소분류"""
+    subType: InquirySubTypeEnum = null
+
+    """회원 여부"""
+    isMember: Boolean = null
+
+    """답변 상태: unread | read | answered | cancelled"""
+    status: [InquiryStatusEnum] = null
+
+    """언어 코드"""
+    languageCode: String = null
+
+    """시작 날짜"""
+    startDate: DateTime = null
+
+    """종료 날짜"""
+    endDate: DateTime = null
+
+    """검색 키워드"""
+    keyword: String = null
+
+    """스크랩 여부"""
+    isClipped: Boolean = null
+
+    """정렬 기준(컬럼): id, created"""
+    orderCol: String = null
+
+    """정렬 순서: desc, asc"""
+    orderBy: String = null
+
+    """회원 번호"""
+    godoMemNo: String = null
+    offset: Int = null
+    limit: Int = null
+  ): Int!
+  exchangeRate(languageCode: LanguageCodeEnum!): Float!
+  popup(id: Int!): PopupOutput!
+  allPopups: [PopupV2!]!
+  popups(
+    """제목"""
+    title: String = null
+
+    """상태"""
+    status: PopupStatus = null
+
+    """위치"""
+    location: PopupLocationV2 = null
+
+    """언어"""
+    languageCode: LanguageCodeEnum = null
+
+    """등록일 시작 날짜"""
+    startDate: DateTime = null
+
+    """등록일 종료 날짜"""
+    endDate: DateTime = null
+
+    """정렬 기준:startDate, endDate, created"""
+    orderCol: PopupOrderCol = null
+
+    """정렬순서:desc, asc"""
+    orderBy: OrderBy = null
+    offset: Int = null
+    limit: Int = null
+    isOpen: Boolean = null
+    isStopped: Boolean = null
+  ): [PopupOutput!]!
+  popupCount(
+    """제목"""
+    title: String = null
+
+    """상태"""
+    status: PopupStatus = null
+
+    """위치"""
+    location: PopupLocationV2 = null
+
+    """언어"""
+    languageCode: LanguageCodeEnum = null
+
+    """등록일 시작 날짜"""
+    startDate: DateTime = null
+
+    """등록일 종료 날짜"""
+    endDate: DateTime = null
+
+    """정렬 기준:startDate, endDate, created"""
+    orderCol: PopupOrderCol = null
+
+    """정렬순서:desc, asc"""
+    orderBy: OrderBy = null
+    offset: Int = null
+    limit: Int = null
+    isOpen: Boolean = null
+    isStopped: Boolean = null
+  ): Int!
+  getPopupsHere(origin: String!, url: String!): [PopupV2!]!
+  bestProducts(
+    isFreeProductInclude: Boolean
+    categoryCode: String
+
+    """일간: day, 주간: week, 월간: month"""
+    type: BestProductType!
+  ): [Int!]!
+
+  """비슷한 작품들을 가져오는 메소드입니다."""
+  togetherProductListRecommendation(
+    """언어 코드"""
+    lang: String!
+
+    """상품 번호"""
+    godoGoodsNo: Int!
+
+    """count return 여부"""
+    isCount: Boolean!
+
+    """캐시 갱신 여부"""
+    isFresh: Boolean
+  ): ProductListReturn!
+  checkExistMember(accessToken: String!, snsType: SnsTypeEnum!): Boolean!
+  checkIssuanceTempPassword(snsType: SnsTypeEnum!, aconMemberId: Int!): Boolean!
+
+  """성인인증이 완료된 acon member의 리스트를 반환"""
+  aconAdultMembers: [AconAdultMember!]!
+}
+
+input SasUrlInput {
+  """upload file id"""
+  id: Int!
+}
+
+enum KeywordTypeEnum {
+  contents
+  user
+  goods
+}
+
+input OrderGoodsPriceInfoArgs {
+  orderNo: String!
+  goodsNos: [Int!]!
+}
+
+input AuthInfoInput {
+  account: String!
+  password: String!
+}
+
+enum UserTypeEnum {
+  Personal
+  Business
+}
+
+enum UserOrderColEnum {
+  created
+  requestDate
+}
+
+enum UserOrderByEnum {
+  Desc
+  Asc
+}
+
+enum PopupOrderCol {
+  startDate
+  endDate
+  created
+}
+
+enum OrderBy {
+  ASC
+  DESC
+}
+
+enum BestProductType {
+  day
+  week
+  month
+  all
+}
+
+enum SnsTypeEnum {
+  naver
+  google
+}
+
+type Mutation {
+  updateProductViewCount(id: Int!): Boolean!
+  sendMailsWhenProductUpdated(input: ProductUpdateMailInput!): Boolean!
+  saveProductV5(input: HubWriteProductInput!): Product!
+  updateProductStatusV2(input: UpdateStatusInput!): Boolean!
+  changeEditProduct(
+    """문서 ID"""
+    docId: String!
+  ): Boolean!
+  cancelRequestStatus(
+    """문서 ID"""
+    docId: String!
+  ): Boolean!
+  requestProductReview(input: RequestProductReviewInput!): Boolean!
+  updateProductStatus(input: UpdateProductStatusInput!): Boolean!
+  translateProductFile(input: TranslateProductFileInput!): Boolean!
+  translateProductContent(input: TranslateProductContentInput!): Boolean!
+  changeProductStatusV2(
+    """문서 ID"""
+    docId: String!
+
+    """언어 코드 """
+    lang: String!
+
+    """오픈 여부"""
+    isOpen: Boolean!
+
+    """상태"""
+    status: String!
+
+    """반려사유"""
+    message: String
+  ): Boolean!
+  createApplication(input: CreateApplicationInput!): Application!
+  updateApplication(input: UpdateApplicationInput!): Int!
+  createBadge(
+    """badge table 고유번호"""
+    id: Float
+
+    """상품 뱃지 문구"""
+    texts: [BadgeI18nInput!]!
+
+    """뱃지 노출날짜 : 시작날짜"""
+    startDate: DateTime!
+
+    """뱃지 노출날짜 : 끝날짜"""
+    endDate: DateTime!
+
+    """고도몰 상품 번호 배열"""
+    godoGoodsNos: [String!]!
+
+    """자동 생성 여부"""
+    isAutoCreate: Boolean
+  ): Boolean!
+  updateBadge(
+    """badge table 고유번호"""
+    id: Float
+
+    """상품 뱃지 문구"""
+    texts: [BadgeI18nInput!]!
+
+    """뱃지 노출날짜 : 시작날짜"""
+    startDate: DateTime!
+
+    """뱃지 노출날짜 : 끝날짜"""
+    endDate: DateTime!
+
+    """고도몰 상품 번호 배열"""
+    godoGoodsNos: [String!]!
+
+    """자동 생성 여부"""
+    isAutoCreate: Boolean
+  ): Boolean!
+  deleteBadge(
+    """badge table 고유번호"""
+    id: Float!
+  ): Boolean!
+  createCategory(
+    """이름"""
+    name: String!
+
+    """메모"""
+    memo: String!
+
+    """상태"""
+    state: String!
+
+    """타입"""
+    type: String!
+
+    """부모 카테고리 id"""
+    parentCategoryId: Float
+
+    """작성자"""
+    creator: Float
+
+    """수정자"""
+    updater: Float
+  ): Category!
+  updateCategory(
+    """카테고리 ID"""
+    id: Float!
+
+    """부모 카테고리 ID"""
+    parent: Float
+
+    """대분류 카테고리"""
+    type: CategoryTypeEnum
+
+    """메모"""
+    memo: String!
+
+    """상태"""
+    state: String!
+
+    """다국어 정보"""
+    i18n: [SetCategoryI18nInput!]!
+
+    """작성자"""
+    creator: Float
+
+    """수정자"""
+    updater: Float
+  ): Boolean!
+  deleteCategory(
+    """카테고리 ID"""
+    categoryId: Float!
+  ): Boolean!
+  moveCategory(
+    """부모 카테고리 ID"""
+    parentCategoryId: Float
+
+    """카테고리 ID"""
+    categoryId: Float!
+
+    """정렬 순서"""
+    sortNo: Float!
+  ): [Category!]!
+  syncCategory: [Category!]!
+  createExtensionConfig(input: CreateExtensionConfigInput!): ExtensionConfig!
+  deleteExtensionConfig(input: DeleteExtensionConfigInput!): Int!
+  updateExtensionConfig(input: UpdateExtensionConfigInput!): ExtensionConfig!
+  uploadBlobStorage(inputs: UploadBlobStorageInput!): UploadFile!
+  removePromotions(
+    """프로모션 항목 ID 들"""
+    ids: [Int!]!
+  ): Boolean!
+  savePromotion(
+    """프로모션 항목 ID"""
+    id: Int
+
+    """타입(cosmic, comet)"""
+    type: String
+
+    """리뷰 작성 시 포인트 지급 혜택을 자동 생성할 지 여부"""
+    isAutoCreateReviewBenefit: Boolean
+
+    """리뷰 작성 시 포인트 지급 혜택을 자동 생성할 지 여부"""
+    badgeList: [Badge!]
+
+    """언어 코드 배열"""
+    languages: [String!]!
+
+    """고도몰 상품번호"""
+    godoGoodsNo: Int!
+
+    """우주 최저가 예고 노출예약 일자"""
+    reserveDate: DateTime!
+
+    """원본 [1차, 2차, 3차] 이미지 key"""
+    originImgKeys: [String!]!
+
+    """[1차, 2차, 3차] 이미지 크롭정보"""
+    imgCropInfos: [ImgCropType!]!
+
+    """예정 원본 이미지 key"""
+    reserveOriginImgKey: String!
+
+    """예정 이미지 크롭정보"""
+    reserveImgCropInfo: ImgCropType!
+  ): Promotion!
+  scrapReview(id: Int!): Review
+  changeReviewStatus(
+    """
+    exposure: 노출, notExposure: 미노출, bestReview: 베스트 리뷰 선정, cancelBestReview: 베스트리뷰 선정 취소
+    """
+    status: String!
+    id: Int!
+  ): Boolean!
+  deleteMyReview(languageCode: String!, id: Int!): Boolean!
+  registerReview(id: Int = null, memNo: Int!, goodsNo: Int!, orderNo: String = null, writerId: String!, contents: String!, goodsPt: Int!, isSecret: String!, languageCode: String!): Review
+  registerReviewV2(input: RegisterReviewInput!): Review
+  updateReviewV2(input: UpdateReviewInput!): Review
+  updateReview(id: Int = null, memNo: Int!, goodsNo: Int!, orderNo: String = null, writerId: String!, contents: String!, goodsPt: Int!, isSecret: String!, languageCode: String!): Review
+  setFavoriteReview(reviewId: Int!): Int
+  registerReviewReply(id: Int = null, reviewId: Int!, languageCode: String!, contents: String!): ReviewReply!
+  deleteReviewReply(id: Int!): Boolean!
+  updateReviewReply(id: Int = null, reviewId: Int!, languageCode: String!, contents: String!): ReviewReply!
+  setCouponBurdenItem(
+    """sno"""
+    sno: Int
+
+    """부담도"""
+    burden: Int
+  ): Boolean!
+  setBenefitBurdenItem(
+    """혜택명"""
+    name: String
+
+    """부담도"""
+    burden: Int
+  ): Boolean!
+
+  """주문 저작권 정보를 생성하는 함수입니다."""
+  createOrderLicense(
+    """주문번호"""
+    orderNo: String!
+
+    """유형"""
+    type: String!
+
+    """필명 정보"""
+    names: [String!]!
+
+    """프로젝트 명 정보"""
+    projects: [OrderLicenseProject!]
+  ): Boolean!
+
+  """주문 저작권 정보를 수정하는 함수입니다."""
+  updateOrderLicense(
+    """주문번호"""
+    orderNo: Float!
+
+    """유형"""
+    type: String!
+
+    """필명 정보"""
+    names: [String!]!
+
+    """프로젝트 명 정보"""
+    projects: [OrderLicenseProjects!]
+
+    """어드민 이메일"""
+    adminEmail: String
+  ): Boolean!
+  createOrderMemo(input: CreateOrderMemoInput!): OrderAdminMemo!
+  updateLicense(input: UpdateLicenseInput!): [LicenseClone!]!
+  changePasswordUser(newPassword: String!, oldPassword: String!): User!
+  createUser(file: UserFileInput, brand: CreateBrandInput!, user: UserInput!): Boolean!
+  createAdmin(password: String!, account: String!, name: String!): Boolean!
+  updateUser(user: UserUpdateInput!, id: Float): Boolean!
+  changeUserSettleStatus(id: Int!, status: UserSettleStatusEnum!, comment: String): Boolean!
+  requestUserSettleStatus(idCard: FileInput, bankId: Int, bankName: String, bankAccountOwner: String, bankAccountNumber: String, bankBook: FileInput, limitedTaxApl: FileInput): Boolean!
+  updateUserV2(user: UserUpdateInput!, id: Float): Boolean!
+  requestUserRevision(user: UserRevisionInput!): Boolean!
+  registUserMemo(id: Int!, memo: String!): Boolean!
+  editUser(id: Int!, memo: String!, businessType: String, idCard: FileInput, bankId: Int, bankName: String, bankAccountNumber: String, bankAccountOwner: String, bankBook: FileInput, limitedTaxApl: FileInput): Boolean!
+  createBandBanner(
+    """띠 배너 타입"""
+    typeId: Int
+
+    """띠 배너를 표시할 언어 리스트"""
+    langId: Int
+
+    """띠 배너 바디 텍스트"""
+    text: String
+
+    """띠 배너 배경 색"""
+    backgroundColor: String
+
+    """띠 배너 닫기 색"""
+    closeColor: String
+
+    """띠 배너 클릭시 이동 링크"""
+    href: String
+
+    """띠 배너 클릭시 새 창 여부"""
+    isBlankHref: Boolean
+
+    """띠 배너 노출 시작일"""
+    startDate: DateTime
+
+    """띠 배너 노출 종료일"""
+    endDate: DateTime
+
+    """띠 배너 종료 노출"""
+    isClosedShowId: Int
+  ): BandBanner!
+  updateBandBanner(
+    """띠 배너 타입"""
+    typeId: Int
+
+    """띠 배너를 표시할 언어 리스트"""
+    langId: Int
+
+    """띠 배너 바디 텍스트"""
+    text: String
+
+    """띠 배너 배경 색"""
+    backgroundColor: String
+
+    """띠 배너 닫기 색"""
+    closeColor: String
+
+    """띠 배너 클릭시 이동 링크"""
+    href: String
+
+    """띠 배너 클릭시 새 창 여부"""
+    isBlankHref: Boolean
+
+    """띠 배너 노출 시작일"""
+    startDate: DateTime
+
+    """띠 배너 노출 종료일"""
+    endDate: DateTime
+
+    """띠 배너 종료 노출"""
+    isClosedShowId: Int
+
+    """띠 배너 ID"""
+    id: Int!
+  ): BandBanner!
+  deleteBandBanner(
+    """띠 배너 ID"""
+    id: Int!
+  ): Boolean!
+  createBanner(
+    """배너 타입"""
+    typeId: Int
+
+    """배너를 표시할 언어 리스트"""
+    langId: Int
+
+    """배너 바디 텍스트"""
+    text: String
+
+    """배너 바디 이미지 키"""
+    imageKeys: ImageKeys
+
+    """배너 노출 시작일"""
+    startDate: DateTime
+
+    """배너 노출 종료일"""
+    endDate: DateTime
+
+    """배너 클릭시 이동 링크"""
+    href: String
+
+    """표시 또는 숨길 상품들"""
+    selectedProductsId: [Int!]
+
+    """선택된 상품만 표시 또는 선택된 상품만 숨기기"""
+    showOnlyForSelectedProducts: Boolean
+  ): Banner!
+  deleteBanner(
+    """배너 ID"""
+    id: Int!
+  ): Boolean!
+  updateBanner(
+    """배너 ID"""
+    id: Int!
+
+    """배너 타입"""
+    typeId: Int
+
+    """배너를 표시할 언어 리스트"""
+    langId: Int
+
+    """배너 바디 텍스트"""
+    text: String
+
+    """배너 바디 이미지 키"""
+    imageKeys: ImageKeys
+
+    """배너 노출 시작일"""
+    startDate: DateTime
+
+    """배너 노출 종료일"""
+    endDate: DateTime
+
+    """배너 클릭시 이동 링크"""
+    href: String
+
+    """표시 또는 숨길 상품들"""
+    selectedProductsId: [Int!]
+
+    """선택된 상품만 표시 또는 선택된 상품만 숨기기"""
+    showOnlyForSelectedProducts: Boolean
+  ): Banner!
+  createPointLimitPolicy(
+    """id"""
+    id: Float
+
+    """타입(brand, category, goods)"""
+    type: String!
+
+    """적용 시작일"""
+    startDate: DateTime!
+
+    """적용 종료일"""
+    endDate: DateTime
+
+    """브랜드 id"""
+    brandId: Int
+
+    """카테고리 id"""
+    categoryId: Int
+
+    """상품번호 배열"""
+    goodsNo: [String!]
+  ): BenefitLimit!
+  deletePointLimitPolicy(
+    """삭제할 id"""
+    id: [Int!]!
+  ): Boolean!
+  setBrand(
+    """브랜드 ID"""
+    brandId: Int!
+
+    """한국어 표시이름"""
+    koName: String
+
+    """영어 표시이름"""
+    enName: String
+
+    """중국어 표시이름"""
+    cnName: String
+
+    """일본어 표시이름"""
+    jpName: String
+  ): Boolean!
+  syncBrands: Boolean!
+  createItem(
+    """id"""
+    id: Int
+
+    """언어 id"""
+    langId: Int
+
+    """제목"""
+    title: String!
+
+    """조건 1"""
+    conditionFirst: String
+
+    """조건 2"""
+    conditionSecond: String
+
+    """쿠폰 번호"""
+    couponNo: Int!
+
+    """배너 바디 이미지 키"""
+    imageKey: ImageKey
+
+    """노출 시작 시간"""
+    startDate: DateTime
+
+    """노출 종료 시간"""
+    endDate: DateTime
+
+    """생성자"""
+    creator: Int
+
+    """수정자"""
+    updater: Int
+  ): CouponBanner!
+  updateItem(
+    """id"""
+    id: Int
+
+    """언어 id"""
+    langId: Int
+
+    """제목"""
+    title: String!
+
+    """조건 1"""
+    conditionFirst: String
+
+    """조건 2"""
+    conditionSecond: String
+
+    """쿠폰 번호"""
+    couponNo: Int!
+
+    """배너 바디 이미지 키"""
+    imageKey: ImageKey
+
+    """노출 시작 시간"""
+    startDate: DateTime
+
+    """노출 종료 시간"""
+    endDate: DateTime
+
+    """생성자"""
+    creator: Int
+
+    """수정자"""
+    updater: Int
+  ): Boolean!
+  deleteItem(
+    """id"""
+    id: Int
+  ): Boolean!
+  createCouponBenefit(
+    """포인트 혜택 타입"""
+    typeId: Int
+
+    """포인트 혜택을 표시할 언어 리스트"""
+    langId: Int
+
+    """고도몰 쿠폰 고유 ID"""
+    godoCouponNo: String
+
+    """적용 설정 타입"""
+    applyTypeId: Int
+
+    """적용 설정 값"""
+    applyList: [String!]
+  ): CouponBenefit!
+  updateCouponBenefit(
+    """고유 ID"""
+    id: Int
+
+    """포인트 혜택 타입"""
+    typeId: Int
+
+    """포인트 혜택을 표시할 언어 리스트"""
+    langId: Int
+
+    """고도몰 쿠폰 고유 ID"""
+    godoCouponNo: String
+
+    """적용 설정 타입"""
+    applyTypeId: Int
+
+    """적용 설정 값"""
+    applyList: [String!]
+  ): CouponBenefit!
+  deleteCouponBenefit(
+    """고유 ID"""
+    id: Int
+  ): Boolean!
+  uploadGoodsAtMainGroupBatch(
+    """sno로 분류된 goodsNo 배열"""
+    data: [MainGroupGoods!]!
+  ): String
+  uploadGoodsAtCategoryBatch(
+    """cateCd로 분류된 goodsNo 배열"""
+    data: [CategoryGoods!]!
+  ): String
+  createFaq(
+    """FAQ 타입"""
+    typeId: Int
+
+    """FAQ를 표시할 다국어허브(언어)"""
+    langId: Int
+
+    """FAQ 제목"""
+    title: String
+
+    """FAQ 바디"""
+    body: String
+  ): Faq!
+  deleteFaq(
+    """FAQ ID"""
+    id: Int!
+  ): Boolean!
+  updateFaq(
+    """FAQ ID"""
+    id: Int!
+
+    """FAQ 타입"""
+    typeId: Int
+
+    """FAQ를 표시할 다국어허브(언어)"""
+    langId: Int
+
+    """FAQ 제목"""
+    title: String
+
+    """FAQ 바디"""
+    body: String
+  ): Faq!
+  fixFaq(
+    """FAQ ID"""
+    id: Int!
+
+    """고정글 순서(번호)"""
+    fixed: Int
+  ): Faq!
+  updateFile(data: FileUpdateInput!): Boolean!
+  updateFiles(data: [FileUpdateInput!]): Boolean!
+  sendMailProductUpdate(docId: String!, date: String!, goodsNo: Float!, targets: [ProductUpdateMailTargetInput!]!): [Boolean!]! @deprecated(reason: "220926 sendMailsWhenProductUpdated로 변경")
+  setMainGroup(
+    """메인그룹 ID"""
+    mainGroupId: Int!
+
+    """한국어 표시이름"""
+    koName: String
+
+    """영어 표시이름"""
+    enName: String
+
+    """중국어 표시이름"""
+    cnName: String
+
+    """일본어 표시이름"""
+    jpName: String
+  ): Boolean!
+  syncMainGroups: Boolean!
+  deleteMainGroup(
+    """메인그룹 ID"""
+    mainGroupId: Int!
+  ): Boolean!
+  createNotice(
+    """공지사항 타입"""
+    typeId: Int
+
+    """공지사항을 표시할 다국어허브(언어)"""
+    langId: Int
+
+    """공지사항 제목"""
+    title: String
+
+    """공지사항 바디"""
+    body: String
+  ): Notice!
+  deleteNotice(
+    """공지사항 ID"""
+    id: Int!
+  ): Boolean!
+  updateNotice(
+    """공지사항 ID"""
+    id: Int!
+
+    """공지사항 타입"""
+    typeId: Int
+
+    """공지사항을 표시할 다국어허브(언어)"""
+    langId: Int
+
+    """공지사항 제목"""
+    title: String
+
+    """공지사항 바디"""
+    body: String
+  ): Notice!
+  fixNotice(
+    """공지사항 ID"""
+    id: Int!
+
+    """고정글 순서(번호)"""
+    fixed: Int
+  ): Notice!
+  readNotification(type: String): Boolean!
+  passwordChangeForAnon(brandName: String!, account: String!): Boolean!
+  passwordChange(password: String!, key: String): Boolean!
+  createPointBenefit(
+    """포인트 혜택 타입"""
+    typeId: Int
+
+    """포인트 혜택을 표시할 언어 리스트"""
+    langId: Int
+
+    """포인트 혜택 단위"""
+    pointUnit: String
+
+    """지급 포인트"""
+    payPoint: String
+
+    """적용 설정 타입"""
+    applyTypeId: Int
+
+    """적용 설정 값"""
+    applyList: [String!]
+
+    """포인트 혜택 시작일"""
+    startDate: DateTime
+
+    """포인트 혜택 종료일"""
+    endDate: DateTime
+
+    """수량"""
+    quantity: String
+
+    """지급 내용"""
+    description: String
+
+    """기본 설정 여부"""
+    defaultApply: Boolean
+  ): PointBenefit!
+  updatePointBenefit(
+    """고유 ID"""
+    id: Int
+
+    """포인트 혜택 타입"""
+    typeId: Int
+
+    """포인트 혜택을 표시할 언어 리스트"""
+    langId: Int
+
+    """포인트 혜택 단위"""
+    pointUnit: String
+
+    """지급 포인트"""
+    payPoint: String
+
+    """적용 설정 타입"""
+    applyTypeId: Int
+
+    """적용 설정 값"""
+    applyList: [String!]
+
+    """포인트 혜택 시작일"""
+    startDate: DateTime
+
+    """포인트 혜택 종료일"""
+    endDate: DateTime
+
+    """수량"""
+    quantity: String
+
+    """지급 내용"""
+    description: String
+
+    """기본 설정 여부"""
+    defaultApply: Boolean
+
+    """리뷰 작성 국문몰 지급 포인트"""
+    koPointValue: String
+
+    """리뷰 작성 영문몰 지급 포인트"""
+    enPointValue: String
+
+    """리뷰 작성 중문몰 지급 포인트"""
+    cnPointValue: String
+
+    """리뷰 작성 일문몰 지급 포인트"""
+    jpPointValue: String
+  ): Boolean!
+  deletePointBenefit(
+    """고유 ID"""
+    id: Int
+  ): Boolean!
+  createPopup(createPopupInput: CreatePopupInput!): PopupV2!
+  deletePopup(deletePopupInput: DeletePopupInput!): Int!
+  updatePopup(updatePopupInput: UpdatePopupInput!): PopupV2!
+  cancelEditStatus(
+    """문서 ID"""
+    docId: String!
+  ): Boolean!
+  sendMailProduct(
+    """문서 ID"""
+    docId: String!
+
+    """언어"""
+    lang: String!
+  ): Boolean!
+  uploadEditorImage(
+    """Key"""
+    key: String!
+
+    """Name"""
+    name: String!
+  ): String!
+  uploadGodoGoodsImage(
+    """상품 번호"""
+    goodsNo: Float!
+
+    """상세 이미지"""
+    detailKey: String!
+
+    """썸네일 이미지"""
+    listKey: String!
+
+    """리스트 이미지"""
+    mainKey: String!
+  ): Boolean!
+  deleteProduct(
+    """문서 ID"""
+    docId: String!
+  ): Boolean!
+
+  """생품의 생세페이지 - 파일엝서 띰이터 기록용으로 호출하는 mutation 메소드입니다."""
+  setProductFileView(
+    """상품 번호"""
+    goodsNo: String!
+
+    """언어 코드"""
+    lang: String!
+  ): Boolean!
+
+  """장바구니엝 제품을 추가하는 메소드"""
+  productAddCart(
+    """상품 번호"""
+    goodsNo: String!
+  ): Boolean!
+
+  """상품 번호를 이용해 상품의 조회수를 늘리는 메소드 입니다."""
+  updateGodoHitCount(
+    """상품 번호"""
+    goodsNo: String!
+  ): Boolean!
+  deleteCartCache: Boolean!
+  setSearchKeyword(
+    """키워드"""
+    keyword: String!
+
+    """언어 코드"""
+    lang: String!
+
+    """작성자"""
+    creator: Float
+
+    """수정자"""
+    updater: Float
+  ): Boolean!
+  createTermAgree(term: FileInput!, sign: FileInput!): Boolean!
+  createUserPlan(isExclusive: Boolean!, type: Float!): Boolean!
+
+  """이벤트 배너를 생성하는 메소드입니다."""
+  createEventBanner(
+    """배너 고유 ID"""
+    id: Int
+
+    """언어 ID"""
+    langId: Int!
+
+    """첫번째 배너 내용 텍스트"""
+    bannerTextFirst: String!
+
+    """두번째 배너 내용 텍스트"""
+    bannerTextSecond: String!
+
+    """세번째 배너 내용 텍스트"""
+    bannerTextThird: String!
+
+    """링크 설정"""
+    settingLink: String!
+
+    """배너 이미지 키"""
+    imageKey: ImageKeys
+
+    """노출 시작 일자"""
+    startDate: DateTime!
+
+    """노출 종료 일자"""
+    endDate: DateTime!
+  ): Boolean!
+
+  """이벤트 배너를 수정하는 메소드입니다."""
+  updateEventBanner(
+    """배너 고유 ID"""
+    id: Int
+
+    """언어 ID"""
+    langId: Int!
+
+    """첫번째 배너 내용 텍스트"""
+    bannerTextFirst: String!
+
+    """두번째 배너 내용 텍스트"""
+    bannerTextSecond: String!
+
+    """세번째 배너 내용 텍스트"""
+    bannerTextThird: String!
+
+    """링크 설정"""
+    settingLink: String!
+
+    """배너 이미지 키"""
+    imageKey: ImageKeys
+
+    """노출 시작 일자"""
+    startDate: DateTime!
+
+    """노출 종료 일자"""
+    endDate: DateTime!
+  ): Boolean!
+
+  """이벤트 배너를 삭제하는 메소드 입니다."""
+  deleteEventBanner(
+    """배너 고유 ID"""
+    id: Int!
+  ): Boolean!
+
+  """이벤트 배너 순서를 변경하는 메소드 입니다."""
+  reorderEventBanner(
+    """배너 ID"""
+    id: Int!
+
+    """새로운 정렬 번호"""
+    newOrder: Int!
+
+    """기존 정렬 번호"""
+    oldOrder: Int!
+  ): Boolean!
+  createModelConfig(
+    """한국어 표시이름"""
+    koName: String
+
+    """영어 표시이름"""
+    enName: String
+
+    """중국어 표시이름"""
+    cnName: String
+
+    """일본어 표시이름"""
+    jpName: String
+  ): Boolean!
+  deleteModelConfig(
+    """고유 ID"""
+    id: Int!
+  ): Boolean!
+  updateModelConfig(
+    """고유 ID"""
+    id: Int!
+
+    """한국어 표시이름"""
+    koName: String
+
+    """영어 표시이름"""
+    enName: String
+
+    """중국어 표시이름"""
+    cnName: String
+
+    """일본어 표시이름"""
+    jpName: String
+  ): Boolean!
+  createFaqAcon(
+    """제목"""
+    title: String!
+
+    """제목2"""
+    subtitle: String!
+
+    """본문"""
+    body: String
+
+    """언어"""
+    lang: String!
+
+    """유형 ID"""
+    typeId: Int!
+  ): FaqAconModel!
+  createFaqCreator(
+    """제목"""
+    title: String!
+
+    """제목2"""
+    subtitle: String!
+
+    """본문"""
+    body: String
+
+    """언어"""
+    lang: String!
+
+    """유형 ID"""
+    typeId: Int!
+  ): FaqCreatorModel!
+  deleteFaqAcon(
+    """삭제할 항목 ID"""
+    id: Int!
+  ): Boolean!
+  deleteFaqCreator(
+    """삭제할 항목 ID"""
+    id: Int!
+  ): Boolean!
+  updateFaqAcon(
+    """항목 ID"""
+    id: Int!
+
+    """제목"""
+    title: String!
+
+    """제목2"""
+    subtitle: String!
+
+    """본문"""
+    body: String
+
+    """언어"""
+    lang: String!
+
+    """유형 ID"""
+    typeId: Int!
+  ): FaqAconModel!
+  updateFaqCreator(
+    """항목 ID"""
+    id: Int!
+
+    """제목"""
+    title: String!
+
+    """제목2"""
+    subtitle: String!
+
+    """본문"""
+    body: String
+
+    """언어"""
+    lang: String!
+
+    """유형 ID"""
+    typeId: Int!
+  ): FaqCreatorModel!
+  reorderFaqAcon(
+    """항목 ID"""
+    id: Int!
+
+    """언어"""
+    lang: String
+
+    """유형 ID"""
+    typeId: Int
+
+    """새 정렬번호"""
+    newOrder: Int!
+
+    """구 정렬번호"""
+    oldOrder: Int!
+  ): FaqAconModel!
+  reorderFaqCreator(
+    """항목 ID"""
+    id: Int!
+
+    """언어"""
+    lang: String
+
+    """유형 ID"""
+    typeId: Int
+
+    """새 정렬번호"""
+    newOrder: Int!
+
+    """구 정렬번호"""
+    oldOrder: Int!
+  ): FaqCreatorModel!
+  createAconfaq(
+    """ACONFAQ 타입"""
+    typeId: Int
+
+    """ACONFAQ를 표시할 다국어허브(언어)"""
+    langId: Int
+
+    """ACONFAQ 제목"""
+    title: String
+
+    """ACONFAQ 질문형 제목"""
+    subtitle: String
+
+    """ACONFAQ 바디"""
+    body: String
+  ): FaqAconModel!
+  deleteAconfaq(
+    """ACONFAQ ID"""
+    id: Int!
+
+    """순서를 업데이트할 항목을 찾기 위해 삭제 대상 항목의 번호를 입력해줍니다."""
+    oldOrder: Int
+  ): Boolean!
+  updateAconfaq(
+    """ACONFAQ ID"""
+    id: Int!
+
+    """ACONFAQ 타입"""
+    typeId: Int
+
+    """ACONFAQ를 표시할 다국어허브(언어)"""
+    langId: Int
+
+    """ACONFAQ 제목"""
+    title: String
+
+    """ACONFAQ 질문형 제목"""
+    subtitle: String
+
+    """ACONFAQ 바디"""
+    body: String
+  ): FaqAconModel!
+  reorderAconfaq(
+    """ACONFAQ ID"""
+    id: Int!
+
+    """불러올 ACONFAQ의 언어 id. null일 경우 전체를 불러옵니다."""
+    langId: Int
+
+    """ACONFAQ 타입"""
+    typeId: Int
+
+    """순서를 바꾸기 전 번호"""
+    oldOrder: Int
+
+    """순서를 바꿀 타겟 번호"""
+    newOrder: Int
+  ): FaqAconModel!
+  increaseDownloadCount(id: Int!): DownloadCount
+  createClip(createClipInput: CreateClipInput!): Clip
+  removeClip(removeClipInput: RemoveClipInput!): Int!
+  removeClips(removeClipsInput: RemoveClipsInput!): Int!
+  passwordChangeSendEmail(
+    """언어"""
+    lang: String!
+
+    """고도몰 회원 ID"""
+    userId: String!
+  ): Boolean!
+  godoPasswordChange(
+    """key"""
+    key: String!
+
+    """password"""
+    password: String!
+  ): Boolean!
+
+  """친구를 추가하는 뮤테이션"""
+  createFriend(
+    """언어"""
+    langCode: String!
+
+    """사용자ID"""
+    godoMemNo: Int!
+
+    """추천 코드"""
+    code: String!
+  ): Boolean!
+
+  """최초 구매 여부를 설정하는 뮤테이션"""
+  setOrderFriend: Boolean!
+
+  """사업자 정보가 맞는지 확인하고 등록하는 메소드 입니다."""
+  createBusiness(
+    """사업자 등록번호"""
+    bizNum: String!
+
+    """상호 명"""
+    bizName: String!
+
+    """대표자 성명"""
+    representativeName: String!
+
+    """개업 일자"""
+    openDate: String!
+  ): Boolean!
+  sendAuthenticationCode(
+    """인증요청 이메일을 보낼 이메일주소"""
+    email: String!
+
+    """인증요청 이메일을 보낼 언어"""
+    lang: String!
+  ): Boolean!
+  authenticate(
+    """인증요청 이메일을 보낸 이메일주소"""
+    email: String!
+
+    """인증요청 이메일로 받은 코드"""
+    code: String!
+  ): Boolean!
+  createAconNotification(
+    """고도몰 회원번호"""
+    memNo: Int
+
+    """notification type"""
+    type: String!
+
+    """notification message"""
+    message: String
+  ): AconNotification
+  deleteAconNotification(
+    """notification type"""
+    type: [String!]!
+  ): Int!
+  saveProject(input: ProjectInput!): Project
+  createInquiry(input: InquiryInput!): Inquiry!
+
+  """Cancel one inquiry"""
+  cancelInquiry(input: CancelInquiryInput!): Inquiry!
+  createInquiryAnswer(input: CreateInquiryAnswerInput!): Inquiry!
+  createInquiryMemo(input: CreateInquiryMemoInput!): Inquiry!
+
+  """Clip/Unclip an Inquiry"""
+  clipInquiry(input: ClipInquiryInput!): Inquiry!
+
+  """Modify the inquiry answer"""
+  updateInquiryAnswer(input: UpdateInquiryAnswerInput!): InquiryAnswer!
+  syncExchangeRate: Boolean!
+  copyPopup(id: Int!): PopupV2!
+  registerSnsMember(input: AconSnsMemberInput!): Boolean!
+
+  """성인 인증이 완료된 acon member를 추가"""
+  addAconAdultMember(input: AddAconAdultMemberInput!): Boolean!
+}
+
+input ProductUpdateMailInput {
+  """메일 수신자 정보(구매자들)"""
+  targets: [ProductUpdateMailTarget!]
+  productNo: Int!
+  docId: String!
+  date: String!
+}
+
+input ProductUpdateMailTarget {
+  """구매자 이메일"""
+  email: String!
+
+  """구매자 성함"""
+  name: String!
+
+  """언어 코드"""
+  languageCode: LanguageCodeEnum!
+}
+
+input UpdateStatusInput {
+  docId: String!
+  targetStatus: HubProductStatus!
+  message: String
+}
+
+enum HubProductStatus {
+  REJECTED
+  DRAFT
+  REQUESTED
+  IN_REVIEW
+  COMPLETE
+  OPEN
+  CANCEL
+  EDIT
+}
+
+input RequestProductReviewInput {
+  docId: String!
+  message: String
+}
+
+input UpdateProductStatusInput {
+  docId: String!
+
+  """문서 언어: 아직 필요하지 않음"""
+  languageCode: LanguageCodeEnum
+
+  """지금은 complete으로만 주세요"""
+  targetStatus: String!
+  message: String
+}
+
+input TranslateProductFileInput {
+  docId: String!
+  departure: LanguageCodeEnum!
+  destinations: [LanguageCodeEnum!]!
+}
+
+input TranslateProductContentInput {
+  docId: String!
+  departure: LanguageCodeEnum!
+  destinations: [LanguageCodeEnum!]!
+}
+
+input CreateApplicationInput {
+  name: String!
+}
+
+input UpdateApplicationInput {
+  id: Int!
+  name: String!
+}
+
+input BadgeI18nInput {
+  """언어 코드"""
+  lang: String!
+
+  """뱃지 내용"""
+  text: String!
+}
+
+input SetCategoryI18nInput {
+  """카테고리 ID"""
+  categoryId: Float!
+
+  """파일 정보"""
+  file: SetCategoryFileInput
+
+  """언어 코드"""
+  lang: String!
+
+  """카테고리 이름"""
+  name: String!
+
+  """검색 결과 창 표시 여부"""
+  isShowResultCount: Float!
+
+  """카테고리 URL"""
+  anchor: String
+
+  """map"""
+  map: String
+
+  """색상 정보"""
+  color: String
+
+  """새 창으로 열기 여부"""
+  isBlankAnchor: Float!
+
+  """작성자"""
+  creator: Float
+
+  """수정자"""
+  updater: Float
+}
+
+input SetCategoryFileInput {
+  """업로드 파일 key"""
+  key: String
+}
+
+input CreateExtensionConfigInput {
+  name: String!
+}
+
+input DeleteExtensionConfigInput {
+  id: Int!
+}
+
+input UpdateExtensionConfigInput {
+  id: Int!
+
+  """바꾸려는 이름"""
+  name: String!
+}
+
+input UploadBlobStorageInput {
+  """저장될 폴더 이름"""
+  targetDirectory: String!
+
+  """파일 경로 ex) tmp/file_name"""
+  temporaryFilePath: String!
+
+  """파일 이름"""
+  fileName: String!
+}
+
+input Badge {
+  """타입(point, coupon)"""
+  type: String!
+
+  """제공 혜택 금액 (KO)"""
+  koAmount: String!
+
+  """제공 혜택 금액 (EN)"""
+  enAmount: String!
+
+  """제공 혜택 금액 (ZH)"""
+  zhAmount: String!
+
+  """제공 혜택 금액 (JA)"""
+  jaAmount: String!
+}
+
+input ImgCropType {
+  """x축 위치"""
+  cropX: Float!
+
+  """y축 위치"""
+  cropY: Float!
+
+  """너비"""
+  cropWidth: Float!
+
+  """높이"""
+  cropHeight: Float!
+
+  """업로드 된 파일 key"""
+  key: String
+}
+
+input RegisterReviewInput {
+  godoGoodsNo: Int!
+  godoOrderNo: String!
+  rating: Int!
+  isSecret: Boolean!
+  languageCode: LanguageCodeEnum!
+  contents: String!
+  imageUrls: [String!] = null
+}
+
+input UpdateReviewInput {
+  godoGoodsNo: Int!
+  godoOrderNo: String!
+  rating: Int!
+  isSecret: Boolean!
+  languageCode: LanguageCodeEnum!
+  contents: String!
+  imageUrls: [String!] = null
+  id: Int!
+}
+
+input OrderLicenseProject {
+  """필명"""
+  name: String!
+
+  """상품번호"""
+  goodsNo: [String!]!
+}
+
+input OrderLicenseProjects {
+  """필명"""
+  name: String!
+
+  """상품번호"""
+  goodsNo: [String!]!
+}
+
+input CreateOrderMemoInput {
+  orderId: String!
+  memo: String!
+}
+
+input UpdateLicenseInput {
+  orderId: String!
+  licenses: [LicenseInput!]!
+}
+
+input LicenseInput {
+  id: Int = null
+
+  """personal: 개인사용권, company: 공동사용권"""
+  type: LicenseType!
+  name: String!
+  companyName: String = null
+  linkedOrderProductItems: [LinkedOrderProductItemInput!] = null
+}
+
+input LinkedOrderProductItemInput {
+  godoGoodsNo: Int!
+}
+
+input UserFileInput {
+  idCard: FileInput
+  bankBook: FileInput
+  signedTerm: FileInput!
+  sign: FileInput
+  limitedTaxApl: FileInput
+}
+
+input FileInput {
+  key: String!
+  name: String!
+  size: Float
+}
+
+input CreateBrandInput {
+  """브랜드 ID"""
+  brandId: Int
+
+  """고도몰 브랜드 코드"""
+  godoBrandCd: String
+
+  """한국어 표시이름"""
+  koName: String
+
+  """영어 표시이름"""
+  enName: String
+
+  """중국어 표시이름"""
+  cnName: String
+
+  """일본어 표시이름"""
+  jpName: String
+}
+
+input UserInput {
+  account: String!
+  password: String!
+  type: String!
+  subType: String!
+  companyName: String
+  name: String!
+  joinLanguage: String!
+  contact: String!
+  contactAdditional: String
+  settle: SettleInput
+  reference: [String!]
+  snsUrl: String
+}
+
+input SettleInput {
+  bank: Float!
+  bankName: String
+  bankAccountNumber: String!
+  bankAccountOwner: String!
+  nationalIdNumber: String!
+  country: String!
+  signLang: String!
+}
+
+input UserUpdateInput {
+  name: String
+  account: String
+  accept: UserAcceptUpdateInput
+  isExistBrand: Boolean
+  brandId: Float
+  brand: UserBrandUpdateInput
+  settle: UserSettleUpdateInput
+  contact: String
+  companyName: String
+  contactAdditional: String
+  country: String
+  snsUrl: String
+  reference: [UserReferenceInput!]
+  file: UserFileUpdateInput
+  type: String
+  subType: String
+  plan: UserPlanUpdateInput
+}
+
+input UserAcceptUpdateInput {
+  status: Float
+  comment: String
+  modifyStatus: Float
+  modifyRejectComment: String
+  modifyApproveComment: String
+  isModifyPayment: Boolean
+  isPass: Boolean
+  isFirstAccepted: Boolean = false
+  firstAcceptedDate: DateTime
+}
+
+input UserBrandUpdateInput {
+  isExistBrand: Boolean
+  name: String
+  koName: String
+  enName: String
+  cnName: String
+  jpName: String
+  godoBrandCd: String
+}
+
+input UserSettleUpdateInput {
+  bankId: Float
+  bankName: String
+  nationalIdNumber: String
+  bankAccountOwner: String
+  bankAccountNumber: String
+  country: String
+}
+
+input UserReferenceInput {
+  url: String!
+}
+
+input UserFileUpdateInput {
+  idCard: FileUpdateInput
+  bankBook: FileUpdateInput
+  limitedTaxApl: FileUpdateInput
+}
+
+input FileUpdateInput {
+  id: Float
+  fullName: String
+  path: String
+  size: Float
+}
+
+input UserPlanUpdateInput {
+  type: Float
+  isExclusive: Boolean
+  commissionRate: Float
+}
+
+input UserRevisionInput {
+  name: String
+  brand: UserBrandUpdateInput
+  contact: String
+  nationalIdNumber: String
+  companyName: String
+  country: String
+  reference: [UserReferenceInput!]
+  file: UserRequestFileUpdateInput
+}
+
+input UserRequestFileUpdateInput {
+  sign: FileUpdateInput
+  signedTerm: FileUpdateInput
+}
+
+input ImageKeys {
+  key: String!
+  name: String!
+}
+
+input ImageKey {
+  key: String!
+  name: String!
+}
+
+input MainGroupGoods {
+  sno: Float!
+  goodsNo: [Float!]!
+}
+
+input CategoryGoods {
+  cateCd: String!
+  goodsNo: [Float!]!
+}
+
+input ProductUpdateMailTargetInput {
+  email: String!
+  name: String!
+  lang: String!
+}
+
+input CreatePopupInput {
+  title: String!
+  startDate: DateTime = "2023-03-16T00:35:11.075Z"
+  endDate: DateTime = null
+
+  """팝업 이미지 아이디"""
+  image: PopupUploadFileInput
+  text: String = null
+  subText: String = null
+
+  """버튼 문구"""
+  buttonText: String = null
+
+  """연결 URL"""
+  connectedUrl: String = null
+  location: PopupLocationV2 = acon3d
+  language: LanguageCodeEnum = ko
+  urls: [CreatePopupUrlInput!]!
+
+  """임시 저장용(노출 시킬건지 말건지)"""
+  isOpen: Boolean = false
+
+  """일시 정지용"""
+  isStopped: Boolean = null
+
+  """바로 노출"""
+  exposeImmediately: Boolean!
+
+  """종료일 없음"""
+  noEndDate: Boolean!
+
+  """하위 페이지 url"""
+  subLocations: [PopupSubLocationInput!]!
+}
+
+input PopupUploadFileInput {
+  id: Int!
+}
+
+input CreatePopupUrlInput {
+  id: Int
+  popupId: Int
+  subLocation: PopupSubLocationEnum = null
+  urls: [UrlsInput!]!
+}
+
+input UrlsInput {
+  url: String!
+  isSubPageIncluded: Boolean!
+}
+
+input PopupSubLocationInput {
+  id: Int
+  popupId: Int
+  subLocation: PopupSubLocationEnum!
+}
+
+input DeletePopupInput {
+  id: Int!
+}
+
+input UpdatePopupInput {
+  id: Int!
+  title: String = null
+  startDate: DateTime = null
+  endDate: DateTime = null
+
+  """팝업 이미지 아이디"""
+  image: PopupUploadFileInput
+  text: String = null
+  subText: String = null
+
+  """버튼 문구"""
+  buttonText: String = null
+
+  """연결 URL"""
+  connectedUrl: String = null
+  location: PopupLocationV2 = null
+  language: LanguageCodeEnum = null
+  urls: [CreatePopupUrlInput!] = null
+  isOpen: Boolean = null
+  isStopped: Boolean = null
+  exposeImmediately: Boolean
+  noEndDate: Boolean
+
+  """하위 페이지 url"""
+  subLocations: [PopupSubLocationInput!]
+}
+
+input CreateClipInput {
+  godoGoodsNo: Int!
+}
+
+input RemoveClipInput {
+  godoGoodsNo: Int!
+}
+
+input RemoveClipsInput {
+  godoGoodsNos: [Int!]!
+}
+
+input ProjectInput {
+  id: Int = null
+  brandId: Int!
+  languageCode: LanguageCodeEnum!
+  content: ContentInput!
+  goods: GoodsInput!
+  categories: [Int!] = null
+  godoGoodsNo: Int = null
+  checkerAnswer: CheckerAnswerInput = null
+}
+
+input ContentInput {
+  title: String!
+  contents: String = null
+  searchKeyword: String = null
+  copyright: String = null
+  images: [ContentImageInput!] = null
+}
+
+input ContentImageInput {
+  contentId: Int = null
+  type: ProjectImageEnum!
+  cropInfo: ImageCropInput = null
+  uploadImage: UploadFileInput = null
+}
+
+input ImageCropInput {
+  left: Int!
+  top: Int!
+  width: Int!
+  height: Int!
+}
+
+input UploadFileInput {
+  temporaryFilePath: String!
+  fileName: String = null
+}
+
+input GoodsInput {
+  listPrice: Int!
+  salePrice: Int = null
+  commission: Int = null
+  goodsFileExtensions: String = null
+
+  """azure storage에 올라간 프로젝트 파일 임시경로"""
+  temporaryFilePath: String = null
+  goodsFileName: String = null
+  modelCompositions: [Int!] = null
+  dynamicElement: String = null
+  compositions: [GoodsFileCompositionInput!] = null
+  updateHistories: [GoodsUpdateHistoryInput!] = null
+}
+
+input GoodsFileCompositionInput {
+  id: Int!
+  name: String!
+  size: Int!
+}
+
+input GoodsUpdateHistoryInput {
+  id: String!
+  name: String!
+  date: String!
+}
+
+input CheckerAnswerInput {
+  """reject: 반려, modifyContent: 수정내용, modifyContentAnswer: 수정내용 답변"""
+  type: CheckAnswerType!
+  content: String!
+}
+
+input InquiryInput {
+  """답변 받을 이메일"""
+  email: String
+  languageCode: LanguageCodeEnum!
+
+  """문의 대분류"""
+  type: InquiryTypeEnum!
+
+  """문의 소분류"""
+  subType: InquirySubTypeEnum
+
+  """기본값은 빈 문자열"""
+  content: String = ""
+
+  """세금계산서(B2)"""
+  taxes: TaxesInput
+
+  """이용-필명/작품명 변경(D1), 이용-사용권 변경(E1)"""
+  changePenName: ChangePenNameInput
+
+  """상품상세문의(F1)"""
+  inquiryProduct: InquiryProductInput = null
+
+  """결제-주문/결제(G1), 해당하지 않으면 null"""
+  inquiryOrders: [InquiryOrderInput]
+
+  """결제-취소/환불(H1-H3)"""
+  refundAccount: RefundAccountInput
+
+  """첨부파일. 없으면 빈 배열을 보냅니다"""
+  uploadFiles: [Int!]!
+}
+
+"""세금계산서(B2)"""
+input TaxesInput {
+  """사용자 ID"""
+  userId: String!
+
+  """주문번호"""
+  orderNoText: String
+
+  """에이콘 캐시 결제일"""
+  aconCashPaymentDateText: String
+
+  """에이콘 캐시 결제금액"""
+  aconCashPaymentAmountText: String
+}
+
+"""이용-필명/작품명 변경(D1), 이용-사용권 변경(E1)"""
+input ChangePenNameInput {
+  """null | personToTeam | teamToPerson"""
+  changeType: ChangeTypeEnum
+
+  """기존 필명으로 작품을 사용함 여부"""
+  isOldPenNameRetained: Boolean
+
+  """필명/작품명"""
+  penName: String!
+
+  """팀/회사명"""
+  teamName: String
+}
+
+"""상품상세문의(F1)"""
+input InquiryProductInput {
+  """상품 고도몰 번호"""
+  goodsNo: Int!
+}
+
+"""결제-주문/결제(G1)"""
+input InquiryOrderInput {
+  godoOrderNo: String!
+  godoGoodsDetails: [InquiryOrderGoodsDetailInput!]!
+}
+
+"""Subtype of InquiryOrderInput"""
+input InquiryOrderGoodsDetailInput {
+  godoGoodsNo: String!
+  orderStatus: OrderStatusEnum!
+}
+
+"""결제-취소/환불(H1-H3)"""
+input RefundAccountInput {
+  """은행명"""
+  bankName: String!
+
+  """계좌번호"""
+  accountNumber: String!
+
+  """예금주"""
+  accountHolder: String!
+}
+
+input CancelInquiryInput {
+  """Inquiry ID"""
+  id: Int!
+}
+
+input CreateInquiryAnswerInput {
+  """Inquiry ID"""
+  inquiryId: Int!
+
+  """Answer content"""
+  answer: String!
+}
+
+input CreateInquiryMemoInput {
+  """Inquiry ID"""
+  inquiryId: Int!
+
+  """Memo content"""
+  memo: String!
+}
+
+input ClipInquiryInput {
+  """Inquiry ID"""
+  inquiryId: Int!
+
+  """Is currently clipped"""
+  isClipped: Boolean!
+}
+
+input UpdateInquiryAnswerInput {
+  """Inquiry ID"""
+  inquiryId: Int!
+
+  """Inquiry answer content to update with"""
+  answer: String!
+}
+
+input AconSnsMemberInput {
+  languageCode: LanguageCodeEnum!
+  snsType: SnsTypeEnum!
+  accessToken: String!
+  countryName: String = null
+  relatedJob: [String!] = null
+
+  """y or n"""
+  agreementInfoFl: String = null
+
+  """y or n"""
+  privateApprovalFl: String = null
+
+  """y or n"""
+  smsFl: String = null
+
+  """y or n"""
+  maillingFl: String = null
+  cellPhone: String = null
+}
+
+input AddAconAdultMemberInput {
+  languageCode: LanguageCodeEnum!
+  aconMemberId: Float!
+  impUid: String = null
+}

@@ -1,0 +1,2973 @@
+{
+	"info": {
+		"_postman_id": "10c344cb-e967-4507-ab28-7ed8c073414c",
+		"name": "커뮤니티 서비스",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "10804095-10c344cb-e967-4507-ab28-7ed8c073414c"
+	},
+	"item": [
+		{
+			"name": "준비",
+			"item": [
+				{
+					"name": "acon login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b6b30a3a-4313-4bc7-9357-a304b049f0af",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.environment.set(\"acon_access_token\", pm.response.json().access_token);",
+									"    pm.collectionVariables.set(\"GD5SESSID\", pm.cookies.get(\"GD5SESSID\"))",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "c8b633ec-7ce1-41b7-9bcb-12e794eecf7e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"delakimsj@gmail.com\",\n    \"password\": \"!asd930923\",\n    \"language\" : \"ko\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{auth_server}}/acon/login",
+							"host": [
+								"{{auth_server}}"
+							],
+							"path": [
+								"acon",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "8de314d4-ad68-4d39-aef6-d427c98eca76"
+		},
+		{
+			"name": "boards(게시판)",
+			"item": [
+				{
+					"name": "게시판 목록 가져오기",
+					"id": "7daed0c8-c534-43b8-8f3c-84f6e4ad196e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/boards?locale=ko",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"boards"
+							],
+							"query": [
+								{
+									"key": "locale",
+									"value": "ko"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "c2fc68af-5928-4669-b33a-d497bc92e236"
+		},
+		{
+			"name": "articles(게시물)",
+			"item": [
+				{
+					"name": "게시판내 게시물 목록 가져오기",
+					"id": "bb6f3cee-73bc-488e-b9f2-d9a4d9d91da4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles?sort=id:DESC&filters[board][id][$eq]={{testBoardId}}&filters[$and][0][is_block][$eq]=false&locale=ko&pagination[page]=1&pagination[pageSize]=100&pagination[withCount]=true&populate[1]=article_replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "filters[board][id][$eq]",
+									"value": "{{testBoardId}}"
+								},
+								{
+									"key": "filters[$and][0][is_block][$eq]",
+									"value": "false"
+								},
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1"
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "100"
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true"
+								},
+								{
+									"key": "populate[0]",
+									"value": "articles",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "populate[1]",
+									"value": "article_replies"
+								},
+								{
+									"key": "fields[0]",
+									"value": "title",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "fields[1]",
+									"value": "article_replies",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시판내 <best> 게시물 목록 가져오기",
+					"id": "fd8abceb-968c-4ecd-99fa-975e7a48182f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles?sort=id:DESC&filters[board][id][$eq]={{testBoardId}}&locale=ko&pagination[page]=1&pagination[pageSize]=100&pagination[withCount]=true&filters[$and][0][likes][$gte]=10&filters[$and][0][is_block][$eq]=false&populate[1]=article_replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "filters[board][id][$eq]",
+									"value": "{{testBoardId}}"
+								},
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1"
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "100"
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true"
+								},
+								{
+									"key": "filters[$and][0][likes][$gte]",
+									"value": "10",
+									"description": "개념글은 좋아요 10개 이상 "
+								},
+								{
+									"key": "filters[$and][0][is_block][$eq]",
+									"value": "false",
+									"type": "text"
+								},
+								{
+									"key": "populate[1]",
+									"value": "article_replies"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "특정 유저(내가쓴) 게시판내 게시물 목록 가져오기",
+					"id": "1b64289f-3294-4c68-bcf4-18c8d179b711",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles?sort=id:DESC&filters[$and][0][acon_member_no][$eq]=59616&locale=ko&pagination[page]=1&pagination[pageSize]=20&pagination[withCount]=true&publicationState=preview&populate[1]=article_replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "filters[$and][0][acon_member_no][$eq]",
+									"value": "59616"
+								},
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1"
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "20"
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true"
+								},
+								{
+									"key": "publicationState",
+									"value": "preview"
+								},
+								{
+									"key": "populate[1]",
+									"value": "article_replies"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(논의필요)특정 유저(내가쓴) 게시판내 작성중인 게시물 목록 가져오기",
+					"id": "5e49a2e2-c69d-4431-a5e9-3b540ed80fbf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles?sort=id:DESC&filters[$and][0][acon_member_no][$eq]=59616&locale=ko&pagination[page]=1&pagination[pageSize]=2&pagination[withCount]=true&publicationState=preview&populate[1]=article_replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "filters[$and][0][acon_member_no][$eq]",
+									"value": "59616"
+								},
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1"
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2"
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true"
+								},
+								{
+									"key": "publicationState",
+									"value": "preview"
+								},
+								{
+									"key": "populate[1]",
+									"value": "article_replies",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물  쓰기 - draft(게시판에 게시되지 않음)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "feefc34f-b723-4927-a2ae-e367ee8d2096",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"title\": \"이벤트 글\",\n    \"contents\": \"<h1>이벤트 글 내용<h1>\",\n    \"board\": {{testBoardId}},\n    \"nickname\": \"성진\",\n    \"related_products\": \"12345671222,12134121\",\n    \"locale\": \"ko\",\n    \"tags\": {\n        \"connect\": [\n            {\n                \"id\": 2\n            },\n            {\n                \"id\": 1\n            }\n        ]\n    }\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 가져오기",
+					"id": "1e77092a-7181-4271-9977-4636ef66939e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물에 게시(노출)",
+					"id": "db601a10-5966-4a7d-a6fa-3ef17ffcec83",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}/publish",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}",
+								"publish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물에 게시(노출) 중지",
+					"id": "64a99327-8c50-40d7-b87a-e836df328970",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}/unpublish",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}",
+								"unpublish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 수정",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "168b5f25-f170-4630-a6b8-6bf598d8074f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"title\": \"이벤트 제목 수정\",\n    \"contents\": \"<h1>이벤트 글 내용 수정<h1>\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물에 좋아요",
+					"id": "cad5792a-0196-4eba-8123-43bb07849f0e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}/like",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물에 좋아요 취소",
+					"id": "9bd0ffaa-aad4-424d-bcdc-30dc1e694ef8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}/unlike",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 조회수 증가",
+					"id": "0665e4c8-f25e-47c7-a10c-a91380c53a4c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}/visit",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}",
+								"visit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 신고하기",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleReplyId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "76af8140-b841-481c-b6ca-c72fbaa1bba5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"article\" : {{articleId}},\n    \"reason\": \"야해요\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-reports",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 검색(search)",
+					"id": "1350f7a3-b4fb-4363-b785-d80c0c8938be",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles?sort=id:DESC&locale=ko&pagination[page]=1&pagination[pageSize]=100&pagination[withCount]=true&_q=이벤트&populate[1]=article_replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1"
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "100"
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true"
+								},
+								{
+									"key": "searchbar",
+									"value": "서치",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "_q",
+									"value": "이벤트",
+									"description": "여기에 검색어 넣으시면 됩니다."
+								},
+								{
+									"key": "populate[1]",
+									"value": "article_replies"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 삭제",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "42895124-dbc0-4cb6-a222-a6616670474e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"title\": \"이벤트 제목 수정\",\n    \"contents\": \"<h1>이벤트 글 내용 수정<h1>\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles/{{articleId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles",
+								"{{articleId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "55ac3a54-9d20-4cac-93e0-35b222c64794"
+		},
+		{
+			"name": "article-replies(게시물 댓글)",
+			"item": [
+				{
+					"name": "게시물 댓글 가져오기",
+					"id": "bc96a23f-41d3-4d1c-813d-ea98fce1dce8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies?filters[article][id][$eq]=7&locale=ko&filters[$and][0][is_block][$eq]=false",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC",
+									"disabled": true
+								},
+								{
+									"key": "filters[article][id][$eq]",
+									"value": "7"
+								},
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "filters[$and][0][is_block][$eq]",
+									"value": "false",
+									"type": "text"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "특정 유저(내가쓴) 게시판내 게시물 댓글 가져오기",
+					"id": "b9d2f93c-b002-4267-9c67-45a28a34825f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies?sort=id:DESC&filters[$and][0][acon_member_no][$eq]=59616",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies"
+							],
+							"query": [
+								{
+									"key": "locale",
+									"value": "ko",
+									"disabled": true
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "filters[$and][0][acon_member_no][$eq]",
+									"value": "59616"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 댓글 쓰기",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleReplyId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "0b297441-0d03-4a07-90f4-c20838814fdb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"이벤트 글2 댓글 포스트맨으로 달아요~~~~\",\n    \"article\": 64,\n    \"nickname\": \"서ㅇㅣ\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "특정 게시물 댓글 가져오기",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleReplyId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "1f0546fe-a728-44f7-b4ef-6a23f678394f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"이벤트 글2 댓글 포스트맨으로 달아요\",\n    \"article\": 7,\n    \"acon_member_no\": \"59616\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies/{{articleReplyId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies",
+								"{{articleReplyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 댓글 수정",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "6f9a28b0-0c8e-47ad-93b5-55dee1dd375a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"댓글 수정\"  \n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies/{{articleReplyId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies",
+								"{{articleReplyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 댓글에 좋아요",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "717fb5cc-eb03-486b-8c94-6f3ee388761c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"댓글 수정\"  \n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies/{{articleReplyId}}/like",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies",
+								"{{articleReplyId}}",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 댓글에 좋아요 취소",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "7fe2d42a-2d29-4980-8f16-4b52a2ac5235",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"댓글 수정\"  \n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies/{{articleReplyId}}/unlike",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies",
+								"{{articleReplyId}}",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 댓글 신고하기",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleReplyId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "b6bd7789-00b7-4696-911c-de7b1058607c",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"article_reply\": {{articleReplyId}},\n    \"reason\": \"야해요\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-reply-reports",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-reply-reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 댓글 삭제",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "90da4525-d24d-4ca5-b2d1-4f45de30f2ab",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies/{{articleReplyId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies",
+								"{{articleReplyId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "a702a88a-2172-4ac0-ac52-311e3d476b18"
+		},
+		{
+			"name": "notice(공지사항)",
+			"item": [
+				{
+					"name": "공지사항 목록 가져오기",
+					"id": "73979deb-7443-4137-af2c-a6788f98bcf4",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notices?locale=ko&populate[1]=notice_replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notices"
+							],
+							"query": [
+								{
+									"key": "locale",
+									"value": "ko"
+								},
+								{
+									"key": "populate[1]",
+									"value": "notice_replies"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 조회수 증가",
+					"id": "f60dd70e-e7c1-4d08-b4ef-0f2fab8ba541",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{community_server}}/api/notices/{{noticeId}}/visit",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notices",
+								"{{noticeId}}",
+								"visit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항에 좋아요",
+					"id": "921e74a3-2112-474f-890b-d7d9c0f15ba2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{community_server}}/api/notices/{{noticeId}}/like",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notices",
+								"{{noticeId}}",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항에 좋아요 취소",
+					"id": "07d908c0-816b-4ab8-87af-b4028bd1ae15",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{community_server}}/api/notices/{{noticeId}}/unlike",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notices",
+								"{{noticeId}}",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "29a9276b-52b2-4e7a-9e80-037e7076efd3"
+		},
+		{
+			"name": "notice-replies(공지사항 댓글)",
+			"item": [
+				{
+					"name": "공지사항 댓글 가져오기",
+					"id": "ff9e6381-491c-4c81-af17-ca69acaf1c97",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-replies?filters[notice][id][$eq]=1&filters[$and][0][is_block][$eq]=false",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-replies"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC",
+									"disabled": true
+								},
+								{
+									"key": "filters[notice][id][$eq]",
+									"value": "1"
+								},
+								{
+									"key": "locale",
+									"value": "ko",
+									"disabled": true
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "filters[$and][0][is_block][$eq]",
+									"value": "false"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "특정 유저(내가쓴) 공지사항 내 게시물 댓글 가져오기",
+					"id": "e9d0fb0e-5964-4764-b5d1-87e8c7ce2b4d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/article-replies?sort=id:DESC&filters[$and][0][acon_member_no][$eq]=59616",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"article-replies"
+							],
+							"query": [
+								{
+									"key": "locale",
+									"value": "ko",
+									"disabled": true
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "sort",
+									"value": "id:DESC"
+								},
+								{
+									"key": "filters[$and][0][acon_member_no][$eq]",
+									"value": "59616"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 댓글 쓰기",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"noticeReplyId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "8ab87e46-639a-4aa0-92eb-2876813c884b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"공지사항 댓글 포스트맨으로 달아요~~~~\",\n    \"notice\": 1,\n    \"nickname\": \"서ㅇㅣ\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-replies",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-replies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "특정 공지사항 댓글 가져오기",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "b795a409-5c38-41db-92a4-67054c2f9298",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"이벤트 글2 댓글 포스트맨으로 달아요\",\n    \"article\": 7,\n    \"acon_member_no\": \"59616\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-replies/{{noticeReplyId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-replies",
+								"{{noticeReplyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 댓글 수정",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "b8457944-99e9-4bdf-9124-0fb4fac30726",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"댓글 수정\"  \n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-replies/{{noticeReplyId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-replies",
+								"{{noticeReplyId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 댓글에 좋아요",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "20500534-fc1f-488d-94c1-a1c3e4c25681",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"댓글 수정\"  \n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-replies/{{noticeReplyId}}/like",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-replies",
+								"{{noticeReplyId}}",
+								"like"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 댓글에 좋아요 취소",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "9493ca97-f9ce-4b88-a51c-964f1aa0093b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"contents\": \"댓글 수정\"  \n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-replies/{{noticeReplyId}}/unlike",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-replies",
+								"{{noticeReplyId}}",
+								"unlike"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 댓글 신고하기",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleReplyId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "59232a83-1db2-458d-af07-f4f7ccc159e5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"notice_reply\" : {{noticeReplyId}},\n    \"reason\": \"야해요\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-reply-reports",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-reply-reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 댓글 삭제",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "cce26088-baf1-49ac-ae0a-e3807e552953",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/notice-replies/{{noticeReplyId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"notice-replies",
+								"{{noticeReplyId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "e8055ba5-f16b-4fc9-b0e3-0143155ac455"
+		},
+		{
+			"name": "link(링크-단축url)",
+			"item": [
+				{
+					"name": "단축 url 생성",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "f35452ab-d6b2-41b4-aa03-0aabf2694d18",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{aconAccessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"data\": {\n        \"url\": \"https://www.acon3d.com/ko/toon/product/1000011850?mtn=16%5E%7C%5E%E2%8F%B0%EC%A7%80%EA%B8%88%EC%9D%B4%20%EC%A0%88%ED%98%B8%EC%9D%98%20%EC%B0%AC%EC%8A%A4!!%5E%7C%5En\"\n    }   \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/links/shorten",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"links",
+								"shorten"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "0e637fda-7190-493e-a9fd-1f317a8658e0"
+		},
+		{
+			"name": "tags(게시물 태그)",
+			"item": [
+				{
+					"name": "신규 태그 등록",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"articleReplyId\", pm.response.json().data.id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "047c9d72-c834-4424-8ec2-c9bd0aef7869",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"tag\": \"그거1\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/tags",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게시물 태그 가져오기",
+					"id": "8a02df3c-5c22-4326-956b-490dc1507c38",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/tags?filters[articles][id][$contains]=64",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"tags"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC",
+									"disabled": true
+								},
+								{
+									"key": "locale",
+									"value": "ko",
+									"disabled": true
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "filters[articles][id][$contains]",
+									"value": "64"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "태그 게시물 가져오기",
+					"id": "dc3f54a5-f9d8-4da5-af4f-ef22fdf65830",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/articles?filters[$and][0][tags][id][$contains]=1",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"articles"
+							],
+							"query": [
+								{
+									"key": "sort",
+									"value": "id:DESC",
+									"disabled": true
+								},
+								{
+									"key": "locale",
+									"value": "ko",
+									"disabled": true
+								},
+								{
+									"key": "pagination[page]",
+									"value": "1",
+									"description": "\b",
+									"disabled": true
+								},
+								{
+									"key": "pagination[pageSize]",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "pagination[withCount]",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "filters[$and][0][tags][id][$null]",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "filters[$and][0][tags][id][$contains]",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "96b10e92-f85f-4274-96cf-fcd076b45e1e"
+		},
+		{
+			"name": "미디어",
+			"item": [
+				{
+					"name": "파일 업로드",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									"pm.test(\"login\", function(){",
+									"    pm.collectionVariables.set(\"fileId\", pm.response.json()[0].id);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "cf5a139f-ae22-4aff-8571-620386efe18f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true,
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": "image (2).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{community_server}}/api/upload",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "업로드 파일 삭제",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "437684be-0bdc-4375-a455-fc196ace9fad",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "8028faee-d6ab-4ad1-ad33-34b599dba0b7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "cfa80b0f9fdba0138c89e817ecd33dad6a16a7bed784ffd780f31a262416ce21bbf6fbdf1960c8dfc0ecdfc65abda9366a79fc80a36fb3fc50325a9c3c26b4dd0341ecb1b8217680f3e2aedd9f7c4be396fa2c6de44c458a4b9dff38da888e949a016e6e572a3484ae90f08182434ed86b2d775bad5d39aa6010e1242f60d758",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "acon_access_token",
+								"value": "{{acon_access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"data\": {\n    \"article\" : 64,\n    \"reason\": \"야해요\"\n  }    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{community_server}}/api/upload/files/{{fileId}}",
+							"host": [
+								"{{community_server}}"
+							],
+							"path": [
+								"api",
+								"upload",
+								"files",
+								"{{fileId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "f619f859-14e9-4dbf-b83c-68fbdf55ad0a"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "808846f9-5996-41b7-b1bc-5d567c3fddc2",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "1223e773-cbdd-4680-8593-a9adfee57426",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "9bed460c-cf08-45a3-b577-79761ed664d8",
+			"key": "testBoardId",
+			"value": "7",
+			"type": "string"
+		},
+		{
+			"id": "79716219-e4b8-4070-9e86-16dde0dca8c7",
+			"key": "aconRefreshToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "e7f0871d-1380-42ce-99a5-81fb933fe228",
+			"key": "GD5SESSID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "a6eaac79-f258-414b-92b1-8f198853e105",
+			"key": "authorization",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "d5b552a4-472a-489a-a7a7-8a93385a5d6b",
+			"key": "hubAuthorization",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "0eb74b04-cde3-440a-a0c0-74926fd52e67",
+			"key": "articleId",
+			"value": "64",
+			"type": "string"
+		},
+		{
+			"id": "ff3ae015-8f53-4c23-8468-d2f63d8ef2cd",
+			"key": "articleReplyId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "3ebccef5-1c92-43bc-a093-81bceec7e7ff",
+			"key": "userBlacklistId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "4f8c2338-e554-4071-abd2-8621aaccd5bf",
+			"key": "noticeId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "06afa783-0328-406a-8826-cffcc4664140",
+			"key": "noticeReplyId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "f260973f-8310-45a3-b7f0-a777b165c2fd",
+			"key": "tagId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "4d70c87f-2dd1-48f0-a1b7-369c02a2178b",
+			"key": "reportId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"id": "3a5a8b1e-770e-486f-95f6-c2bf4168273c",
+			"key": "fileId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
